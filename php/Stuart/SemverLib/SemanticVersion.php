@@ -74,7 +74,7 @@ class SemanticVersion
 	 *
 	 * @var string
 	 */
-	protected $preReleaseVersion = null;
+	protected $preRelease = null;
 
 	/**
 	 * the 'R' in an X.Y.Z[-<preRelease>[+R]] version number
@@ -175,24 +175,24 @@ class SemanticVersion
 	}
 
 	/**
-	 * Get the 'preReleaseLevel' in my X.Y.Z[-<preRelease>[+R]] version number
+	 * Get the 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number
 	 *
 	 * @return string|null
 	 */
-	public function getPreReleaseVersion()
+	public function getPreRelease()
 	{
-		return $this->preReleaseVersion;
+		return $this->preRelease;
 	}
 
 	/**
 	 * Set the 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number
 	 *
-	 * @param string $preReleaseVersion
+	 * @param string $preRelease
 	 *        my new pre-release version string
 	 */
-	public function setPreReleaseVersion($preReleaseVersion)
+	public function setPreRelease($preRelease)
 	{
-		$this->preReleaseVersion = $preReleaseVersion;
+		$this->preRelease = $preRelease;
 	}
 
 	/**

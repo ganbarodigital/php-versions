@@ -110,8 +110,8 @@ class SemverParser
         }
 
         // this is optional
-        if (isset($breakdown['preReleaseVersion']) && !empty($breakdown['preReleaseVersion'])) {
-            $target->setPreReleaseVersion($breakdown['preReleaseVersion']);
+        if (isset($breakdown['preRelease']) && !empty($breakdown['preRelease'])) {
+            $target->setPreRelease($breakdown['preRelease']);
         }
 
         // this is optional
@@ -138,7 +138,7 @@ class SemverParser
         // one regex to rule them all
         //
         // based on a regex proposed in the semver.org Github issues list
-        $regex = "%^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(\.(?P<patchLevel>0|[1-9]\d*)){0,1}(-(?P<preReleaseVersion>(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)){0,1}(\+(?P<buildNumber>[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)){0,1}$%";
+        $regex = "%^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(\.(?P<patchLevel>0|[1-9]\d*)){0,1}(-(?P<preRelease>(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)){0,1}(\+(?P<buildNumber>[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)){0,1}$%";
 
         $matches = [];
         if (preg_match($regex, $versionString, $matches)) {
@@ -175,8 +175,8 @@ class SemverParser
         }
 
         // this is optional
-        if (isset($breakdown['preReleaseVersion']) && !empty($breakdown['preReleaseVersion'])) {
-            $retval['preReleaseVersion'] = $breakdown['preReleaseVersion'];
+        if (isset($breakdown['preRelease']) && !empty($breakdown['preRelease'])) {
+            $retval['preRelease'] = $breakdown['preRelease'];
         }
 
         // this is optional

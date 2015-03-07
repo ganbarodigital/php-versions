@@ -80,7 +80,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals(1, $obj->getMajor());
 		$this->assertEquals(0, $obj->getMinor());
 		$this->assertEquals(0, $obj->getPatchLevel());
-		$this->assertNull($obj->getPreReleaseVersion());
+		$this->assertNull($obj->getPreRelease());
 		$this->assertNull($obj->getBuildNumber());
 	}
 
@@ -155,9 +155,9 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Stuart\SemverLib\SemanticVersion::setVersion
-	 * @covers Stuart\SemverLib\SemanticVersion::getPreReleaseVersion
+	 * @covers Stuart\SemverLib\SemanticVersion::getPreRelease
 	 */
-	public function testCanGetStabilityLevel()
+	public function testCanGetPreRelease()
 	{
 	    // ----------------------------------------------------------------
 	    // setup your test
@@ -173,7 +173,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // test the results
 
-	    $this->assertEquals("alpha-4", $obj->getPreReleaseVersion());
+	    $this->assertEquals("alpha-4", $obj->getPreRelease());
 	}
 
 	/**

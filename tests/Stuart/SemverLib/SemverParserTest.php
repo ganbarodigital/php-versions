@@ -113,7 +113,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"major" => 1,
 					"minor" => 0,
 					"patchLevel" => 0,
-					"preReleaseVersion" => "alpha"
+					"preRelease" => "alpha"
 				]
 			],
 			// example taken from semver.org
@@ -123,7 +123,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"major" => 1,
 					"minor" => 0,
 					"patchLevel" => 0,
-					"preReleaseVersion" => "alpha.1"
+					"preRelease" => "alpha.1"
 				]
 			],
 			// example taken from semver.org
@@ -133,7 +133,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"major" => 1,
 					"minor" => 0,
 					"patchLevel" => 0,
-					"preReleaseVersion" => "0.3.7"
+					"preRelease" => "0.3.7"
 				]
 			],
 			// example taken from semver.org
@@ -143,7 +143,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"major" => 1,
 					"minor" => 0,
 					"patchLevel" => 0,
-					"preReleaseVersion" => "x.7.z.92"
+					"preRelease" => "x.7.z.92"
 				]
 			],
 			// example taken from semver.org
@@ -153,7 +153,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"major" => 1,
 					"minor" => 0,
 					"patchLevel" => 0,
-					"preReleaseVersion" => "alpha",
+					"preRelease" => "alpha",
 					"buildNumber" => "001"
 				]
 			],
@@ -174,7 +174,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"major" => 1,
 					"minor" => 0,
 					"patchLevel" => 0,
-					"preReleaseVersion" => "beta",
+					"preRelease" => "beta",
 					"buildNumber" => "exp.sha.5114f85"
 				]
 			]
