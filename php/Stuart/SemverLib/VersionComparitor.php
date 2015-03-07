@@ -81,7 +81,7 @@ class VersionComparitor
 	 * @return int
 	 *         one of the self::* consts
 	 */
-	public function compare($a, $b)
+	public function compare(SemanticVersion $a, SemanticVersion $b)
 	{
 		// save us some processing time
 		$aVer = $a->__toArray();
