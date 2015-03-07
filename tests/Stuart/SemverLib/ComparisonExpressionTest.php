@@ -156,4 +156,355 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expectedVersion,  $actualVersion);
 	}
 
+	/**
+	 * @dataProvider provideExpressionToEvaluate
+	 *
+	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersion
+	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingEqualsOperator
+	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingGreaterThanOrEqualToOperator
+	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingLessThanOrEqualToOperator
+	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingProximityOperator
+	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingNonVersionOperator
+	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingAvoidOperator
+	 */
+	public function testCanEvaluateExpression($op, $exprVersion, $cmpVersion, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $cmp = new VersionComparitor();
+	    $obj = new ComparisonExpression($cmp, $op, $exprVersion);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $obj->matchesVersion($cmpVersion);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideExpressionToEvaluate()
+	{
+		return [
+			[
+				"=",
+				"1.0.0",
+				"1.0.0",
+				true
+			],
+			[
+				"=",
+				"1.1.0",
+				"1.1.0",
+				true
+			],
+			[
+				"=",
+				"1.0.0",
+				"1.0.1",
+				false
+			],
+			[
+				"=",
+				"1.0.0",
+				"1.1.0",
+				false
+			],
+			[
+				"=",
+				"1.0.1",
+				"1.0.0",
+				false
+			],
+			[
+				"=",
+				"1.1.0",
+				"1.0.0",
+				false
+			],
+			[
+				"=",
+				"1.1.1",
+				"1.0.1",
+				false
+			],
+			[
+				"=",
+				"1.1.1",
+				"1.1.0",
+				false
+			],
+			[
+				"=",
+				"1.1.1",
+				"1.1.1",
+				true
+			],
+			[
+				"=",
+				"1.0.0-alpha",
+				"1.0.0-alpha",
+				true
+			],
+			[
+				"=",
+				"1.0.0-alpha-1",
+				"1.0.0-alpha-1",
+				true
+			],
+			[
+				"=",
+				"1.0.0-alpha-1+20150307",
+				"1.0.0-alpha-1+20150307",
+				true
+			],
+			[
+				"=",
+				"1.0.0-alpha-1+20150307",
+				"1.0.0-alpha-1",
+				true
+			],
+			[
+				"=",
+				"1.0.0-alpha-1",
+				"1.0.0-alpha-1+20150307",
+				true
+			],
+			[
+				">=",
+				"1.0.0",
+				"1.0.0",
+				true
+			],
+			[
+				">=",
+				"1.0.0",
+				"1.0.1",
+				true
+			],
+			[
+				">=",
+				"1.0.0",
+				"1.1.0",
+				true
+			],
+			[
+				">=",
+				"1.0.0",
+				"1.1.1",
+				true
+			],
+			[
+				">=",
+				"1.0.0-alpha",
+				"1.0.0",
+				true
+			],
+			[
+				">=",
+				"1.0.0-alpha",
+				"1.0.0-beta",
+				true
+			],
+			[
+				">=",
+				"1.0.0-alpha",
+				"1.0.0-alpha-1",
+				true
+			],
+			[
+				">=",
+				"1.0.0-alpha-1",
+				"1.0.0-alpha-2",
+				true
+			],
+			[
+				">=",
+				"1.0.0-1.1.0",
+				"1.0.0-1.1.1",
+				true
+			],
+			[
+				">=",
+				"1.0.0-1.1.0",
+				"1.0.0-alpha",
+				true
+			],
+
+			[
+				">=",
+				"1.0.1",
+				"1.0.0",
+				false
+			],
+			[
+				">=",
+				"1.1.0",
+				"1.0.0",
+				false
+			],
+			[
+				">=",
+				"1.1.1",
+				"1.0.0",
+				false
+			],
+			[
+				">=",
+				"1.0.0",
+				"1.0.0-alpha",
+				false
+			],
+			[
+				">=",
+				"1.0.0-beta",
+				"1.0.0-alpha",
+				false
+			],
+			[
+				">=",
+				"1.0.0-alpha-1",
+				"1.0.0-alpha",
+				false
+			],
+			[
+				">=",
+				"1.0.0-alpha-2",
+				"1.0.0-alpha-1",
+				false
+			],
+			[
+				">=",
+				"1.0.0-1.1.1",
+				"1.0.0-1.1.0",
+				false
+			],
+			[
+				">=",
+				"1.0.0-alpha",
+				"1.0.0-1.1.0",
+				false
+			],
+
+
+			[
+				"<=",
+				"1.0.0",
+				"1.0.0",
+				true
+			],
+			[
+				"<=",
+				"1.0.0",
+				"1.0.1",
+				false
+			],
+			[
+				"<=",
+				"1.0.0",
+				"1.1.0",
+				false
+			],
+			[
+				"<=",
+				"1.0.0",
+				"1.1.1",
+				false
+			],
+			[
+				"<=",
+				"1.0.0-alpha",
+				"1.0.0",
+				false
+			],
+			[
+				"<=",
+				"1.0.0-alpha",
+				"1.0.0-beta",
+				false
+			],
+			[
+				"<=",
+				"1.0.0-alpha",
+				"1.0.0-alpha-1",
+				false
+			],
+			[
+				"<=",
+				"1.0.0-alpha-1",
+				"1.0.0-alpha-2",
+				false
+			],
+			[
+				"<=",
+				"1.0.0-1.1.0",
+				"1.0.0-1.1.1",
+				false
+			],
+			[
+				"<=",
+				"1.0.0-1.1.0",
+				"1.0.0-alpha",
+				false
+			],
+
+			[
+				"<=",
+				"1.0.1",
+				"1.0.0",
+				true
+			],
+			[
+				"<=",
+				"1.1.0",
+				"1.0.0",
+				true
+			],
+			[
+				"<=",
+				"1.1.1",
+				"1.0.0",
+				true
+			],
+			[
+				"<=",
+				"1.0.0",
+				"1.0.0-alpha",
+				true
+			],
+			[
+				"<=",
+				"1.0.0-beta",
+				"1.0.0-alpha",
+				true
+			],
+			[
+				"<=",
+				"1.0.0-alpha-1",
+				"1.0.0-alpha",
+				true
+			],
+			[
+				"<=",
+				"1.0.0-alpha-2",
+				"1.0.0-alpha-1",
+				true
+			],
+			[
+				"<=",
+				"1.0.0-1.1.1",
+				"1.0.0-1.1.0",
+				true
+			],
+			[
+				"<=",
+				"1.0.0-alpha",
+				"1.0.0-1.1.0",
+				true
+			],
+		];
+	}
 }

@@ -198,5 +198,97 @@ class ComparisonExpression
 		$this->versionComparitor = $comparitor;
 	}
 
+	// ==================================================================
+	//
+	// Operator support
+	//
+	// ------------------------------------------------------------------
 
+	/**
+	 * check the given version to see if it matches our expression
+	 *
+	 * @param  SemanticVersion|string $version
+	 *         the version to check against
+	 * @return bool
+	 *         TRUE if the given version matches
+	 *         FALSE otherwise
+	 */
+	public function matchesVersion($version)
+	{
+		// which method do we call?
+		$method = "matchesVersionUsing" . ComparisonOperators::getOperatorName($this->operator);
+
+		// special case - '@' operator
+		if ($this->getOperator() == '@') {
+			// '@' can only compare two strings
+			if (!is_string($version)) {
+				throw new E4xx_NeedVersionString();
+			}
+
+			return call_user_func([$this, $method], $version);
+		}
+
+		// special case - do we have an object?
+		$versionObj = $version;
+		if (!is_object($version)) {
+			$versionObj = new SemanticVersion($version);
+		}
+
+		// get the comparison result
+		$cmp = $this->getVersionComparitor();
+		$res = $cmp->compare($this->getVersionAsObject(), $versionObj);
+
+		// delegate the decision to something that understands this operator
+		return call_user_func([$this, $method], $res);
+	}
+
+	protected function matchesVersionUsingEqualsOperator($res)
+	{
+		if ($res == 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected function matchesVersionUsingGreaterThanOrEqualToOperator($res)
+	{
+		if ($res > 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	protected function matchesVersionUsingLessThanOrEqualToOperator($res)
+	{
+		if ($res < 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	protected function matchesVersionUsingProximityOperator($res)
+	{
+		return false;
+	}
+
+	protected function matchesVersionUsingNonVersionOperator($version)
+	{
+		if (strcmp($version, $this->getVersionAsString()) !== 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	protected function matchesVersionUsingAvoidOperator($res)
+	{
+		if ($res == 0) {
+			return false;
+		}
+
+		return true;
+	}
 }
