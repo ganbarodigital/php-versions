@@ -63,11 +63,21 @@ class ComparisonOperators
 		// this or anything older
 		"<=" => "LessThanOrEqualToOperator",
 
+		// we only want anything older
+		"<" => "LessThanOperator",
+
 		// for ~X, means >= X.0.0, < X+1.0.0
 		// for ~X.Y means >= X.Y.0, < X+1.0.0
 		//
+		// we treat X+1.0.0-preRelease as not matching
+		//
 		// and so on
 		"~" => "ProximityOperator",
+
+		// same as >= X.Y.Z, < X+1.0.0
+		//
+		// we treat X+1.0.0-preRelease as not matching
+		"^" => "CompatibleOperator",
 
 		// when the version string isn't semantic (e.g. a Git hash)
 		"@" => "NonVersionOperator",

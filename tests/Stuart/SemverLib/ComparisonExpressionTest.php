@@ -160,12 +160,6 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider provideExpressionToEvaluate
 	 *
 	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersion
-	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingEqualsOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingGreaterThanOrEqualToOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingLessThanOrEqualToOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingProximityOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingNonVersionOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersionUsingAvoidOperator
 	 */
 	public function testCanEvaluateExpression($op, $exprVersion, $cmpVersion, $expectedResult)
 	{
@@ -627,6 +621,68 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 				"1.0.0-alpha",
 				"1.0.0-1.1.0",
 				true
+			],
+
+
+			[
+				"~",
+				"1.0",
+				"1.0",
+				true
+			],
+			[
+				"~",
+				"1.0",
+				"1.0.0",
+				true
+			],
+			[
+				"~",
+				"1.0",
+				"1.0.1",
+				true
+			],
+			[
+				"~",
+				"1.0-alpha-1",
+				"1.0",
+				true
+			],
+			[
+				"~",
+				"1.0",
+				"1.1",
+				true
+			],
+			[
+				"~",
+				"1.1.1",
+				"1.1.2",
+				true
+			],
+			[
+				"~",
+				"1.1.1",
+				"1.2.0",
+				false
+			],
+			[
+				"~",
+				"1.1.1",
+				"1.2.0-alpha-1",
+				false
+			],
+			[
+				"~",
+				"1.0",
+				"2.0",
+				false,
+			],
+			[
+				"~",
+				"1.0",
+				"2.0-alpha-1",
+				false,
 			],
 		];
 	}

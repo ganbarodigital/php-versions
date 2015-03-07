@@ -230,4 +230,146 @@ class VersionComparitor
 		// at this point, we've exhausted all of the possibilities
 		return self::BOTH_ARE_EQUAL;
 	}
+
+	public function compareForEqualsOperator(SemanticVersion $a, SemanticVersion $b)
+	{
+		$res = $this->compare($a, $b);
+		if ($res == 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function compareForGreaterThanOrEqualToOperator(SemanticVersion $a, SemanticVersion $b)
+	{
+		$res = $this->compare($a, $b);
+		if ($res > 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function compareForLessThanOrEqualToOperator(SemanticVersion $a, SemanticVersion $b)
+	{
+		$res = $this->compare($a, $b);
+		if ($res < 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function compareForLessThanOperator(SemanticVersion $a, SemanticVersion $b)
+	{
+		$res = $this->compare($a, $b);
+		if ($res > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function compareForAvoidOperator(SemanticVersion $a, SemanticVersion $b)
+	{
+		$res = $this->compare($a, $b);
+		if ($res == 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function compareForProximityOperator(SemanticVersion $a, SemanticVersion $b)
+	{
+		// we turn this into two tests:
+		//
+		// $b has to be >= $a, and
+		// $b has to be < $c
+		//
+		// where $c is our calculated upper bound for the proximity operator
+		$res = $this->compareForGreaterThanOrEqualToOperator($a, $b);
+		if (!$res) {
+			return false;
+		}
+
+		// work out our upper boundary
+		//
+		// ~1.2.3 becomes <1.3.0
+		// ~1.2   becomes <2.0.0
+		//
+		// and keep track of which boundary we're locked against
+		$boundByMajor = false;
+		$boundByMinor = false;
+
+		$c = new SemanticVersion();
+		if ($a->getPatchLevel() > 0) {
+			$upperBound = $a->getMajor() . '.' . ($a->getMinor() + 1);
+			$boundByMinor = true;
+		}
+		else {
+			$upperBound = ($a->getMajor() + 1) . '.0';
+			$boundByMajor = true;
+		}
+		$c->setVersion($upperBound);
+
+		$res = $this->compareForLessThanOperator($c, $b);
+		if (!$res) {
+			return false;
+		}
+
+		// finally, a special case
+		// avoid installing an unstable version of the upper boundary
+		if ($c->getMajor() == $b->getMajor() && $b->getPreRelease() !== null) {
+			return false;
+		}
+		if ($boundByMinor && $c->getMinor() == $b->getMinor() && $b->getPreRelease() !== null) {
+			return false;
+		}
+
+		// if we get here, then we're good
+		return true;
+	}
+
+	public function compareForCompatibleOperator(SemanticVersion $a, SemanticVersion $b)
+	{
+		// we turn this into two tests:
+		//
+		// $b has to be >= $a, and
+		// $b has to be < $c
+		//
+		// where $c is our next stable major version
+		$res = $this->compareForGreaterThanOrEqualToOperator($a, $b);
+		if (!$res) {
+			return false;
+		}
+
+		// calculate our upper boundary
+		$c = new SemanticVersion();
+		$c->setVersion($a->getMajor() +1 . '.0');
+
+		$res = $this->compareForLessThanOperator($c, $b);
+		if (!$res) {
+			return false;
+		}
+
+		// finally, a special case
+		// avoid installing an unstable version of the upper boundary
+		if ($c->getMajor() == $b->getMajor() && $b->getPreRelease() !== null) {
+			return false;
+		}
+
+		// if we get here, we're good
+		return true;
+	}
+
+	public function compareForNonVersionOperator($a, $b)
+	{
+		if (strcmp($a, $b) == 0) {
+			return true;
+		}
+
+		return false;
+	}
 }
