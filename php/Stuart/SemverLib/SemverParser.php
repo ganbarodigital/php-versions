@@ -50,6 +50,77 @@ class SemverParser
         // nothing to do
     }
 
+    /**
+     * convert a string in the form 'X.Y[.Z][-<stability>][-R]' into a
+     * SemanticVersion object
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @param  string $versionString
+     *         the string to parse
+     * @return SemanticVersion
+     */
+    public function parseVersion($versionString)
+    {
+        // we need something to store the results into
+        $retval = new SemanticVersion();
+
+        // initialise $retval from our version string
+        $this->parseVersionIntoObject($versionString, $retval);
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * convert a string in the form 'X.Y[.Z][-<stability>][-R]' into your
+     * existing SemanticVersion object
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @param  string          $versionString
+     *         the string to parse
+     * @param  SemanticVersion $target
+     *         the object to initialise from the version string
+     *
+     * @return void
+     */
+    public function parseVersionIntoObject($versionString, SemanticVersion $target)
+    {
+        // make sense of the string
+        //
+        // and if we can't, watch the exception sail by
+        $breakdown = $this->parseVersionString($versionString);
+
+        // these are always present in any version string
+        $target->setMajor($breakdown['major']);
+        $target->setMinor($breakdown['minor']);
+
+        // this is optional
+        //
+        // yes, semver.org says that it is mandatory, but let's be a little
+        // pragmatic here :)
+        if (isset($breakdown['patchLevel'])) {
+            $target->setPatchLevel($breakdown['patchLevel']);
+        }
+        else {
+            $target->setPatchLevel(0);
+        }
+
+        // this is optional
+        if (isset($breakdown['preReleaseVersion'])) {
+            $target->setPreReleaseVersion($breakdown['preReleaseVersion']);
+        }
+
+        // this is optional
+        if (isset($breakdown['buildNumber'])) {
+            $target->setBuildNumber($breakdown['buildNumber']);
+        }
+
+        // all done
+    }
 
     /**
      * extract the individual parts of an 'X.Y[.Z][-<stability>][+R]' version
