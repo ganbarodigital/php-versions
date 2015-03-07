@@ -115,8 +115,8 @@ class SemverParser
         }
 
         // this is optional
-        if (isset($breakdown['buildNumber'])) {
-            $target->setBuildNumber($breakdown['buildNumber']);
+        if (isset($breakdown['build'])) {
+            $target->setBuildNumber($breakdown['build']);
         }
 
         // all done
@@ -138,7 +138,7 @@ class SemverParser
         // one regex to rule them all
         //
         // based on a regex proposed in the semver.org Github issues list
-        $regex = "%^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(\.(?P<patchLevel>0|[1-9]\d*)){0,1}(-(?P<preRelease>(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)){0,1}(\+(?P<buildNumber>[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)){0,1}$%";
+        $regex = "%^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(\.(?P<patchLevel>0|[1-9]\d*)){0,1}(-(?P<preRelease>(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)){0,1}(\+(?P<build>[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)){0,1}$%";
 
         $matches = [];
         if (preg_match($regex, $versionString, $matches)) {
@@ -180,8 +180,8 @@ class SemverParser
         }
 
         // this is optional
-        if (isset($breakdown['buildNumber'])) {
-            $retval['buildNumber'] = $breakdown['buildNumber'];
+        if (isset($breakdown['build'])) {
+            $retval['build'] = $breakdown['build'];
         }
 
         // all done
