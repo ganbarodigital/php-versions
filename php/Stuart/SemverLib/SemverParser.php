@@ -95,15 +95,15 @@ class SemverParser
         $breakdown = $this->parseVersionString($versionString);
 
         // these are always present in any version string
-        $target->setMajor($breakdown['major']);
-        $target->setMinor($breakdown['minor']);
+        $target->setMajor(strval($breakdown['major']));
+        $target->setMinor(strval($breakdown['minor']));
 
         // this is optional
         //
         // yes, semver.org says that it is mandatory, but let's be a little
         // pragmatic here :)
         if (isset($breakdown['patchLevel'])) {
-            $target->setPatchLevel($breakdown['patchLevel']);
+            $target->setPatchLevel(strval($breakdown['patchLevel']));
         }
         else {
             $target->setPatchLevel(0);
@@ -163,12 +163,12 @@ class SemverParser
         $retval = [];
 
         // these are always present in any version string
-        $retval['major'] = $breakdown['major'];
-        $retval['minor'] = $breakdown['minor'];
+        $retval['major'] = strval($breakdown['major']);
+        $retval['minor'] = strval($breakdown['minor']);
 
         // this is optional
         if (isset($breakdown['patchLevel'])) {
-            $retval['patchLevel'] = $breakdown['patchLevel'];
+            $retval['patchLevel'] = strval($breakdown['patchLevel']);
         }
         else {
             $retval['patchLevel'] = 0;
