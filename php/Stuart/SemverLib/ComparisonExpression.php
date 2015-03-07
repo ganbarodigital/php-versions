@@ -147,7 +147,7 @@ class ComparisonExpression
 		}
 
 		// all done
-		return $this->versionAsString;
+		return $this->versionAsObject;
 	}
 
 	/**
