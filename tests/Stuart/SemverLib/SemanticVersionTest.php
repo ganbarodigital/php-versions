@@ -199,4 +199,26 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	    $this->assertEquals(4, $obj->getBuildNumber());
 	}
 
+	/**
+	 * @covers Stuart\SemverLib\SemanticVersion::__toString()
+	 */
+	public function testCastAsString()
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $expectedVersion = "1.2.3-alpha+4";
+	    $obj = new SemanticVersion($expectedVersion);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualVersion = (string)$obj;
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedVersion, $actualVersion);
+	}
+
 }

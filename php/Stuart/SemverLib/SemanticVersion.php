@@ -215,4 +215,30 @@ class SemanticVersion
 	{
 		$this->buildNumber = $buildNumber;
 	}
+
+	/**
+	 * magic method for when you need a simple string to use
+	 *
+	 * @return string
+	 */
+	public function __toString()
+	{
+		// every version number has these
+		$retval = $this->major
+		        . '.' . $this->minor
+		        . '.' . $this->patchLevel;
+
+		// this is optional
+		if (isset($this->preRelease)) {
+			$retval = $retval . '-' . $this->preRelease;
+		}
+
+		// this is optional
+		if (isset($this->buildNumber)) {
+			$retval = $retval . '+' . $this->buildNumber;
+		}
+
+		// all done
+		return $retval;
+	}
 }
