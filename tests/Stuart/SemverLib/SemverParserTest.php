@@ -145,6 +145,38 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"patchLevel" => 0,
 					"preReleaseVersion" => "x.7.z.92"
 				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-alpha+001",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preReleaseVersion" => "alpha",
+					"buildNumber" => "001"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0+20130313144700",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"buildNumber" => "20130313144700"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-beta+exp.sha.5114f85",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preReleaseVersion" => "beta",
+					"buildNumber" => "exp.sha.5114f85"
+				]
 			]
 		];
 
