@@ -221,4 +221,32 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	    $this->assertEquals($expectedVersion, $actualVersion);
 	}
 
+	/**
+	 * @covers Stuart\SemverLib\SemanticVersion::__toArray()
+	 */
+	public function testCanTurnIntoArray()
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $expectedVersion = [
+			"major"      => 1,
+			"minor"      => 2,
+			"patchLevel" => 3,
+			"preRelease" => "alpha",
+			"build"      => 4,
+	    ];
+	    $obj = new SemanticVersion('1.2.3-alpha+4');
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualVersion = $obj->__toArray();
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedVersion, $actualVersion);
+	}
+
 }

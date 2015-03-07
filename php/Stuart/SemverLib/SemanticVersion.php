@@ -241,4 +241,33 @@ class SemanticVersion
 		// all done
 		return $retval;
 	}
+
+	/**
+	 * fake magic method for when you need all the components of the version
+	 * number to hand
+	 *
+	 * @return array
+	 */
+	public function __toArray()
+	{
+		// every version number has these
+		$retval = [
+			'major'      => $this->major,
+			'minor'      => $this->minor,
+			'patchLevel' => $this->patchLevel
+		];
+
+		// this is optional
+		if (isset($this->preRelease)) {
+			$retval['preRelease'] = $this->preRelease;
+		}
+
+		// this optional
+		if (isset($this->buildNumber)) {
+			$retval['build'] = $this->buildNumber;
+		}
+
+		// all done
+		return $retval;
+	}
 }
