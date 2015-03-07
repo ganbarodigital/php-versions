@@ -53,7 +53,7 @@ class ComparisonOperators
 	 *
 	 * we can use the internal names to build method names from :)
 	 */
-	const OPERATORS = [
+	static protected $operators = [
 		// we want an exact match
 		"=" => "EqualsOperator",
 
@@ -75,4 +75,31 @@ class ComparisonOperators
 		// we never want this version
 		"!" => "AvoidOperator"
 	];
+
+	/**
+	 * turn an operator into its official name
+	 *
+	 * @throws Stuart\SemverLib\E4xx_UnknownOperator
+	 *
+	 * @param  string $operator
+	 * @return string
+	 */
+	static public function getOperatorName($operator)
+	{
+		if (!isset(self::$operators[$operator])) {
+			throw new E4xx_UnknownOperator($operator);
+		}
+
+		return self::$operators[$operator];
+	}
+
+	/**
+	 * get a list of supported operators
+	 *
+	 * @return array<string>
+	 */
+	public function getOperators()
+	{
+		return array_keys(self::$operators);
+	}
 }
