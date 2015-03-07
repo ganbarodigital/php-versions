@@ -49,7 +49,7 @@ namespace Stuart\SemverLib;
 class ComparisonExpression
 {
 	/**
-	 * one of the ComparisonOperators::OPERATORS keys
+	 * one of the ComparisonOperators::$operators keys
 	 *
 	 * @var string
 	 */
