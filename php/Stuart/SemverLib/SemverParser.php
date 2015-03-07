@@ -110,7 +110,7 @@ class SemverParser
         }
 
         // this is optional
-        if (isset($breakdown['preReleaseVersion'])) {
+        if (isset($breakdown['preReleaseVersion']) && !empty($breakdown['preReleaseVersion'])) {
             $target->setPreReleaseVersion($breakdown['preReleaseVersion']);
         }
 
@@ -175,7 +175,7 @@ class SemverParser
         }
 
         // this is optional
-        if (isset($breakdown['preReleaseVersion'])) {
+        if (isset($breakdown['preReleaseVersion']) && !empty($breakdown['preReleaseVersion'])) {
             $retval['preReleaseVersion'] = $breakdown['preReleaseVersion'];
         }
 
