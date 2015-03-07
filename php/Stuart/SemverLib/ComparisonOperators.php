@@ -58,10 +58,10 @@ class ComparisonOperators
 		"=" => "EqualsOperator",
 
 		// this or anything newer
-		">=" => "GreaterThanOrEqualsOperator",
+		">=" => "GreaterThanOrEqualToOperator",
 
 		// this or anything older
-		"<=" => "LessThanOrEqualsOperator",
+		"<=" => "LessThanOrEqualToOperator",
 
 		// for ~X, means >= X.0.0, < X+1.0.0
 		// for ~X.Y means >= X.Y.0, < X+1.0.0
