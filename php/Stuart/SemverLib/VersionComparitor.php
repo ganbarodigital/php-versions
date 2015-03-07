@@ -87,6 +87,42 @@ class VersionComparitor
 		$aVer = $a->__toArray();
 		$bVer = $b->__toArray();
 
+		// compare major.minor.patchLevel first
+		$retval = $this->compareXYZ($aVer, $bVer);
+		if ($retval != self::BOTH_ARE_EQUAL) {
+			return $retval;
+		}
+
+		// are there any pre-release strings to compare?
+		if (!isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+			return $retval;
+		}
+
+		// do we only have one pre-release string?
+		if (isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+			return self::A_IS_LESS;
+		}
+		else if (!isset($aVer['preRelease']) && isset($bVer['preRelease'])) {
+			return self::A_IS_GREATER;
+		}
+
+		// if we get here, we need to get into comparing the pre-release
+		// strings
+		return $this->comparePreRelease($aVer['preRelease'], $bVer['preRelease']);
+	}
+
+	/**
+	 * compare the X.Y.Z parts of two version numbers
+	 *
+	 * @param  array $aVer
+	 * @param  array $bVer
+	 * @return int
+	 *         -1 if $aVer is smaller
+	 *          0 if both are equal
+	 *          1 if $aVer is larger
+	 */
+	public function compareXYZ($aVer, $bVer)
+	{
 		// compare major version numbers
 		if ($aVer['major'] < $bVer['major']) {
 			return self::A_IS_LESS;
@@ -111,25 +147,87 @@ class VersionComparitor
 			return self::A_IS_GREATER;
 		}
 
-		// if we get here, the $a and $b have the same X.Y.Z values
-		//
-		// do we need to compare preRelease strings?
-		if (!isset($aVer['preRelease'])) {
-			if (isset($bVer['preRelease'])) {
+		return self::BOTH_ARE_EQUAL;
+	}
+
+	/**
+	 * compare two pre-release strings
+	 *
+	 * @param  string $a
+	 * @param  string $b
+	 * @return int
+	 *         -1 if $a is smaller
+	 *          0 if both are the same
+	 *          1 if $a is larger
+	 */
+	public function comparePreRelease($a, $b)
+	{
+		// according to semver.org, dots are the delimiters to the parts
+		// of the pre-release strings
+		$aParts = explode(".", $a);
+		$bParts = explode(".", $b);
+
+		// step-by-step comparison
+		foreach ($aParts as $i => $aPart)
+		{
+			// if we've run out of parts, $a wins
+			if (!isset($bParts[$i])) {
 				return self::A_IS_GREATER;
 			}
 
-			// if we get here, both versions are the same
-			return self::BOTH_ARE_EQUAL;
+			// shorthand
+			$bPart = $bParts[$i];
+
+			// what are we looking at?
+			$aPartIsNumeric = ctype_digit($aPart);
+			$bPartIsNumeric = ctype_digit($bPart);
+
+			// make sense of it
+			if ($aPartIsNumeric) {
+				if (!$bPartIsNumeric) {
+					// $bPart is a string
+					//
+					// strings always win
+					return self::A_IS_LESS;
+				}
+
+				// at this point, we have two numbers
+				$aInt = strval($aPart);
+				$bInt = strval($bPart);
+
+				if ($aInt < $bInt) {
+					return self::A_IS_LESS;
+				}
+				else if ($aInt > $bInt) {
+					return self::A_IS_GREATER;
+				}
+			}
+			else if ($bPartIsNumeric) {
+				// $aPart is a string
+				//
+				// strings always win
+				return self::A_IS_GREATER;
+			}
+			else {
+				// two strings to compare
+				//
+				// unfortunately, strcmp() doesn't return -1 / 0 / 1
+				$res = strcmp($aPart, $bPart);
+				if ($res < 0) {
+					return self::A_IS_LESS;
+				}
+				else if ($res > 0) {
+					return self::A_IS_GREATER;
+				}
+			}
 		}
-		else if (!isset($bVer['preRelease'])) {
+
+		// does $b have any more parts?
+		if (count($aParts) < count($bParts)) {
 			return self::A_IS_LESS;
 		}
 
-		// at this point, both $a and $b have a pre-release string
-		//
-		// we need to compare them both
-
+		// at this point, we've exhausted all of the possibilities
 		return self::BOTH_ARE_EQUAL;
 	}
 }
