@@ -24,10 +24,10 @@ Contributing
 
 This library is developed using the Gitflow model.  To contribute:
 
-    1. Fork this project on GitHub
-    1. Create a feature branch off the develop branch
-    1. Commit your changes to your feature branch
-    1. Send me a Pull Request
+1. Fork this project on GitHub
+1. Create a feature branch off the develop branch
+1. Commit your changes to your feature branch
+1. Send me a Pull Request
 
 License
 -------
