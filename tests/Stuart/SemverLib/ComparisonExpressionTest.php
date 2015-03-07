@@ -49,18 +49,22 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @covers Stuart\SemverLib\ComparisonExpression::__construct
+	 * @covers Stuart\SemverLib\ComparisonExpression::setVersionComparitor
+	 * @covers Stuart\SemverLib\ComparisonExpression::getVersionComparitor
 	 */
-	public function testCanInstantiateWithNoParameters()
+	public function testCanInstantiate()
 	{
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$obj = new ComparisonExpression();
+		$cmp = new VersionComparitor();
+		$obj = new ComparisonExpression($cmp);
 
 	    // ----------------------------------------------------------------
 	    // test the results
 
 		$this->assertTrue($obj instanceof ComparisonExpression);
+		$this->assertSame($cmp, $obj->getVersionComparitor());
 	}
 
 	/**
@@ -81,7 +85,8 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$obj = new ComparisonExpression($expectedOperator, $expectedVersion);
+		$cmp = new VersionComparitor();
+		$obj = new ComparisonExpression($cmp, $expectedOperator, $expectedVersion);
 
 	    // ----------------------------------------------------------------
 	    // test the results
@@ -107,7 +112,8 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$obj = new ComparisonExpression($expectedOperator, $expectedVersion);
+		$cmp = new VersionComparitor();
+		$obj = new ComparisonExpression($cmp, $expectedOperator, $expectedVersion);
 
 	    // ----------------------------------------------------------------
 	    // test the results
@@ -137,7 +143,8 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$obj = new ComparisonExpression($expectedOperator, (string)$expectedVersion);
+		$cmp = new VersionComparitor();
+		$obj = new ComparisonExpression($cmp, $expectedOperator, (string)$expectedVersion);
 
 	    // ----------------------------------------------------------------
 	    // test the results
