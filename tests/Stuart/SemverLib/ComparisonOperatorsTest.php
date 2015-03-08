@@ -75,7 +75,7 @@ class ComparisonOperatorsTest extends PHPUnit_Framework_TestCase
 			[ "<=", "isLessThanOrEqualTo" ],
 			[ "~",  "isApproximately" ],
 			[ "^",  "isCompatible" ],
-			[ "!",  "shouldAvoid" ]
+			[ "!",  "isNotBlacklisted" ]
 		];
 	}
 

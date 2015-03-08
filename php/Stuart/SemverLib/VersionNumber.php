@@ -299,8 +299,8 @@ interface VersionNumber
 	 *
 	 * @param  VersionNumber|string $b
 	 * @return boolean
-	 *         TRUE if $b is a version that $this should avoid
-	 *         FALSE otherwise
+	 *         FALSE if $b is a version that $this should avoid
+	 *         TRUE otherwise
 	 */
-	public function shouldAvoid($b);
+	public function isNotBlacklisted($b);
 }

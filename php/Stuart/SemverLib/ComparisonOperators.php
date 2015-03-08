@@ -83,7 +83,7 @@ class ComparisonOperators
 		"^" => "isCompatible",
 
 		// we never want this version
-		"!" => "shouldAvoid"
+		"!" => "isNotBlacklisted"
 	];
 
 	/**

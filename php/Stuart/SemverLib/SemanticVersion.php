@@ -658,10 +658,10 @@ class SemanticVersion implements VersionNumber
 	 *
 	 * @param  VersionNumber|string $b
 	 * @return boolean
-	 *         TRUE if $b is a version that $this should avoid
-	 *         FALSE otherwise
+	 *         FALSE if $b is a version that $this should avoid
+	 *         TRUE otherwise
 	 */
-	public function shouldAvoid($b)
+	public function isNotBlacklisted($b)
 	{
 		// if $b is a version string, this will automatically convert it
 		// to an object for us
