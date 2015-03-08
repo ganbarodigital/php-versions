@@ -291,7 +291,7 @@ class VersionComparitor
 		return true;
 	}
 
-	public function inProximity(SemanticVersion $a, SemanticVersion $b)
+	public function isApproximately(SemanticVersion $a, SemanticVersion $b)
 	{
 		// we turn this into two tests:
 		//

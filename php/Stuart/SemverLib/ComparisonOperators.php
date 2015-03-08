@@ -75,7 +75,7 @@ class ComparisonOperators
 		// we treat X+1.0.0-preRelease as not matching
 		//
 		// and so on
-		"~" => "inProximity",
+		"~" => "isApproximately",
 
 		// same as >= X.Y.Z, < X+1.0.0
 		//
