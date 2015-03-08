@@ -200,14 +200,15 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider provideVersionsForStringCasting
+	 *
 	 * @covers Stuart\SemverLib\SemanticVersion::__toString()
 	 */
-	public function testCastAsString()
+	public function testCastAsString($expectedVersion)
 	{
 	    // ----------------------------------------------------------------
 	    // setup your test
 
-	    $expectedVersion = "1.2.3-alpha+4";
 	    $obj = new SemanticVersion($expectedVersion);
 
 	    // ----------------------------------------------------------------
@@ -219,6 +220,18 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	    // test the results
 
 	    $this->assertEquals($expectedVersion, $actualVersion);
+	}
+
+	public function provideVersionsForStringCasting()
+	{
+		return [
+			[ "1.0" ],
+			[ "1.0-alpha" ],
+			[ "1.2.3" ],
+			[ "1.2.3-alpha" ],
+			[ "1.2.3+4" ],
+			[ "1.2+4" ]
+		];
 	}
 
 	/**

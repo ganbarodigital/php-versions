@@ -94,8 +94,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 				"1.0",
 				[
 					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0
+					"minor" => 0
 				]
 			],
 			[
@@ -113,7 +112,6 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 				[
 					"major" => 1,
 					"minor" => 0,
-					"patchLevel" => 0,
 					"preRelease" => "alpha"
 				]
 			],

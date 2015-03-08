@@ -154,12 +154,36 @@ class SemanticVersion
 	}
 
 	/**
+	 * Is there a 'Z' in my X.Y.Z[-<preRelease>[+R]] version number?
+	 *
+	 * @return boolean
+	 *         TRUE if Z was explicitly set
+	 *         FALSE if we are inferring that Z = 0
+	 */
+	public function hasPatchLevel()
+	{
+		if ($this->patchLevel === null) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get the 'Z' in my X.Y.Z[-<preRelease>[+R]] version number
 	 *
-	 * @return int|null
+	 * If $this->hasPatchLevel() == false, we will return '0'
+	 *
+	 * @return int
 	 */
 	public function getPatchLevel()
 	{
+		// special case - patchLevels are optional
+		if ($this->patchLevel === null) {
+			return '0';
+		}
+
+		// general case
 		return $this->patchLevel;
 	}
 
@@ -225,8 +249,12 @@ class SemanticVersion
 	{
 		// every version number has these
 		$retval = $this->major
-		        . '.' . $this->minor
-		        . '.' . $this->patchLevel;
+		        . '.' . $this->minor;
+
+		// this is optional
+		if (isset($this->patchLevel)) {
+			$retval = $retval . '.' . $this->patchLevel;
+		}
 
 		// this is optional
 		if (isset($this->preRelease)) {

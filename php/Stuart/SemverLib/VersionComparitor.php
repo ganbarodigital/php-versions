@@ -140,10 +140,24 @@ class VersionComparitor
 		}
 
 		// what about the patch level?
-		if ($aVer['patchLevel'] < $bVer['patchLevel']) {
+		//
+		// this is optional; we infer a value of '0' when none is supplied
+		if (!isset($aVer['patchLevel'])) {
+			$aPatchLevel = 0;
+		}
+		else {
+			$aPatchLevel = $aVer['patchLevel'];
+		}
+		if (!isset($bVer['patchLevel'])) {
+			$bPatchLevel = 0;
+		}
+		else {
+			$bPatchLevel = $bVer['patchLevel'];
+		}
+		if ($aPatchLevel < $bPatchLevel) {
 			return self::A_IS_LESS;
 		}
-		else if ($aVer['patchLevel'] > $bVer['patchLevel']) {
+		else if ($aPatchLevel > $bPatchLevel) {
 			return self::A_IS_GREATER;
 		}
 

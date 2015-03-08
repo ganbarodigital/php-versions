@@ -98,6 +98,16 @@ class VersionComparitorTest extends PHPUnit_Framework_TestCase
 				VersionComparitor::BOTH_ARE_EQUAL,
 			],
 			[
+				"1.0",
+				"1.0.1",
+				VersionComparitor::A_IS_LESS,
+			],
+			[
+				"1.0.1",
+				"1.0",
+				VersionComparitor::A_IS_GREATER,
+			],
+			[
 				"1.0.0",
 				"1.1.0",
 				VersionComparitor::A_IS_LESS,
@@ -452,6 +462,72 @@ class VersionComparitorTest extends PHPUnit_Framework_TestCase
 				"beta.11",
 				"rc.1",
 				VersionComparitor::A_IS_LESS,
+			],
+		];
+	}
+
+	/**
+	 * @dataProvider provideEqualityDataset
+	 *
+	 * @covers Stuart\SemverLib\VersionComparitor::equals
+	 */
+	public function testCanCheckForEquality($a, $b, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $obj  = new VersionComparitor();
+	    $aVer = new SemanticVersion($a);
+	    $bVer = new SemanticVersion($b);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $obj->equals($aVer, $bVer);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideEqualityDataset()
+	{
+		return [
+			[
+				"1.0",
+				"1.0.0",
+				true
+			],
+			[
+				"1.0.0",
+				"1.0.0",
+				true
+			],
+			[
+				"1.0.1",
+				"1.0.1",
+				true
+			],
+			[
+				"1.1",
+				"1.1.0",
+				true
+			],
+			[
+				"1.1.0",
+				"1.1.0",
+				true
+			],
+			[
+				"1.1.1",
+				"1.1.1",
+				true
+			],
+			[
+				"1.0-alpha",
+				"1.0.0-alpha",
+				true
 			],
 		];
 	}

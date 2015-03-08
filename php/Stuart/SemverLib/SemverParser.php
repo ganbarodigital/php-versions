@@ -108,15 +108,16 @@ class SemverParser
         //
         // yes, semver.org says that it is mandatory, but let's be a little
         // pragmatic here :)
-        if (isset($breakdown['patchLevel']) && !empty($breakdown['patchLevel'])) {
+        //
+        // our SemanticVersion object knows when to infer that a missing
+        // patchLevel means '0', and the ~ operator needs to know when the
+        // patchLevel wasn't explicitly set
+        if (isset($breakdown['patchLevel'])) {
             $target->setPatchLevel(strval($breakdown['patchLevel']));
-        }
-        else {
-            $target->setPatchLevel(0);
         }
 
         // this is optional
-        if (isset($breakdown['preRelease']) && !empty($breakdown['preRelease'])) {
+        if (isset($breakdown['preRelease'])) {
             $target->setPreRelease($breakdown['preRelease']);
         }
 
@@ -165,20 +166,17 @@ class SemverParser
             $retval['minor'] = strval($matches['minor']);
 
             // this is optional
-            if (isset($matches['patchLevel']) && !empty($matches['patchLevel'])) {
+            if (isset($matches['patchLevel']) && $matches['patchLevel'] != "") {
                 $retval['patchLevel'] = strval($matches['patchLevel']);
-            }
-            else {
-                $retval['patchLevel'] = 0;
             }
 
             // this is optional
-            if (isset($matches['preRelease']) && !empty($matches['preRelease'])) {
+            if (isset($matches['preRelease']) && $matches['preRelease'] != "") {
                 $retval['preRelease'] = $matches['preRelease'];
             }
 
             // this is optional
-            if (isset($matches['build'])) {
+            if (isset($matches['build']) && $matches['build'] != "") {
                 $retval['build'] = $matches['build'];
             }
 
