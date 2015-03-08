@@ -67,16 +67,7 @@ class ComparisonOperatorsTest extends PHPUnit_Framework_TestCase
 
 	public function provideOperatorList()
 	{
-		return [
-			[ "=",  "equals" ],
-			[ ">",  "isGreaterThan" ],
-			[ ">=", "isGreaterThanOrEqualTo" ],
-			[ "<",  "isLessThan" ],
-			[ "<=", "isLessThanOrEqualTo" ],
-			[ "~",  "isApproximately" ],
-			[ "^",  "isCompatible" ],
-			[ "!",  "isNotBlacklisted" ]
-		];
+		return ComparisonOperatorsDatasets::provideValidOperators();
 	}
 
 	/**
@@ -98,16 +89,7 @@ class ComparisonOperatorsTest extends PHPUnit_Framework_TestCase
 
 	public function provideInvalidOperators()
 	{
-		return [
-			[ "£" ],
-			[ "#" ],
-			[ "$" ],
-			[ "%" ],
-			[ "&" ],
-			[ "*" ],
-			[ "(" ],
-			[ ")" ],
-		];
+		return ComparisonOperatorsDatasets::provideInvalidOperators();
 	}
 
 	/**
