@@ -577,9 +577,6 @@ class SemanticVersion implements VersionNumber
 	 */
 	public function isApproximately($b)
 	{
-		// var_dump("__A__", (string)$this);
-		// var_dump("__B__", (string)$b);
-
 		// if $b is a version string, this will automatically convert it
 		// to an object for us
 		$bObj = $this->ensureSemanticVersion($b);
