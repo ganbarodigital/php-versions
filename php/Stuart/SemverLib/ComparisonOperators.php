@@ -111,7 +111,7 @@ class ComparisonOperators
 	 *
 	 * @return array<string>
 	 */
-	public function getOperators()
+	static public function getOperators()
 	{
 		return array_keys(self::$operators);
 	}
