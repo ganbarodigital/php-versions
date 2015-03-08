@@ -135,7 +135,7 @@ class ComparisonExpression
 	public function setVersion($version)
 	{
 		$vObj = $this->ensureVersionNumber($version);
-		$this->version = $version;
+		$this->version = $vObj;
 	}
 
 	// ==================================================================
