@@ -47,31 +47,31 @@ use PHPUnit_Framework_TestCase;
 
 class ComparisonOperatorsDatasets
 {
-	static public function getValidOperators()
-	{
-		return [
-			[ "=",  "equals" ],
-			[ ">",  "isGreaterThan" ],
-			[ ">=", "isGreaterThanOrEqualTo" ],
-			[ "<",  "isLessThan" ],
-			[ "<=", "isLessThanOrEqualTo" ],
-			[ "~",  "isApproximately" ],
-			[ "^",  "isCompatible" ],
-			[ "!",  "isNotBlacklisted" ]
-		];
-	}
+    static public function getValidOperators()
+    {
+        return [
+            [ "=",  "equals" ],
+            [ ">",  "isGreaterThan" ],
+            [ ">=", "isGreaterThanOrEqualTo" ],
+            [ "<",  "isLessThan" ],
+            [ "<=", "isLessThanOrEqualTo" ],
+            [ "~",  "isApproximately" ],
+            [ "^",  "isCompatible" ],
+            [ "!",  "isNotBlacklisted" ]
+        ];
+    }
 
-	static public function getInvalidOperators()
-	{
-		return [
-			[ "£" ],
-			[ "#" ],
-			[ "$" ],
-			[ "%" ],
-			[ "&" ],
-			[ "*" ],
-			[ "(" ],
-			[ ")" ],
-		];
-	}
+    static public function getInvalidOperators()
+    {
+        return [
+            [ "£" ],
+            [ "#" ],
+            [ "$" ],
+            [ "%" ],
+            [ "&" ],
+            [ "*" ],
+            [ "(" ],
+            [ ")" ],
+        ];
+    }
 }

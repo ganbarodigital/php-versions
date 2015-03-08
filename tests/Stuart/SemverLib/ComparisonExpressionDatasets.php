@@ -47,611 +47,611 @@ use PHPUnit_Framework_TestCase;
 
 class ComparisonExpressionDatasets
 {
-	static public function getInvalidOperators()
-	{
-		return [
-			[ "£" ],
-			[ "#" ],
-			[ "$" ],
-			[ "%" ],
-			[ "&" ],
-			[ "*" ],
-			[ "(" ],
-			[ ")" ],
-		];
-	}
+    static public function getInvalidOperators()
+    {
+        return [
+            [ "£" ],
+            [ "#" ],
+            [ "$" ],
+            [ "%" ],
+            [ "&" ],
+            [ "*" ],
+            [ "(" ],
+            [ ")" ],
+        ];
+    }
 
-	static public function getExpressionsToEvaluateWithVersionsToMatch()
-	{
-		return [
-			[
-				"=",
-				"1.0.0",
-				"1.0.0",
-				true
-			],
-			[
-				"=",
-				"1.1.0",
-				"1.1.0",
-				true
-			],
-			[
-				"=",
-				"1.0.0",
-				"1.0.1",
-				false
-			],
-			[
-				"=",
-				"1.0.0",
-				"1.1.0",
-				false
-			],
-			[
-				"=",
-				"1.0.1",
-				"1.0.0",
-				false
-			],
-			[
-				"=",
-				"1.1.0",
-				"1.0.0",
-				false
-			],
-			[
-				"=",
-				"1.1.1",
-				"1.0.1",
-				false
-			],
-			[
-				"=",
-				"1.1.1",
-				"1.1.0",
-				false
-			],
-			[
-				"=",
-				"1.1.1",
-				"1.1.1",
-				true
-			],
-			[
-				"=",
-				"1.0.0-alpha",
-				"1.0.0-alpha",
-				true
-			],
-			[
-				"=",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha-1",
-				true
-			],
-			[
-				"=",
-				"1.0.0-alpha-1+20150307",
-				"1.0.0-alpha-1+20150307",
-				true
-			],
-			[
-				"=",
-				"1.0.0-alpha-1+20150307",
-				"1.0.0-alpha-1",
-				true
-			],
-			[
-				"=",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha-1+20150307",
-				true
-			],
-			[
-				">=",
-				"1.0.0",
-				"1.0.0",
-				true
-			],
-			[
-				">=",
-				"1.0.0",
-				"1.0.1",
-				true
-			],
-			[
-				">=",
-				"1.0.0",
-				"1.1.0",
-				true
-			],
-			[
-				">=",
-				"1.0.0",
-				"1.1.1",
-				true
-			],
-			[
-				">=",
-				"1.0.0-alpha",
-				"1.0.0",
-				true
-			],
-			[
-				">=",
-				"1.0.0-alpha",
-				"1.0.0-beta",
-				true
-			],
-			[
-				">=",
-				"1.0.0-alpha",
-				"1.0.0-alpha-1",
-				true
-			],
-			[
-				">=",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha-2",
-				true
-			],
-			[
-				">=",
-				"1.0.0-1.1.0",
-				"1.0.0-1.1.1",
-				true
-			],
-			[
-				">=",
-				"1.0.0-1.1.0",
-				"1.0.0-alpha",
-				true
-			],
+    static public function getExpressionsToEvaluateWithVersionsToMatch()
+    {
+        return [
+            [
+                "=",
+                "1.0.0",
+                "1.0.0",
+                true
+            ],
+            [
+                "=",
+                "1.1.0",
+                "1.1.0",
+                true
+            ],
+            [
+                "=",
+                "1.0.0",
+                "1.0.1",
+                false
+            ],
+            [
+                "=",
+                "1.0.0",
+                "1.1.0",
+                false
+            ],
+            [
+                "=",
+                "1.0.1",
+                "1.0.0",
+                false
+            ],
+            [
+                "=",
+                "1.1.0",
+                "1.0.0",
+                false
+            ],
+            [
+                "=",
+                "1.1.1",
+                "1.0.1",
+                false
+            ],
+            [
+                "=",
+                "1.1.1",
+                "1.1.0",
+                false
+            ],
+            [
+                "=",
+                "1.1.1",
+                "1.1.1",
+                true
+            ],
+            [
+                "=",
+                "1.0.0-alpha",
+                "1.0.0-alpha",
+                true
+            ],
+            [
+                "=",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha-1",
+                true
+            ],
+            [
+                "=",
+                "1.0.0-alpha-1+20150307",
+                "1.0.0-alpha-1+20150307",
+                true
+            ],
+            [
+                "=",
+                "1.0.0-alpha-1+20150307",
+                "1.0.0-alpha-1",
+                true
+            ],
+            [
+                "=",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha-1+20150307",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0",
+                "1.0.0",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0",
+                "1.0.1",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0",
+                "1.1.0",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0",
+                "1.1.1",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0-alpha",
+                "1.0.0",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0-alpha",
+                "1.0.0-beta",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0-alpha",
+                "1.0.0-alpha-1",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha-2",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0-1.1.0",
+                "1.0.0-1.1.1",
+                true
+            ],
+            [
+                ">=",
+                "1.0.0-1.1.0",
+                "1.0.0-alpha",
+                true
+            ],
 
-			[
-				">=",
-				"1.0.1",
-				"1.0.0",
-				false
-			],
-			[
-				">=",
-				"1.1.0",
-				"1.0.0",
-				false
-			],
-			[
-				">=",
-				"1.1.1",
-				"1.0.0",
-				false
-			],
-			[
-				">=",
-				"1.0.0",
-				"1.0.0-alpha",
-				false
-			],
-			[
-				">=",
-				"1.0.0-beta",
-				"1.0.0-alpha",
-				false
-			],
-			[
-				">=",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha",
-				false
-			],
-			[
-				">=",
-				"1.0.0-alpha-2",
-				"1.0.0-alpha-1",
-				false
-			],
-			[
-				">=",
-				"1.0.0-1.1.1",
-				"1.0.0-1.1.0",
-				false
-			],
-			[
-				">=",
-				"1.0.0-alpha",
-				"1.0.0-1.1.0",
-				false
-			],
-
-
-			[
-				"<=",
-				"1.0.0",
-				"1.0.0",
-				true
-			],
-			[
-				"<=",
-				"1.0.0",
-				"1.0.1",
-				false
-			],
-			[
-				"<=",
-				"1.0.0",
-				"1.1.0",
-				false
-			],
-			[
-				"<=",
-				"1.0.0",
-				"1.1.1",
-				false
-			],
-			[
-				"<=",
-				"1.0.0-alpha",
-				"1.0.0",
-				false
-			],
-			[
-				"<=",
-				"1.0.0-alpha",
-				"1.0.0-beta",
-				false
-			],
-			[
-				"<=",
-				"1.0.0-alpha",
-				"1.0.0-alpha-1",
-				false
-			],
-			[
-				"<=",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha-2",
-				false
-			],
-			[
-				"<=",
-				"1.0.0-1.1.0",
-				"1.0.0-1.1.1",
-				false
-			],
-			[
-				"<=",
-				"1.0.0-1.1.0",
-				"1.0.0-alpha",
-				false
-			],
-
-			[
-				"<=",
-				"1.0.1",
-				"1.0.0",
-				true
-			],
-			[
-				"<=",
-				"1.1.0",
-				"1.0.0",
-				true
-			],
-			[
-				"<=",
-				"1.1.1",
-				"1.0.0",
-				true
-			],
-			[
-				"<=",
-				"1.0.0",
-				"1.0.0-alpha",
-				true
-			],
-			[
-				"<=",
-				"1.0.0-beta",
-				"1.0.0-alpha",
-				true
-			],
-			[
-				"<=",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha",
-				true
-			],
-			[
-				"<=",
-				"1.0.0-alpha-2",
-				"1.0.0-alpha-1",
-				true
-			],
-			[
-				"<=",
-				"1.0.0-1.1.1",
-				"1.0.0-1.1.0",
-				true
-			],
-			[
-				"<=",
-				"1.0.0-alpha",
-				"1.0.0-1.1.0",
-				true
-			],
+            [
+                ">=",
+                "1.0.1",
+                "1.0.0",
+                false
+            ],
+            [
+                ">=",
+                "1.1.0",
+                "1.0.0",
+                false
+            ],
+            [
+                ">=",
+                "1.1.1",
+                "1.0.0",
+                false
+            ],
+            [
+                ">=",
+                "1.0.0",
+                "1.0.0-alpha",
+                false
+            ],
+            [
+                ">=",
+                "1.0.0-beta",
+                "1.0.0-alpha",
+                false
+            ],
+            [
+                ">=",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha",
+                false
+            ],
+            [
+                ">=",
+                "1.0.0-alpha-2",
+                "1.0.0-alpha-1",
+                false
+            ],
+            [
+                ">=",
+                "1.0.0-1.1.1",
+                "1.0.0-1.1.0",
+                false
+            ],
+            [
+                ">=",
+                "1.0.0-alpha",
+                "1.0.0-1.1.0",
+                false
+            ],
 
 
-			[
-				"!",
-				"1.0.0",
-				"1.0.0",
-				false
-			],
-			[
-				"!",
-				"1.0.0+R1",
-				"1.0.0+R2",
-				false
-			],
-			[
-				"!",
-				"1.0.0",
-				"1.0.1",
-				true
-			],
-			[
-				"!",
-				"1.0.0",
-				"1.1.0",
-				true
-			],
-			[
-				"!",
-				"1.0.0",
-				"1.1.1",
-				true
-			],
-			[
-				"!",
-				"1.0.0-alpha",
-				"1.0.0",
-				true
-			],
-			[
-				"!",
-				"1.0.0-alpha",
-				"1.0.0-beta",
-				true
-			],
-			[
-				"!",
-				"1.0.0-alpha",
-				"1.0.0-alpha-1",
-				true
-			],
-			[
-				"!",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha-2",
-				true
-			],
-			[
-				"!",
-				"1.0.0-1.1.0",
-				"1.0.0-1.1.1",
-				true
-			],
-			[
-				"!",
-				"1.0.0-1.1.0",
-				"1.0.0-alpha",
-				true
-			],
+            [
+                "<=",
+                "1.0.0",
+                "1.0.0",
+                true
+            ],
+            [
+                "<=",
+                "1.0.0",
+                "1.0.1",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0",
+                "1.1.0",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0",
+                "1.1.1",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0-alpha",
+                "1.0.0",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0-alpha",
+                "1.0.0-beta",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0-alpha",
+                "1.0.0-alpha-1",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha-2",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0-1.1.0",
+                "1.0.0-1.1.1",
+                false
+            ],
+            [
+                "<=",
+                "1.0.0-1.1.0",
+                "1.0.0-alpha",
+                false
+            ],
 
-			[
-				"!",
-				"1.0.1",
-				"1.0.0",
-				true
-			],
-			[
-				"!",
-				"1.1.0",
-				"1.0.0",
-				true
-			],
-			[
-				"!",
-				"1.1.1",
-				"1.0.0",
-				true
-			],
-			[
-				"!",
-				"1.0.0",
-				"1.0.0-alpha",
-				true
-			],
-			[
-				"!",
-				"1.0.0-beta",
-				"1.0.0-alpha",
-				true
-			],
-			[
-				"!",
-				"1.0.0-alpha-1",
-				"1.0.0-alpha",
-				true
-			],
-			[
-				"!",
-				"1.0.0-alpha-2",
-				"1.0.0-alpha-1",
-				true
-			],
-			[
-				"!",
-				"1.0.0-1.1.1",
-				"1.0.0-1.1.0",
-				true
-			],
-			[
-				"!",
-				"1.0.0-alpha",
-				"1.0.0-1.1.0",
-				true
-			],
+            [
+                "<=",
+                "1.0.1",
+                "1.0.0",
+                true
+            ],
+            [
+                "<=",
+                "1.1.0",
+                "1.0.0",
+                true
+            ],
+            [
+                "<=",
+                "1.1.1",
+                "1.0.0",
+                true
+            ],
+            [
+                "<=",
+                "1.0.0",
+                "1.0.0-alpha",
+                true
+            ],
+            [
+                "<=",
+                "1.0.0-beta",
+                "1.0.0-alpha",
+                true
+            ],
+            [
+                "<=",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha",
+                true
+            ],
+            [
+                "<=",
+                "1.0.0-alpha-2",
+                "1.0.0-alpha-1",
+                true
+            ],
+            [
+                "<=",
+                "1.0.0-1.1.1",
+                "1.0.0-1.1.0",
+                true
+            ],
+            [
+                "<=",
+                "1.0.0-alpha",
+                "1.0.0-1.1.0",
+                true
+            ],
 
 
-			[
-				"~",
-				"1.0",
-				"1.0",
-				true
-			],
-			[
-				"~",
-				"1.0",
-				"1.0.0",
-				true
-			],
-			[
-				"~",
-				"1.0",
-				"1.0.1",
-				true
-			],
-			[
-				"~",
-				"1.0-alpha-1",
-				"1.0",
-				true
-			],
-			[
-				"~",
-				"1.0",
-				"1.1",
-				true
-			],
-			[
-				"~",
-				"1.1.1",
-				"1.1.2",
-				true
-			],
-			[
-				"~",
-				"1.1.1",
-				"1.2.0",
-				false
-			],
-			[
-				"~",
-				"1.1.1",
-				"1.2.0-alpha-1",
-				false
-			],
-			[
-				"~",
-				"1.0",
-				"2.0",
-				false,
-			],
-			[
-				"~",
-				"1.0",
-				"2.0-alpha-1",
-				false,
-			],
-		];
-	}
+            [
+                "!",
+                "1.0.0",
+                "1.0.0",
+                false
+            ],
+            [
+                "!",
+                "1.0.0+R1",
+                "1.0.0+R2",
+                false
+            ],
+            [
+                "!",
+                "1.0.0",
+                "1.0.1",
+                true
+            ],
+            [
+                "!",
+                "1.0.0",
+                "1.1.0",
+                true
+            ],
+            [
+                "!",
+                "1.0.0",
+                "1.1.1",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-alpha",
+                "1.0.0",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-alpha",
+                "1.0.0-beta",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-alpha",
+                "1.0.0-alpha-1",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha-2",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-1.1.0",
+                "1.0.0-1.1.1",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-1.1.0",
+                "1.0.0-alpha",
+                true
+            ],
 
-	static public function getValidExpressionsToEvaluate()
-	{
-		// we're going to build a substantial dataset by combining all of
-		// these datasets
-		$validOperators   = ComparisonOperatorsDatasets::getValidOperators();
-		$validVersions    = SemanticVersionDatasets::getVersionNumberDataset();
+            [
+                "!",
+                "1.0.1",
+                "1.0.0",
+                true
+            ],
+            [
+                "!",
+                "1.1.0",
+                "1.0.0",
+                true
+            ],
+            [
+                "!",
+                "1.1.1",
+                "1.0.0",
+                true
+            ],
+            [
+                "!",
+                "1.0.0",
+                "1.0.0-alpha",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-beta",
+                "1.0.0-alpha",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-alpha-1",
+                "1.0.0-alpha",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-alpha-2",
+                "1.0.0-alpha-1",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-1.1.1",
+                "1.0.0-1.1.0",
+                true
+            ],
+            [
+                "!",
+                "1.0.0-alpha",
+                "1.0.0-1.1.0",
+                true
+            ],
 
-		// our return value
-		$retval = [];
 
-		// let's build the dataset
-		foreach ($validOperators as $op) {
-			foreach ($validVersions as $dataset) {
-				$retval[] = [ $op[0] . $dataset[0] ];
-				$retval[] = [ $op[0] . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . '	' . $dataset[0]];
-			}
-		}
+            [
+                "~",
+                "1.0",
+                "1.0",
+                true
+            ],
+            [
+                "~",
+                "1.0",
+                "1.0.0",
+                true
+            ],
+            [
+                "~",
+                "1.0",
+                "1.0.1",
+                true
+            ],
+            [
+                "~",
+                "1.0-alpha-1",
+                "1.0",
+                true
+            ],
+            [
+                "~",
+                "1.0",
+                "1.1",
+                true
+            ],
+            [
+                "~",
+                "1.1.1",
+                "1.1.2",
+                true
+            ],
+            [
+                "~",
+                "1.1.1",
+                "1.2.0",
+                false
+            ],
+            [
+                "~",
+                "1.1.1",
+                "1.2.0-alpha-1",
+                false
+            ],
+            [
+                "~",
+                "1.0",
+                "2.0",
+                false,
+            ],
+            [
+                "~",
+                "1.0",
+                "2.0-alpha-1",
+                false,
+            ],
+        ];
+    }
 
-		// all done
-		return $retval;
-	}
+    static public function getValidExpressionsToEvaluate()
+    {
+        // we're going to build a substantial dataset by combining all of
+        // these datasets
+        $validOperators   = ComparisonOperatorsDatasets::getValidOperators();
+        $validVersions    = SemanticVersionDatasets::getVersionNumberDataset();
 
-	static public function getBadExpressionsToEvaluate()
-	{
-		return [
-			[ null ],
-			[ [ "1.0.0 "] ],
-			[ false ],
-			[ true ],
-			[ 3.1415927 ],
-			[ 100 ],
-			[ (object)[ "version" => "1.0.0" ] ],
-		];
-	}
+        // our return value
+        $retval = [];
 
-	static public function getInvalidExpressionsToEvaluate()
-	{
-		// we're going to build a substantial dataset by combining all of
-		// these datasets
-		$invalidOperators = ComparisonOperatorsDatasets::getInvalidOperators();
-		$validOperators   = ComparisonOperatorsDatasets::getValidOperators();
-		$validVersions    = SemanticVersionDatasets::getVersionNumberDataset();
-		$invalidVersions  = SemanticVersionDatasets::getBadVersionNumberDataset();
+        // let's build the dataset
+        foreach ($validOperators as $op) {
+            foreach ($validVersions as $dataset) {
+                $retval[] = [ $op[0] . $dataset[0] ];
+                $retval[] = [ $op[0] . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . 'v' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . '    ' . $dataset[0]];
+            }
+        }
 
-		// our return value
-		$retval = [];
+        // all done
+        return $retval;
+    }
 
-		// let's build the dataset
-		foreach ($invalidOperators as $op) {
-			foreach ($validVersions as $dataset) {
-				$retval[] = [ $op[0] . $dataset[0] ];
-				$retval[] = [ $op[0] . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . '	' . $dataset[0]];
-			}
-			foreach ($invalidVersions as $dataset) {
-				$retval[] = [ $op[0] . $dataset[0] ];
-				$retval[] = [ $op[0] . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . '	' . $dataset[0]];
-			}
-		}
+    static public function getBadExpressionsToEvaluate()
+    {
+        return [
+            [ null ],
+            [ [ "1.0.0 "] ],
+            [ false ],
+            [ true ],
+            [ 3.1415927 ],
+            [ 100 ],
+            [ (object)[ "version" => "1.0.0" ] ],
+        ];
+    }
 
-		// let's build the dataset
-		foreach ($validOperators as $op) {
-			foreach ($invalidVersions as $dataset) {
-				$retval[] = [ $op[0] . $dataset[0] ];
-				$retval[] = [ $op[0] . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
-				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
-				$retval[] = [ $op[0] . '	' . $dataset[0]];
-			}
-		}
+    static public function getInvalidExpressionsToEvaluate()
+    {
+        // we're going to build a substantial dataset by combining all of
+        // these datasets
+        $invalidOperators = ComparisonOperatorsDatasets::getInvalidOperators();
+        $validOperators   = ComparisonOperatorsDatasets::getValidOperators();
+        $validVersions    = SemanticVersionDatasets::getVersionNumberDataset();
+        $invalidVersions  = SemanticVersionDatasets::getBadVersionNumberDataset();
 
-		// all done
-		return $retval;
-	}
+        // our return value
+        $retval = [];
+
+        // let's build the dataset
+        foreach ($invalidOperators as $op) {
+            foreach ($validVersions as $dataset) {
+                $retval[] = [ $op[0] . $dataset[0] ];
+                $retval[] = [ $op[0] . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . 'v' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . '    ' . $dataset[0]];
+            }
+            foreach ($invalidVersions as $dataset) {
+                $retval[] = [ $op[0] . $dataset[0] ];
+                $retval[] = [ $op[0] . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . 'v' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . '    ' . $dataset[0]];
+            }
+        }
+
+        // let's build the dataset
+        foreach ($validOperators as $op) {
+            foreach ($invalidVersions as $dataset) {
+                $retval[] = [ $op[0] . $dataset[0] ];
+                $retval[] = [ $op[0] . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . 'v' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] ];
+                $retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+                $retval[] = [ $op[0] . '    ' . $dataset[0]];
+            }
+        }
+
+        // all done
+        return $retval;
+    }
 }

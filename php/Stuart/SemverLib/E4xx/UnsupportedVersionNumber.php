@@ -45,8 +45,8 @@ namespace Stuart\SemverLib;
 
 class E4xx_UnsupportedVersionNumber extends E4xx_SemverException
 {
-	public function __construct($versionNumber, $supportedTypes)
-	{
-		parent::__construct("Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}", 400);
-	}
+    public function __construct($versionNumber, $supportedTypes)
+    {
+        parent::__construct("Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}", 400);
+    }
 }

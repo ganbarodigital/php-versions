@@ -45,8 +45,8 @@ namespace Stuart\SemverLib;
 
 class E4xx_UnknownOperator extends E4xx_SemverException
 {
-	public function __construct($operator)
-	{
-		parent::__construct("Unknown range operator '{$operator}'", 400);
-	}
+    public function __construct($operator)
+    {
+        parent::__construct("Unknown range operator '{$operator}'", 400);
+    }
 }

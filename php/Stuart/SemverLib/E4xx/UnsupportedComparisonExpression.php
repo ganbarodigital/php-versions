@@ -45,12 +45,12 @@ namespace Stuart\SemverLib;
 
 class E4xx_UnsupportedComparisonExpression extends E4xx_SemverException
 {
-	public function __construct($input, $extra = null)
-	{
-		$msg = "Unsupported comparison expression '{$input}'";
-		if ($extra) {
-			$msg .= "; reason is: " . $extra;
-		}
-		parent::__construct($msg, 400);
-	}
+    public function __construct($input, $extra = null)
+    {
+        $msg = "Unsupported comparison expression '{$input}'";
+        if ($extra) {
+            $msg .= "; reason is: " . $extra;
+        }
+        parent::__construct($msg, 400);
+    }
 }

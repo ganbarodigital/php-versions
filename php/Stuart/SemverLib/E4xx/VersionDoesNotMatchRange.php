@@ -45,8 +45,8 @@ namespace Stuart\SemverLib;
 
 class E4xx_VersionDoesNotMatchRange extends E4xx_SemverException
 {
-	public function __construct(VersionNumber $versionObj, $expression)
-	{
-		parent::__construct("Version '{$versionObj}' does not match expression '{$expression}'", 400);
-	}
+    public function __construct(VersionNumber $versionObj, $expression)
+    {
+        parent::__construct("Version '{$versionObj}' does not match expression '{$expression}'", 400);
+    }
 }

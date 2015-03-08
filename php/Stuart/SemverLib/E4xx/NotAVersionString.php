@@ -45,8 +45,8 @@ namespace Stuart\SemverLib;
 
 class E4xx_NotAVersionString extends E4xx_SemverException
 {
-	public function __construct($input)
-	{
-		parent::__construct("Data of type '" . gettype($input) . "' is not a version string", 400);
-	}
+    public function __construct($input)
+    {
+        parent::__construct("Data of type '" . gettype($input) . "' is not a version string", 400);
+    }
 }

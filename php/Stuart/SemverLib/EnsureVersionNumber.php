@@ -48,40 +48,40 @@ namespace Stuart\SemverLib;
  */
 trait EnsureVersionNumber
 {
-	/**
-	 * if $input is a string, convert it to a VersionNumber object
-	 *
-	 * @param  VersionNumber|string $input
-	 *         the version number that we may need to convert
-	 * @return VersionNumber
-	 */
-	protected function ensureVersionNumber($input)
-	{
-		/**
-		 * the version number parser
-		 *
-		 * we'll keep this around as we may have to parse more than one
-		 * string before we're done
-		 *
-		 * @var VersionNumberParser
-		 */
-		static $parser = null;
+    /**
+     * if $input is a string, convert it to a VersionNumber object
+     *
+     * @param  VersionNumber|string $input
+     *         the version number that we may need to convert
+     * @return VersionNumber
+     */
+    protected function ensureVersionNumber($input)
+    {
+        /**
+         * the version number parser
+         *
+         * we'll keep this around as we may have to parse more than one
+         * string before we're done
+         *
+         * @var VersionNumberParser
+         */
+        static $parser = null;
 
-		// do we need to do anything at all?
-		if ($input instanceof VersionNumber) {
-			// no, we do not
-			return $input;
-		}
+        // do we need to do anything at all?
+        if ($input instanceof VersionNumber) {
+            // no, we do not
+            return $input;
+        }
 
-		// deal with any other surprises
-		if (!is_string($input)) {
-			throw new E4xx_NotAVersionNumber($input);
-		}
+        // deal with any other surprises
+        if (!is_string($input)) {
+            throw new E4xx_NotAVersionNumber($input);
+        }
 
-		// convert and return
-		if ($parser === null) {
-			$parser = new VersionNumberParser;
-		}
-		return $parser->parse($input);
-	}
+        // convert and return
+        if ($parser === null) {
+            $parser = new VersionNumberParser;
+        }
+        return $parser->parse($input);
+    }
 }

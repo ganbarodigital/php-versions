@@ -48,138 +48,138 @@ namespace Stuart\SemverLib;
  */
 class ComparisonExpression
 {
-	const EMPTY_EXPRESSION = "<empty expression>";
+    const EMPTY_EXPRESSION = "<empty expression>";
 
-	// we will need some help to make sure we're dealing with objects and
-	// not version strings
-	use EnsureVersionNumber;
+    // we will need some help to make sure we're dealing with objects and
+    // not version strings
+    use EnsureVersionNumber;
 
-	/**
-	 * one of the ComparisonOperators::$operators keys
-	 *
-	 * @var string
-	 */
-	protected $operator = null;
+    /**
+     * one of the ComparisonOperators::$operators keys
+     *
+     * @var string
+     */
+    protected $operator = null;
 
-	/**
-	 * the expression's version
-	 *
-	 * @var VersionNumber
-	 */
-	protected $version = null;
+    /**
+     * the expression's version
+     *
+     * @var VersionNumber
+     */
+    protected $version = null;
 
-	/**
-	 * create a new ComparisonExpression object
-	 *
-	 * @param string $operator
-	 *        one of the ComparisonOperators::$operators keys
-	 * @param string $version
-	 *        something we can parse into a VersionNumber
-	 */
-	public function __construct($operator = null, $version = null)
-	{
-		// we sometimes have these
-		if ($operator !== null) {
-			$this->setOperator($operator);
-		}
-		if ($version !== null) {
-			$this->setVersion($version);
-		}
-	}
+    /**
+     * create a new ComparisonExpression object
+     *
+     * @param string $operator
+     *        one of the ComparisonOperators::$operators keys
+     * @param string $version
+     *        something we can parse into a VersionNumber
+     */
+    public function __construct($operator = null, $version = null)
+    {
+        // we sometimes have these
+        if ($operator !== null) {
+            $this->setOperator($operator);
+        }
+        if ($version !== null) {
+            $this->setVersion($version);
+        }
+    }
 
-	/**
-	 * retrieve the operator that we will use in any comparisons
-	 *
-	 * @return string|null
-	 */
-	public function getOperator()
-	{
-		return $this->operator;
-	}
+    /**
+     * retrieve the operator that we will use in any comparisons
+     *
+     * @return string|null
+     */
+    public function getOperator()
+    {
+        return $this->operator;
+    }
 
-	/**
-	 * set the operator that we will use in any comparisons
-	 *
-	 * the operator must be one the keys from the ComparisonOperators::OPERATORS
-	 * array
-	 *
-	 * @param string $operator
-	 *        the new operator to use
-	 */
-	public function setOperator($operator)
-	{
-		if (!ComparisonOperators::isValidOperator($operator)) {
-			throw new E4xx_UnknownOperator($operator);
-		}
+    /**
+     * set the operator that we will use in any comparisons
+     *
+     * the operator must be one the keys from the ComparisonOperators::OPERATORS
+     * array
+     *
+     * @param string $operator
+     *        the new operator to use
+     */
+    public function setOperator($operator)
+    {
+        if (!ComparisonOperators::isValidOperator($operator)) {
+            throw new E4xx_UnknownOperator($operator);
+        }
 
-		$this->operator = $operator;
-	}
+        $this->operator = $operator;
+    }
 
-	/**
-	 * retrieve the version we will use in any comparisons
-	 *
-	 * @return VersionNumber
-	 */
-	public function getVersion()
-	{
-		// all done
-		return $this->version;
-	}
+    /**
+     * retrieve the version we will use in any comparisons
+     *
+     * @return VersionNumber
+     */
+    public function getVersion()
+    {
+        // all done
+        return $this->version;
+    }
 
-	/**
-	 * tell us what version to use in any comparisons
-	 *
-	 * @param VersionNumber|string $version
-	 *        the version to use
-	 */
-	public function setVersion($version)
-	{
-		$vObj = $this->ensureVersionNumber($version);
-		$this->version = $vObj;
-	}
+    /**
+     * tell us what version to use in any comparisons
+     *
+     * @param VersionNumber|string $version
+     *        the version to use
+     */
+    public function setVersion($version)
+    {
+        $vObj = $this->ensureVersionNumber($version);
+        $this->version = $vObj;
+    }
 
-	// ==================================================================
-	//
-	// Operator support
-	//
-	// ------------------------------------------------------------------
+    // ==================================================================
+    //
+    // Operator support
+    //
+    // ------------------------------------------------------------------
 
-	/**
-	 * check the given version to see if it matches our expression
-	 *
-	 * @param  VersionNumber|string $version
-	 *         the version to check against
-	 * @return bool
-	 *         TRUE if the given version matches
-	 *         FALSE otherwise
-	 */
-	public function matchesVersion($version)
-	{
-		// if $version is a version string, this will ensure that we have
-		// an object to work with
-		$versionObj = $this->ensureVersionNumber($version);
+    /**
+     * check the given version to see if it matches our expression
+     *
+     * @param  VersionNumber|string $version
+     *         the version to check against
+     * @return bool
+     *         TRUE if the given version matches
+     *         FALSE otherwise
+     */
+    public function matchesVersion($version)
+    {
+        // if $version is a version string, this will ensure that we have
+        // an object to work with
+        $versionObj = $this->ensureVersionNumber($version);
 
-		// which method do we call?
-		$method = ComparisonOperators::getOperatorName($this->operator);
+        // which method do we call?
+        $method = ComparisonOperators::getOperatorName($this->operator);
 
-		// ask our version what it thinks
-		$ourVersion = $this->getVersion();
-		return call_user_func([$versionObj, $method], $ourVersion);
-	}
+        // ask our version what it thinks
+        $ourVersion = $this->getVersion();
+        return call_user_func([$versionObj, $method], $ourVersion);
+    }
 
-	// ==================================================================
-	//
-	// Type convertors
-	//
-	// ------------------------------------------------------------------
+    // ==================================================================
+    //
+    // Type convertors
+    //
+    // ------------------------------------------------------------------
 
-	public function __toString()
-	{
-		// do we have an expression?
-		if ($this->operator === null || $this->version === null) {
-			return self::EMPTY_EXPRESSION;
-		}
+    public function __toString()
+    {
+        // do we have an expression?
+        if ($this->operator === null || $this->version === null) {
+            return self::EMPTY_EXPRESSION;
+        }
 
-		return $this->operator . ' ' . (string)$this->version;
-	}
+        return $this->operator . ' ' . (string)$this->version;
+    }
 }

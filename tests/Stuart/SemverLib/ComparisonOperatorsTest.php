@@ -47,124 +47,124 @@ use PHPUnit_Framework_TestCase;
 
 class ComparisonOperatorsTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @dataProvider provideOperatorList
-	 *
-	 * @covers Stuart\SemverLib\ComparisonOperators::getOperatorName
-	 */
-	public function testCanGetNameOfAnOperator($operator, $expectedName)
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @dataProvider provideOperatorList
+     *
+     * @covers Stuart\SemverLib\ComparisonOperators::getOperatorName
+     */
+    public function testCanGetNameOfAnOperator($operator, $expectedName)
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$actualName = ComparisonOperators::getOperatorName($operator);
+        $actualName = ComparisonOperators::getOperatorName($operator);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertEquals($expectedName, $actualName);
-	}
+        $this->assertEquals($expectedName, $actualName);
+    }
 
-	public function provideOperatorList()
-	{
-		return ComparisonOperatorsDatasets::getValidOperators();
-	}
+    public function provideOperatorList()
+    {
+        return ComparisonOperatorsDatasets::getValidOperators();
+    }
 
-	/**
-	 * @dataProvider provideInvalidOperators
-	 *
-	 * @covers Stuart\SemverLib\ComparisonOperators::getOperatorName
-	 * @covers Stuart\SemverLib\E4xx_UnknownOperator
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_UnknownOperator
-	 */
-	public function testRejectsInvalidOperators($operator)
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
-	    //
-	    // if we attempt to set an invalid operator, an exception is thrown
+    /**
+     * @dataProvider provideInvalidOperators
+     *
+     * @covers Stuart\SemverLib\ComparisonOperators::getOperatorName
+     * @covers Stuart\SemverLib\E4xx_UnknownOperator
+     *
+     * @expectedException Stuart\SemverLib\E4xx_UnknownOperator
+     */
+    public function testRejectsInvalidOperators($operator)
+    {
+        // ----------------------------------------------------------------
+        // perform the change
+        //
+        // if we attempt to set an invalid operator, an exception is thrown
 
-		ComparisonOperators::getOperatorName($operator);
-	}
+        ComparisonOperators::getOperatorName($operator);
+    }
 
-	public function provideInvalidOperators()
-	{
-		return ComparisonOperatorsDatasets::getInvalidOperators();
-	}
+    public function provideInvalidOperators()
+    {
+        return ComparisonOperatorsDatasets::getInvalidOperators();
+    }
 
-	/**
-	 * @covers Stuart\SemverLib\ComparisonOperators::getOperators
-	 */
-	public function testCanGetListOfOperators()
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @covers Stuart\SemverLib\ComparisonOperators::getOperators
+     */
+    public function testCanGetListOfOperators()
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $actualOperators = ComparisonOperators::getOperators();
+        $actualOperators = ComparisonOperators::getOperators();
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertTrue(is_array($actualOperators));
+        $this->assertTrue(is_array($actualOperators));
 
-	    // use a dataset to produce a list of operators to check on
-	    $operatorList = $this->provideOperatorList();
-	    $expectedOperators = [];
-	    foreach($operatorList as $dataset) {
-	    	$expectedOperators[$dataset[0]] = $dataset[0];
-	    }
+        // use a dataset to produce a list of operators to check on
+        $operatorList = $this->provideOperatorList();
+        $expectedOperators = [];
+        foreach($operatorList as $dataset) {
+            $expectedOperators[$dataset[0]] = $dataset[0];
+        }
 
-	    // make sure the operators that we got back are in our list
-	    foreach ($actualOperators as $actualOperator) {
-	    	$this->assertTrue(isset($expectedOperators[$actualOperator]));
+        // make sure the operators that we got back are in our list
+        foreach ($actualOperators as $actualOperator) {
+            $this->assertTrue(isset($expectedOperators[$actualOperator]));
 
-	    	// now, remove this operator from the list
-	    	//
-	    	// this will catch:
-	    	//
-	    	// - duplicate operators
-	    	// - if the two lists ever get out of sync
-	    	unset($expectedOperators[$actualOperator]);
-	    }
+            // now, remove this operator from the list
+            //
+            // this will catch:
+            //
+            // - duplicate operators
+            // - if the two lists ever get out of sync
+            unset($expectedOperators[$actualOperator]);
+        }
 
-	    // at this point, our list of expected operators should be empty
-	    $this->assertEquals([], $expectedOperators);
-	}
+        // at this point, our list of expected operators should be empty
+        $this->assertEquals([], $expectedOperators);
+    }
 
-	/**
-	 * @dataProvider provideOperatorListForValidityCheck
-	 *
-	 * @covers Stuart\SemverLib\ComparisonOperators::isValidOperator
-	 */
-	public function testCanCheckIfAnOperatorIsValid($operator, $expectedResult)
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @dataProvider provideOperatorListForValidityCheck
+     *
+     * @covers Stuart\SemverLib\ComparisonOperators::isValidOperator
+     */
+    public function testCanCheckIfAnOperatorIsValid($operator, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$actualResult = ComparisonOperators::isValidOperator($operator);
+        $actualResult = ComparisonOperators::isValidOperator($operator);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertEquals($expectedResult, $actualResult);
-	}
+        $this->assertEquals($expectedResult, $actualResult);
+    }
 
-	public function provideOperatorListForValidityCheck()
-	{
-		$retval = [];
+    public function provideOperatorListForValidityCheck()
+    {
+        $retval = [];
 
-		// use our list of valid operators first
-		foreach ($this->provideOperatorList() as $dataset) {
-			$retval[] = [ $dataset[0], true ];
-		}
+        // use our list of valid operators first
+        foreach ($this->provideOperatorList() as $dataset) {
+            $retval[] = [ $dataset[0], true ];
+        }
 
-		// and add in our list of invalid operators too
-		foreach ($this->provideInvalidOperators() as $dataset) {
-			$retval[] = [ $dataset[0], false ];
-		}
+        // and add in our list of invalid operators too
+        foreach ($this->provideInvalidOperators() as $dataset) {
+            $retval[] = [ $dataset[0], false ];
+        }
 
-		// all done
-		return $retval;
-	}
+        // all done
+        return $retval;
+    }
 }

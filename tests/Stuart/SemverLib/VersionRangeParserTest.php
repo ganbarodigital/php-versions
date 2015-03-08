@@ -47,140 +47,140 @@ use PHPUnit_Framework_TestCase;
 
 class VersionRangeParserTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @covers Stuart\SemverLib\VersionRangeParser::__construct
-	 */
-	public function testCanInstantiate()
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @covers Stuart\SemverLib\VersionRangeParser::__construct
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$parser = new VersionRangeParser();
+        $parser = new VersionRangeParser();
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($parser instanceof VersionRangeParser);
-	}
+        $this->assertTrue($parser instanceof VersionRangeParser);
+    }
 
-	/**
-	 * @dataProvider getVersionRanges
-	 *
-	 * @covers Stuart\SemverLib\VersionRangeParser::parse
-	 */
-	public function testCanParseVersionRanges($rangeExpr)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider getVersionRanges
+     *
+     * @covers Stuart\SemverLib\VersionRangeParser::parse
+     */
+    public function testCanParseVersionRanges($rangeExpr)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-		$parser = new VersionRangeParser();
-		$expectedParts = count(explode(",", $rangeExpr));
+        $parser = new VersionRangeParser();
+        $expectedParts = count(explode(",", $rangeExpr));
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$actualRange = $parser->parse($rangeExpr);
+        $actualRange = $parser->parse($rangeExpr);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue(is_array($actualRange));
-		$this->assertEquals($expectedParts, count($actualRange));
-	}
+        $this->assertTrue(is_array($actualRange));
+        $this->assertEquals($expectedParts, count($actualRange));
+    }
 
-	public function getVersionRanges()
-	{
-		$retval = [];
-		foreach ($this->getVersionRangesForMatching() as $dataset) {
-			$retval[] = [ $dataset[0] ];
-		}
+    public function getVersionRanges()
+    {
+        $retval = [];
+        foreach ($this->getVersionRangesForMatching() as $dataset) {
+            $retval[] = [ $dataset[0] ];
+        }
 
-		return $retval;
-	}
+        return $retval;
+    }
 
-	public function getVersionRangesForMatching()
-	{
-		return array_merge(
-			$this->getVersionRangesThatAlwaysMatch(),
-		    $this->getVersionRangesThatNeverMatch()
-		);
-	}
+    public function getVersionRangesForMatching()
+    {
+        return array_merge(
+            $this->getVersionRangesThatAlwaysMatch(),
+            $this->getVersionRangesThatNeverMatch()
+        );
+    }
 
 
-	public function getVersionRangesThatAlwaysMatch()
-	{
-		return [
-			[
-				">1.0,<2.0",
-				"1.0.1",
-				true
-			],
-			[
-				">1.0,<2.0",
-				"1.1.0",
-				true
-			],
-			[
-				">1.0,<2.0",
-				"2.0.0-alpha-1",
-				true
-			],
-			[
-				">1.0,<2.0,!1.5.6",
-				"1.5",
-				true
-			],
-			[
-				"~1.0,!1.5.6",
-				"1.5",
-				true
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"1.5",
-				true
-			],
-		];
-	}
+    public function getVersionRangesThatAlwaysMatch()
+    {
+        return [
+            [
+                ">1.0,<2.0",
+                "1.0.1",
+                true
+            ],
+            [
+                ">1.0,<2.0",
+                "1.1.0",
+                true
+            ],
+            [
+                ">1.0,<2.0",
+                "2.0.0-alpha-1",
+                true
+            ],
+            [
+                ">1.0,<2.0,!1.5.6",
+                "1.5",
+                true
+            ],
+            [
+                "~1.0,!1.5.6",
+                "1.5",
+                true
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "1.5",
+                true
+            ],
+        ];
+    }
 
-	public function getVersionRangesThatNeverMatch()
-	{
-		return [
-			[
-				">1.0,<2.0,!1.5.6",
-				"1.5.6",
-				false
-			],
-			[
-				"~1.4,!1.5.6",
-				"1.3.9",
-				false
-			],
-			[
-				"~1.4,!1.5.6",
-				"1.5.6",
-				false
-			],
-			[
-				"~1.0,!1.5.6",
-				"2.0.0-alpha-1",
-				false
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"1.4.8",
-				false
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"1.5.6",
-				false
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"2.0.0-alpha-1",
-				false
-			],
-		];
-	}
+    public function getVersionRangesThatNeverMatch()
+    {
+        return [
+            [
+                ">1.0,<2.0,!1.5.6",
+                "1.5.6",
+                false
+            ],
+            [
+                "~1.4,!1.5.6",
+                "1.3.9",
+                false
+            ],
+            [
+                "~1.4,!1.5.6",
+                "1.5.6",
+                false
+            ],
+            [
+                "~1.0,!1.5.6",
+                "2.0.0-alpha-1",
+                false
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "1.4.8",
+                false
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "1.5.6",
+                false
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "2.0.0-alpha-1",
+                false
+            ],
+        ];
+    }
 }

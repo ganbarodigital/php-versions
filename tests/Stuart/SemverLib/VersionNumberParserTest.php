@@ -47,108 +47,108 @@ use PHPUnit_Framework_TestCase;
 
 class VersionNumberParserTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @covers Stuart\SemverLib\VersionNumberParser::__construct
-	 */
-	public function testCanInstantiate()
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @covers Stuart\SemverLib\VersionNumberParser::__construct
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$parser = new VersionNumberParser();
+        $parser = new VersionNumberParser();
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($parser instanceof VersionNumberParser);
-	}
+        $this->assertTrue($parser instanceof VersionNumberParser);
+    }
 
-	/**
-	 * @dataProvider provideVersionStrings
-	 *
-	 * @covers Stuart\SemverLib\VersionNumberParser::parse
-	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
-	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoArray
-	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
-	 */
-	public function testCanParseVersionStrings($versionString, $expectedBreakdown)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideVersionStrings
+     *
+     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
+     * @covers Stuart\SemverLib\VersionNumberParser::parseIntoArray
+     * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
+     */
+    public function testCanParseVersionStrings($versionString, $expectedBreakdown)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $parser = new VersionNumberParser();
+        $parser = new VersionNumberParser();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $versionObj      = $parser->parse($versionString);
-	    $actualBreakdown = $parser->parseIntoArray($versionString);
+        $versionObj      = $parser->parse($versionString);
+        $actualBreakdown = $parser->parseIntoArray($versionString);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertEquals($expectedBreakdown, $actualBreakdown);
-	    $this->assertEquals($expectedBreakdown, $versionObj->__toArray());
-	}
+        $this->assertEquals($expectedBreakdown, $actualBreakdown);
+        $this->assertEquals($expectedBreakdown, $versionObj->__toArray());
+    }
 
-	public function provideVersionStrings()
-	{
-		return SemanticVersionDatasets::getVersionNumberDataset();
-	}
+    public function provideVersionStrings()
+    {
+        return SemanticVersionDatasets::getVersionNumberDataset();
+    }
 
-	/**
-	 * @dataProvider provideBadVersionStrings
-	 *
-	 * @covers Stuart\SemverLib\VersionNumberParser::parse
-	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
-	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
-	 * @covers Stuart\SemverLib\E4xx_NotAVersionString
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
-	 */
-	public function testRejectsDoublesEtAlAsVersionStrings($versionString)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideBadVersionStrings
+     *
+     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
+     * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
+     * @covers Stuart\SemverLib\E4xx_NotAVersionString
+     *
+     * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
+     */
+    public function testRejectsDoublesEtAlAsVersionStrings($versionString)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $parser = new VersionNumberParser();
+        $parser = new VersionNumberParser();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $parser->parse($versionString);
-	}
+        $parser->parse($versionString);
+    }
 
-	public function provideBadVersionStrings()
-	{
-		return SemanticVersionDatasets::getBadVersionStringDataset();
-	}
+    public function provideBadVersionStrings()
+    {
+        return SemanticVersionDatasets::getBadVersionStringDataset();
+    }
 
-	/**
-	 * @dataProvider provideBadVersionNumbers
-	 *
-	 * @covers Stuart\SemverLib\VersionNumberParser::parse
-	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
-	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
-	 * @covers Stuart\SemverLib\E4xx_BadVersionString
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_BadVersionString
-	 */
-	public function testRejectsUnparseableVersionStrings($versionString)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideBadVersionNumbers
+     *
+     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
+     * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
+     * @covers Stuart\SemverLib\E4xx_BadVersionString
+     *
+     * @expectedException Stuart\SemverLib\E4xx_BadVersionString
+     */
+    public function testRejectsUnparseableVersionStrings($versionString)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $parser = new VersionNumberParser();
+        $parser = new VersionNumberParser();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $parser->parse($versionString);
-	}
+        $parser->parse($versionString);
+    }
 
-	public function provideBadVersionNumbers()
-	{
-		return SemanticVersionDatasets::getBadVersionNumberDataset();
-	}
+    public function provideBadVersionNumbers()
+    {
+        return SemanticVersionDatasets::getBadVersionNumberDataset();
+    }
 }

@@ -47,429 +47,429 @@ use PHPUnit_Framework_TestCase;
 
 class VersionComparitorTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @covers Stuart\SemverLib\VersionComparitor::__construct
-	 */
-	public function testCanInstantiate()
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @covers Stuart\SemverLib\VersionComparitor::__construct
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$obj = new VersionComparitor();
+        $obj = new VersionComparitor();
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($obj instanceof VersionComparitor);
-	}
+        $this->assertTrue($obj instanceof VersionComparitor);
+    }
 
-	/**
-	 * @dataProvider provideVersionStrings
-	 *
-	 * @covers Stuart\SemverLib\VersionComparitor::compare
-	 * @covers Stuart\SemverLib\VersionComparitor::compareXYZ
-	 * @covers Stuart\SemverLib\VersionComparitor::comparePreRelease
-	 */
-	public function testCanCompareVersionStrings($a, $b, $expectedResult)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideVersionStrings
+     *
+     * @covers Stuart\SemverLib\VersionComparitor::compare
+     * @covers Stuart\SemverLib\VersionComparitor::compareXYZ
+     * @covers Stuart\SemverLib\VersionComparitor::comparePreRelease
+     */
+    public function testCanCompareVersionStrings($a, $b, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $obj = new VersionComparitor();
+        $obj = new VersionComparitor();
 
-	    $aVer = new SemanticVersion($a);
-	    $bVer = new SemanticVersion($b);
+        $aVer = new SemanticVersion($a);
+        $bVer = new SemanticVersion($b);
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $actualResult = $obj->compare($aVer, $bVer);
+        $actualResult = $obj->compare($aVer, $bVer);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertEquals($expectedResult, $actualResult);
-	}
+        $this->assertEquals($expectedResult, $actualResult);
+    }
 
-	public function provideVersionStrings()
-	{
-		return [
-			[
-				"1.0",
-				"1.0.0",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			[
-				"1.0",
-				"1.0.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.1",
-				"1.0",
-				VersionComparitor::A_IS_GREATER,
-			],
-			[
-				"1.0",
-				"1.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0",
-				"1.1.0",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.1.0",
-				"1.0.0",
-				VersionComparitor::A_IS_GREATER,
-			],
-			[
-				"1.0.0",
-				"1.0.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.1",
-				"1.0.0",
-				VersionComparitor::A_IS_GREATER,
-			],
-			[
-				"1.0.1-alpha",
-				"1.0.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.1",
-				"1.0.1-alpha",
-				VersionComparitor::A_IS_GREATER,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-alpha",
-				"1.0.0-alpha",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			[
-				"1.0.0-alpha",
-				"1.0.0-beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-beta",
-				"1.0.0-alpha",
-				VersionComparitor::A_IS_GREATER,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-alpha.1",
-				"1.0.0-alpha.1",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			[
-				"1.0.0-alpha.1",
-				"1.0.0-alpha.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha.2",
-				"1.0.0-alpha.1",
-				VersionComparitor::A_IS_GREATER,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-0.3.7",
-				"1.0.0-0.3.7",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-x.7.z.92",
-				"1.0.0-x.7.z.92",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-alpha+001",
-				"1.0.0-alpha+001",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0+20130313144700",
-				"1.0.0+20130313144700",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-beta+exp.sha.5114f85",
-				"1.0.0-beta+exp.sha.5114f85",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-alpha",
-				"1.0.0-alpha.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha",
-				"1.0.0-alpha.beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha",
-				"1.0.0-beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha",
-				"1.0.0-beta.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha",
-				"1.0.0-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha",
-				"1.0.0-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha",
-				"1.0.0",
-				VersionComparitor::A_IS_LESS,
-			],
+    public function provideVersionStrings()
+    {
+        return [
+            [
+                "1.0",
+                "1.0.0",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            [
+                "1.0",
+                "1.0.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.1",
+                "1.0",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            [
+                "1.0",
+                "1.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0",
+                "1.1.0",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.1.0",
+                "1.0.0",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            [
+                "1.0.0",
+                "1.0.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.1",
+                "1.0.0",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            [
+                "1.0.1-alpha",
+                "1.0.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.1",
+                "1.0.1-alpha",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0-alpha",
+                "1.0.0-alpha",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            [
+                "1.0.0-alpha",
+                "1.0.0-beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-beta",
+                "1.0.0-alpha",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0-alpha.1",
+                "1.0.0-alpha.1",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            [
+                "1.0.0-alpha.1",
+                "1.0.0-alpha.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha.2",
+                "1.0.0-alpha.1",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0-0.3.7",
+                "1.0.0-0.3.7",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0-x.7.z.92",
+                "1.0.0-x.7.z.92",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0-alpha+001",
+                "1.0.0-alpha+001",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0+20130313144700",
+                "1.0.0+20130313144700",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0-beta+exp.sha.5114f85",
+                "1.0.0-beta+exp.sha.5114f85",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            // example taken from semver.org
+            [
+                "1.0.0-alpha",
+                "1.0.0-alpha.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha",
+                "1.0.0-alpha.beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha",
+                "1.0.0-beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha",
+                "1.0.0-beta.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha",
+                "1.0.0-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha",
+                "1.0.0-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha",
+                "1.0.0",
+                VersionComparitor::A_IS_LESS,
+            ],
 
-			[
-				"1.0.0-alpha.1",
-				"1.0.0-beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha.1",
-				"1.0.0-beta.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha.1",
-				"1.0.0-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha.1",
-				"1.0.0-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-alpha.1",
-				"1.0.0",
-				VersionComparitor::A_IS_LESS,
-			],
+            [
+                "1.0.0-alpha.1",
+                "1.0.0-beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha.1",
+                "1.0.0-beta.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha.1",
+                "1.0.0-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha.1",
+                "1.0.0-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-alpha.1",
+                "1.0.0",
+                VersionComparitor::A_IS_LESS,
+            ],
 
-			[
-				"1.0.0-beta",
-				"1.0.0-beta.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-beta",
-				"1.0.0-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-beta",
-				"1.0.0-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-beta",
-				"1.0.0",
-				VersionComparitor::A_IS_LESS,
-			],
+            [
+                "1.0.0-beta",
+                "1.0.0-beta.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-beta",
+                "1.0.0-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-beta",
+                "1.0.0-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-beta",
+                "1.0.0",
+                VersionComparitor::A_IS_LESS,
+            ],
 
-			[
-				"1.0.0-beta.2",
-				"1.0.0-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-beta.2",
-				"1.0.0-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-beta.2",
-				"1.0.0",
-				VersionComparitor::A_IS_LESS,
-			],
+            [
+                "1.0.0-beta.2",
+                "1.0.0-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-beta.2",
+                "1.0.0-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-beta.2",
+                "1.0.0",
+                VersionComparitor::A_IS_LESS,
+            ],
 
-			[
-				"1.0.0-beta.11",
-				"1.0.0-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.0.0-beta.11",
-				"1.0.0",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-alpha",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-beta",
-				"1.2.3-alpha",
-				VersionComparitor::A_IS_GREATER,
-			],
-			// example taken from semver.org
-			[
-				"1.2.3-alpha.1",
-				"1.2.3-alpha.1",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			[
-				"1.2.3-alpha.1",
-				"1.2.3-alpha.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha.2",
-				"1.2.3-alpha.1",
-				VersionComparitor::A_IS_GREATER,
-			],
-			// example taken from semver.org
-			[
-				"1.2.3-0.3.7",
-				"1.2.3-0.3.7",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			// example taken from semver.org
-			[
-				"1.2.3-x.7.z.92",
-				"1.2.3-x.7.z.92",
-				VersionComparitor::BOTH_ARE_EQUAL,
-			],
-			// example taken from semver.org
-			[
-				"1.2.3-alpha",
-				"1.2.3-alpha.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-alpha.beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-beta.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha.1",
-				"1.2.3-beta",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha.1",
-				"1.2.3-beta.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha.1",
-				"1.2.3-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha.1",
-				"1.2.3-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-beta",
-				"1.2.3-beta.2",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-beta",
-				"1.2.3-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-beta",
-				"1.2.3-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-beta.2",
-				"1.2.3-beta.11",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-beta.2",
-				"1.2.3-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-beta.11",
-				"1.2.3-rc.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3",
-				"2.0.0",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"2.0.0",
-				"1.0.0",
-				VersionComparitor::A_IS_GREATER,
-			],
-			[
-				"1.2.3-alpha-1.0",
-				"1.2.3-alpha-1.0.1",
-				VersionComparitor::A_IS_LESS,
-			],
-			[
-				"1.2.3-alpha-1.0.1",
-				"1.2.3-alpha-1.0",
-				VersionComparitor::A_IS_GREATER,
-			],
-			[
-				"1.2.3-alpha",
-				"1.2.3-1.1.1",
-				VersionComparitor::A_IS_GREATER,
-			],
-			[
-				"1.2.3-1.1.1",
-				"1.2.3-alpha",
-				VersionComparitor::A_IS_LESS,
-			],
-		];
-	}
+            [
+                "1.0.0-beta.11",
+                "1.0.0-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.0.0-beta.11",
+                "1.0.0",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-alpha",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-beta",
+                "1.2.3-alpha",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            // example taken from semver.org
+            [
+                "1.2.3-alpha.1",
+                "1.2.3-alpha.1",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            [
+                "1.2.3-alpha.1",
+                "1.2.3-alpha.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha.2",
+                "1.2.3-alpha.1",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            // example taken from semver.org
+            [
+                "1.2.3-0.3.7",
+                "1.2.3-0.3.7",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            // example taken from semver.org
+            [
+                "1.2.3-x.7.z.92",
+                "1.2.3-x.7.z.92",
+                VersionComparitor::BOTH_ARE_EQUAL,
+            ],
+            // example taken from semver.org
+            [
+                "1.2.3-alpha",
+                "1.2.3-alpha.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-alpha.beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-beta.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha.1",
+                "1.2.3-beta",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha.1",
+                "1.2.3-beta.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha.1",
+                "1.2.3-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha.1",
+                "1.2.3-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-beta",
+                "1.2.3-beta.2",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-beta",
+                "1.2.3-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-beta",
+                "1.2.3-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-beta.2",
+                "1.2.3-beta.11",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-beta.2",
+                "1.2.3-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-beta.11",
+                "1.2.3-rc.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3",
+                "2.0.0",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "2.0.0",
+                "1.0.0",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            [
+                "1.2.3-alpha-1.0",
+                "1.2.3-alpha-1.0.1",
+                VersionComparitor::A_IS_LESS,
+            ],
+            [
+                "1.2.3-alpha-1.0.1",
+                "1.2.3-alpha-1.0",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            [
+                "1.2.3-alpha",
+                "1.2.3-1.1.1",
+                VersionComparitor::A_IS_GREATER,
+            ],
+            [
+                "1.2.3-1.1.1",
+                "1.2.3-alpha",
+                VersionComparitor::A_IS_LESS,
+            ],
+        ];
+    }
 }

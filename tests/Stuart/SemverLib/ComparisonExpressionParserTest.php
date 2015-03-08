@@ -47,101 +47,101 @@ use PHPUnit_Framework_TestCase;
 
 class ComparisonExpressionParserTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @covers Stuart\SemverLib\ComparisonExpressionParser::__construct
-	 */
-	public function testCanInstantiate()
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @covers Stuart\SemverLib\ComparisonExpressionParser::__construct
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$obj = new ComparisonExpressionParser();
+        $obj = new ComparisonExpressionParser();
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($obj instanceof ComparisonExpressionParser);
-	}
+        $this->assertTrue($obj instanceof ComparisonExpressionParser);
+    }
 
-	/**
-	 * @dataProvider provideExpressionToEvaluate
-	 *
-	 * @covers Stuart\SemverLib\ComparisonExpressionParser::parse
-	 */
-	public function testCanParseValidExpressions($expression)
-	{
-		// ----------------------------------------------------------------
-		// setup the test
+    /**
+     * @dataProvider provideExpressionToEvaluate
+     *
+     * @covers Stuart\SemverLib\ComparisonExpressionParser::parse
+     */
+    public function testCanParseValidExpressions($expression)
+    {
+        // ----------------------------------------------------------------
+        // setup the test
 
-		$parser = new ComparisonExpressionParser();
+        $parser = new ComparisonExpressionParser();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$actualExpression = $parser->parse($expression);
+        $actualExpression = $parser->parse($expression);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($actualExpression instanceof ComparisonExpression);
-		$this->assertNotNull($actualExpression->getOperator());
-		$this->assertNotNull($actualExpression->getVersion());
-	}
+        $this->assertTrue($actualExpression instanceof ComparisonExpression);
+        $this->assertNotNull($actualExpression->getOperator());
+        $this->assertNotNull($actualExpression->getVersion());
+    }
 
-	/**
-	 * @dataProvider provideBadExpressionToEvaluate
-	 *
-	 * @covers Stuart\SemverLib\ComparisonExpressionParser::parse
-	 * @covers Stuart\SemverLib\E4xx_NotAComparisonExpression::__construct
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_NotAComparisonExpression
-	 */
-	public function testRejectsBadDataTypes($expression)
-	{
-		// ----------------------------------------------------------------
-		// setup the test
+    /**
+     * @dataProvider provideBadExpressionToEvaluate
+     *
+     * @covers Stuart\SemverLib\ComparisonExpressionParser::parse
+     * @covers Stuart\SemverLib\E4xx_NotAComparisonExpression::__construct
+     *
+     * @expectedException Stuart\SemverLib\E4xx_NotAComparisonExpression
+     */
+    public function testRejectsBadDataTypes($expression)
+    {
+        // ----------------------------------------------------------------
+        // setup the test
 
-		$parser = new ComparisonExpressionParser();
+        $parser = new ComparisonExpressionParser();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$parser->parse($expression);
-	}
+        $parser->parse($expression);
+    }
 
-	/**
-	 * @dataProvider provideInvalidExpressionToEvaluate
-	 *
-	 * @covers Stuart\SemverLib\ComparisonExpressionParser::parse
-	 * @covers Stuart\SemverLib\E4xx_UnsupportedComparisonExpression::__construct
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_UnsupportedComparisonExpression
-	 */
-	public function testRejectsUnparseableExpressions($expression)
-	{
-		// ----------------------------------------------------------------
-		// setup the test
+    /**
+     * @dataProvider provideInvalidExpressionToEvaluate
+     *
+     * @covers Stuart\SemverLib\ComparisonExpressionParser::parse
+     * @covers Stuart\SemverLib\E4xx_UnsupportedComparisonExpression::__construct
+     *
+     * @expectedException Stuart\SemverLib\E4xx_UnsupportedComparisonExpression
+     */
+    public function testRejectsUnparseableExpressions($expression)
+    {
+        // ----------------------------------------------------------------
+        // setup the test
 
-		$parser = new ComparisonExpressionParser();
+        $parser = new ComparisonExpressionParser();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$parser->parse($expression);
-	}
+        $parser->parse($expression);
+    }
 
-	public function provideExpressionToEvaluate()
-	{
-		return ComparisonExpressionDatasets::getValidExpressionsToEvaluate();
-	}
+    public function provideExpressionToEvaluate()
+    {
+        return ComparisonExpressionDatasets::getValidExpressionsToEvaluate();
+    }
 
-	public function provideBadExpressionToEvaluate()
-	{
-		return ComparisonExpressionDatasets::getBadExpressionsToEvaluate();
-	}
+    public function provideBadExpressionToEvaluate()
+    {
+        return ComparisonExpressionDatasets::getBadExpressionsToEvaluate();
+    }
 
-	public function provideInvalidExpressionToEvaluate()
-	{
-		return ComparisonExpressionDatasets::getInvalidExpressionsToEvaluate();
-	}
+    public function provideInvalidExpressionToEvaluate()
+    {
+        return ComparisonExpressionDatasets::getInvalidExpressionsToEvaluate();
+    }
 }

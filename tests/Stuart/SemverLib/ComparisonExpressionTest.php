@@ -47,203 +47,203 @@ use PHPUnit_Framework_TestCase;
 
 class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @covers Stuart\SemverLib\ComparisonExpression::__construct
-	 * @covers Stuart\SemverLib\ComparisonExpression::__toString
-	 */
-	public function testCanInstantiate()
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @covers Stuart\SemverLib\ComparisonExpression::__construct
+     * @covers Stuart\SemverLib\ComparisonExpression::__toString
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$obj = new ComparisonExpression();
+        $obj = new ComparisonExpression();
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($obj instanceof ComparisonExpression);
-		$this->assertEquals(ComparisonExpression::EMPTY_EXPRESSION, (string)$obj);
-	}
+        $this->assertTrue($obj instanceof ComparisonExpression);
+        $this->assertEquals(ComparisonExpression::EMPTY_EXPRESSION, (string)$obj);
+    }
 
-	/**
-	 * @covers Stuart\SemverLib\ComparisonExpression::__construct
-	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::getVersion
-	 * @covers Stuart\SemverLib\ComparisonExpression::setVersion
-	 */
-	public function testCanInstantiateWithOperatorAndVersion()
-	{
-		// ----------------------------------------------------------------
-		// setup the test
+    /**
+     * @covers Stuart\SemverLib\ComparisonExpression::__construct
+     * @covers Stuart\SemverLib\ComparisonExpression::getOperator
+     * @covers Stuart\SemverLib\ComparisonExpression::setOperator
+     * @covers Stuart\SemverLib\ComparisonExpression::getVersion
+     * @covers Stuart\SemverLib\ComparisonExpression::setVersion
+     */
+    public function testCanInstantiateWithOperatorAndVersion()
+    {
+        // ----------------------------------------------------------------
+        // setup the test
 
-		$expectedOperator = '=';
-		$expectedVersion  = '1.2.3';
+        $expectedOperator = '=';
+        $expectedVersion  = '1.2.3';
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$obj = new ComparisonExpression($expectedOperator, $expectedVersion);
+        $obj = new ComparisonExpression($expectedOperator, $expectedVersion);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$actualOperator = $obj->getOperator();
-		$actualVersion  = $obj->getVersion();
+        $actualOperator = $obj->getOperator();
+        $actualVersion  = $obj->getVersion();
 
-		$this->assertEquals($expectedOperator, $actualOperator);
-		$this->assertEquals($expectedVersion,  (string)$actualVersion);
-	}
+        $this->assertEquals($expectedOperator, $actualOperator);
+        $this->assertEquals($expectedVersion,  (string)$actualVersion);
+    }
 
-	/**
-	 * @dataProvider provideAllValidOperators
-	 *
-	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
-	 */
-	public function testSupportsAllValidOperators($operator)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideAllValidOperators
+     *
+     * @covers Stuart\SemverLib\ComparisonExpression::getOperator
+     * @covers Stuart\SemverLib\ComparisonExpression::setOperator
+     */
+    public function testSupportsAllValidOperators($operator)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $obj = new ComparisonExpression();
+        $obj = new ComparisonExpression();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
-	    //
-	    // if we attempt to set an invalid operator, an exception is thrown
+        // ----------------------------------------------------------------
+        // perform the change
+        //
+        // if we attempt to set an invalid operator, an exception is thrown
 
-		$obj->setOperator($operator);
+        $obj->setOperator($operator);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertEquals($operator, $obj->getOperator());
-	}
+        $this->assertEquals($operator, $obj->getOperator());
+    }
 
-	public function provideAllValidOperators()
-	{
-		$retval = [];
-		foreach (ComparisonOperators::getOperators() as $operator) {
-			$retval[] = [ $operator ];
-		}
-		return $retval;
-	}
+    public function provideAllValidOperators()
+    {
+        $retval = [];
+        foreach (ComparisonOperators::getOperators() as $operator) {
+            $retval[] = [ $operator ];
+        }
+        return $retval;
+    }
 
-	/**
-	 * @dataProvider provideInvalidOperators
-	 *
-	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
-	 * @covers Stuart\SemverLib\E4xx_UnknownOperator
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_UnknownOperator
-	 */
-	public function testRejectsInvalidOperators($operator)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideInvalidOperators
+     *
+     * @covers Stuart\SemverLib\ComparisonExpression::getOperator
+     * @covers Stuart\SemverLib\ComparisonExpression::setOperator
+     * @covers Stuart\SemverLib\E4xx_UnknownOperator
+     *
+     * @expectedException Stuart\SemverLib\E4xx_UnknownOperator
+     */
+    public function testRejectsInvalidOperators($operator)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $obj = new ComparisonExpression();
+        $obj = new ComparisonExpression();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
-	    //
-	    // if we attempt to set an invalid operator, an exception is thrown
+        // ----------------------------------------------------------------
+        // perform the change
+        //
+        // if we attempt to set an invalid operator, an exception is thrown
 
-		$obj->setOperator($operator);
-	}
+        $obj->setOperator($operator);
+    }
 
-	public function provideInvalidOperators()
-	{
-		return ComparisonExpressionDatasets::getInvalidOperators();
-	}
+    public function provideInvalidOperators()
+    {
+        return ComparisonExpressionDatasets::getInvalidOperators();
+    }
 
-	/**
-	 * @covers Stuart\SemverLib\ComparisonExpression::getVersion
-	 */
-	public function testCanGetVersion()
-	{
-		// ----------------------------------------------------------------
-		// setup the test
+    /**
+     * @covers Stuart\SemverLib\ComparisonExpression::getVersion
+     */
+    public function testCanGetVersion()
+    {
+        // ----------------------------------------------------------------
+        // setup the test
 
-		$expectedOperator = '=';
-		$expectedVersion  = '1.2.3';
+        $expectedOperator = '=';
+        $expectedVersion  = '1.2.3';
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$obj = new ComparisonExpression($expectedOperator, $expectedVersion);
+        $obj = new ComparisonExpression($expectedOperator, $expectedVersion);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$actualOperator = $obj->getOperator();
-		$actualVersion  = $obj->getVersion();
+        $actualOperator = $obj->getOperator();
+        $actualVersion  = $obj->getVersion();
 
-		$this->assertEquals($expectedOperator, $actualOperator);
-		$this->assertEquals($expectedVersion,  (string)$actualVersion);
-	}
+        $this->assertEquals($expectedOperator, $actualOperator);
+        $this->assertEquals($expectedVersion,  (string)$actualVersion);
+    }
 
-	/**
-	 * @covers Stuart\SemverLib\ComparisonExpression::__construct
-	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::getVersion
-	 * @covers Stuart\SemverLib\ComparisonExpression::setVersion
-	 */
-	public function testCanGetVersionAsObject()
-	{
-		// ----------------------------------------------------------------
-		// setup the test
+    /**
+     * @covers Stuart\SemverLib\ComparisonExpression::__construct
+     * @covers Stuart\SemverLib\ComparisonExpression::getOperator
+     * @covers Stuart\SemverLib\ComparisonExpression::setOperator
+     * @covers Stuart\SemverLib\ComparisonExpression::getVersion
+     * @covers Stuart\SemverLib\ComparisonExpression::setVersion
+     */
+    public function testCanGetVersionAsObject()
+    {
+        // ----------------------------------------------------------------
+        // setup the test
 
-		$expectedOperator = '=';
-		$expectedVersion  = new SemanticVersion('1.2.3');
+        $expectedOperator = '=';
+        $expectedVersion  = new SemanticVersion('1.2.3');
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$obj = new ComparisonExpression($expectedOperator, (string)$expectedVersion);
+        $obj = new ComparisonExpression($expectedOperator, (string)$expectedVersion);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$actualOperator = $obj->getOperator();
-		$actualVersion  = $obj->getVersion();
+        $actualOperator = $obj->getOperator();
+        $actualVersion  = $obj->getVersion();
 
-		$this->assertEquals($expectedOperator, $actualOperator);
-		$this->assertEquals($expectedVersion,  $actualVersion);
-	}
+        $this->assertEquals($expectedOperator, $actualOperator);
+        $this->assertEquals($expectedVersion,  $actualVersion);
+    }
 
-	/**
-	 * @dataProvider provideExpressionToEvaluate
-	 *
-	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersion
-	 * @covers Stuart\SemverLib\ComparisonExpression::__toString()
-	 */
-	public function testCanEvaluateExpression($op, $exprVersion, $cmpVersion, $expectedResult)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideExpressionToEvaluate
+     *
+     * @covers Stuart\SemverLib\ComparisonExpression::matchesVersion
+     * @covers Stuart\SemverLib\ComparisonExpression::__toString()
+     */
+    public function testCanEvaluateExpression($op, $exprVersion, $cmpVersion, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $obj = new ComparisonExpression($op, $exprVersion);
-	    $expectedExpr = $op . ' ' . $exprVersion;
+        $obj = new ComparisonExpression($op, $exprVersion);
+        $expectedExpr = $op . ' ' . $exprVersion;
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $actualResult = $obj->matchesVersion($cmpVersion);
-	    $actualExpr   = (string)$obj;
+        $actualResult = $obj->matchesVersion($cmpVersion);
+        $actualExpr   = (string)$obj;
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertEquals($expectedResult, $actualResult);
-	    $this->assertEquals($expectedExpr, $actualExpr);
-	}
+        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertEquals($expectedExpr, $actualExpr);
+    }
 
-	public function provideExpressionToEvaluate()
-	{
-		return ComparisonExpressionDatasets::getExpressionsToEvaluateWithVersionsToMatch();
-	}
+    public function provideExpressionToEvaluate()
+    {
+        return ComparisonExpressionDatasets::getExpressionsToEvaluateWithVersionsToMatch();
+    }
 }

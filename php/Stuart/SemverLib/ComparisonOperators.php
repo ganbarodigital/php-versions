@@ -48,77 +48,77 @@ namespace Stuart\SemverLib;
  */
 class ComparisonOperators
 {
-	/**
-	 * a map of operators to their internal names
-	 *
-	 * we can use the internal names to build method names from :)
-	 */
-	static protected $operators = [
-		// we want an exact match
-		"=" => "equals",
+    /**
+     * a map of operators to their internal names
+     *
+     * we can use the internal names to build method names from :)
+     */
+    static protected $operators = [
+        // we want an exact match
+        "=" => "equals",
 
-		// this or anything newer
-		">=" => "isGreaterThanOrEqualTo",
+        // this or anything newer
+        ">=" => "isGreaterThanOrEqualTo",
 
-		// anything newer
-		">" => "isGreaterThan",
+        // anything newer
+        ">" => "isGreaterThan",
 
-		// this or anything older
-		"<=" => "isLessThanOrEqualTo",
+        // this or anything older
+        "<=" => "isLessThanOrEqualTo",
 
-		// we only want anything older
-		"<" => "isLessThan",
+        // we only want anything older
+        "<" => "isLessThan",
 
-		// for ~X, means >= X.0.0, < X+1.0.0
-		// for ~X.Y means >= X.Y.0, < X+1.0.0
-		//
-		// we treat X+1.0.0-preRelease as not matching
-		//
-		// and so on
-		"~" => "isApproximately",
+        // for ~X, means >= X.0.0, < X+1.0.0
+        // for ~X.Y means >= X.Y.0, < X+1.0.0
+        //
+        // we treat X+1.0.0-preRelease as not matching
+        //
+        // and so on
+        "~" => "isApproximately",
 
-		// same as >= X.Y.Z, < X+1.0.0
-		//
-		// we treat X+1.0.0-preRelease as not matching
-		"^" => "isCompatible",
+        // same as >= X.Y.Z, < X+1.0.0
+        //
+        // we treat X+1.0.0-preRelease as not matching
+        "^" => "isCompatible",
 
-		// we never want this version
-		"!" => "isNotBlacklisted"
-	];
+        // we never want this version
+        "!" => "isNotBlacklisted"
+    ];
 
-	/**
-	 * turn an operator into its official name
-	 *
-	 * @throws Stuart\SemverLib\E4xx_UnknownOperator
-	 *
-	 * @param  string $operator
-	 * @return string
-	 */
-	public static function getOperatorName($operator)
-	{
-		if (!self::isValidOperator($operator)) {
-			throw new E4xx_UnknownOperator($operator);
-		}
+    /**
+     * turn an operator into its official name
+     *
+     * @throws Stuart\SemverLib\E4xx_UnknownOperator
+     *
+     * @param  string $operator
+     * @return string
+     */
+    public static function getOperatorName($operator)
+    {
+        if (!self::isValidOperator($operator)) {
+            throw new E4xx_UnknownOperator($operator);
+        }
 
-		return self::$operators[$operator];
-	}
+        return self::$operators[$operator];
+    }
 
-	/**
-	 * get a list of supported operators
-	 *
-	 * @return array<string>
-	 */
-	public static function getOperators()
-	{
-		return array_keys(self::$operators);
-	}
+    /**
+     * get a list of supported operators
+     *
+     * @return array<string>
+     */
+    public static function getOperators()
+    {
+        return array_keys(self::$operators);
+    }
 
-	public static function isValidOperator($operator)
-	{
-		if (!isset(self::$operators[$operator])) {
-			return false;
-		}
+    public static function isValidOperator($operator)
+    {
+        if (!isset(self::$operators[$operator])) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

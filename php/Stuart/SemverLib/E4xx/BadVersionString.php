@@ -45,8 +45,8 @@ namespace Stuart\SemverLib;
 
 class E4xx_BadVersionString extends E4xx_SemverException
 {
-	public function __construct($versionString)
-	{
-		parent::__construct("Cannot parse version '{$versionString}'", 400);
-	}
+    public function __construct($versionString)
+    {
+        parent::__construct("Cannot parse version '{$versionString}'", 400);
+    }
 }

@@ -47,115 +47,115 @@ use PHPUnit_Framework_TestCase;
 
 class EnsureVersionNumberTest extends PHPUnit_Framework_TestCase
 {
-	public function getMethodToTest()
-	{
-		$obj = $this->getObjectForTrait('Stuart\SemverLib\EnsureVersionNumber');
+    public function getMethodToTest()
+    {
+        $obj = $this->getObjectForTrait('Stuart\SemverLib\EnsureVersionNumber');
 
-		$reflection = new \ReflectionClass(get_class($obj));
-	    $method = $reflection->getMethod("ensureVersionNumber");
-    	$method->setAccessible(true);
+        $reflection = new \ReflectionClass(get_class($obj));
+        $method = $reflection->getMethod("ensureVersionNumber");
+        $method->setAccessible(true);
 
-    	return [$obj, $method];
+        return [$obj, $method];
     }
 
-	/**
-	 * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
-	 */
-	public function testAcceptStringsAsInput()
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+     */
+    public function testAcceptStringsAsInput()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-		// this is necessary to let us call a protected method
-	    list($obj, $method) = $this->getMethodToTest();
+        // this is necessary to let us call a protected method
+        list($obj, $method) = $this->getMethodToTest();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $version = $method->invokeArgs($obj, ["1.0.0"]);
+        $version = $method->invokeArgs($obj, ["1.0.0"]);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertTrue($version instanceof VersionNumber);
-	}
+        $this->assertTrue($version instanceof VersionNumber);
+    }
 
-	/**
-	 * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
-	 */
-	public function testAcceptSemanticVersionAsInput()
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+     */
+    public function testAcceptSemanticVersionAsInput()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-		// this is necessary to let us call a protected method
-	    list($obj, $method) = $this->getMethodToTest();
+        // this is necessary to let us call a protected method
+        list($obj, $method) = $this->getMethodToTest();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $version = $method->invokeArgs($obj, [new SemanticVersion("1.0.0")]);
+        $version = $method->invokeArgs($obj, [new SemanticVersion("1.0.0")]);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertTrue($version instanceof SemanticVersion);
-	}
+        $this->assertTrue($version instanceof SemanticVersion);
+    }
 
-	/**
-	 * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
-	 */
-	public function testAcceptsHashedVersionAsInput()
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+     */
+    public function testAcceptsHashedVersionAsInput()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-		// this is necessary to let us call a protected method
-	    list($obj, $method) = $this->getMethodToTest();
+        // this is necessary to let us call a protected method
+        list($obj, $method) = $this->getMethodToTest();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $version = $method->invokeArgs($obj, [new HashedVersion("081ff6f2ac347e8f9cae518f28150c1b6c26386e")]);
+        $version = $method->invokeArgs($obj, [new HashedVersion("081ff6f2ac347e8f9cae518f28150c1b6c26386e")]);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertTrue($version instanceof HashedVersion);
-	}
+        $this->assertTrue($version instanceof HashedVersion);
+    }
 
-	/**
-	 * @dataProvider provideInvalidInputs
-	 *
-	 * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
-	 * @covers Stuart\SemverLib\E4xx_NotAVersionNumber
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_NotAVersionNumber
-	 */
-	public function testRejectsDoublesEtAlAsInput($input)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider provideInvalidInputs
+     *
+     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+     * @covers Stuart\SemverLib\E4xx_NotAVersionNumber
+     *
+     * @expectedException Stuart\SemverLib\E4xx_NotAVersionNumber
+     */
+    public function testRejectsDoublesEtAlAsInput($input)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-		// this is necessary to let us call a protected method
-	    list($obj, $method) = $this->getMethodToTest();
+        // this is necessary to let us call a protected method
+        list($obj, $method) = $this->getMethodToTest();
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $version = $method->invokeArgs($obj, [$input]);
-	}
+        $version = $method->invokeArgs($obj, [$input]);
+    }
 
-	public function provideInvalidInputs()
-	{
-		return [
-			[ null ],
-			[ true ],
-			[ false ],
-			[ [ "hello" ] ],
-			[ 3.1415927 ],
-			[ 1 ],
-			[ (object)[ "attribute1" => "hello world!"] ]
-		];
-	}
+    public function provideInvalidInputs()
+    {
+        return [
+            [ null ],
+            [ true ],
+            [ false ],
+            [ [ "hello" ] ],
+            [ 3.1415927 ],
+            [ 1 ],
+            [ (object)[ "attribute1" => "hello world!"] ]
+        ];
+    }
 }

@@ -48,33 +48,33 @@ namespace Stuart\SemverLib;
  */
 trait EnsureSemanticVersion
 {
-	/**
-	 * if $input is a string, convert it to a SemanticVersion object
-	 *
-	 * @param  VersionNumber|string $input
-	 *         the version number that we may need to convert
-	 * @return SemanticVersion
-	 */
-	protected function ensureSemanticVersion($input)
-	{
-		// do we need to do anything at all?
-		if ($input instanceof SemanticVersion) {
-			// no, we do not
-			return $input;
-		}
+    /**
+     * if $input is a string, convert it to a SemanticVersion object
+     *
+     * @param  VersionNumber|string $input
+     *         the version number that we may need to convert
+     * @return SemanticVersion
+     */
+    protected function ensureSemanticVersion($input)
+    {
+        // do we need to do anything at all?
+        if ($input instanceof SemanticVersion) {
+            // no, we do not
+            return $input;
+        }
 
-		// have we been given a different version number?
-		if ($input instanceof VersionNumber) {
-			// we can't accept these
-			throw new E4xx_UnsupportedVersionNumber($input, 'SemanticVersion');
-		}
+        // have we been given a different version number?
+        if ($input instanceof VersionNumber) {
+            // we can't accept these
+            throw new E4xx_UnsupportedVersionNumber($input, 'SemanticVersion');
+        }
 
-		// deal with any other surprises
-		if (!is_string($input)) {
-			throw new E4xx_NotAVersionNumber($input);
-		}
+        // deal with any other surprises
+        if (!is_string($input)) {
+            throw new E4xx_NotAVersionNumber($input);
+        }
 
-		// convert and return
-		return new SemanticVersion($input);
-	}
+        // convert and return
+        return new SemanticVersion($input);
+    }
 }

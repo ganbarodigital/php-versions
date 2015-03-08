@@ -47,182 +47,182 @@ use PHPUnit_Framework_TestCase;
 
 class VersionRangeTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @covers Stuart\SemverLib\VersionRange::__construct
-	 */
-	public function testCanInstantiateWithNoParameters()
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @covers Stuart\SemverLib\VersionRange::__construct
+     */
+    public function testCanInstantiateWithNoParameters()
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$parser = new VersionRange();
+        $parser = new VersionRange();
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($parser instanceof VersionRange);
-	}
+        $this->assertTrue($parser instanceof VersionRange);
+    }
 
-	/**
-	 * @dataProvider getVersionRanges
-	 *
-	 * @covers Stuart\SemverLib\VersionRange::__construct
-	 * @covers Stuart\SemverLib\VersionRange::parse
-	 */
-	public function testCanInstantiateWithRange($expectedRange)
-	{
-	    // ----------------------------------------------------------------
-	    // perform the change
+    /**
+     * @dataProvider getVersionRanges
+     *
+     * @covers Stuart\SemverLib\VersionRange::__construct
+     * @covers Stuart\SemverLib\VersionRange::parse
+     */
+    public function testCanInstantiateWithRange($expectedRange)
+    {
+        // ----------------------------------------------------------------
+        // perform the change
 
-		$range = new VersionRange($expectedRange);
+        $range = new VersionRange($expectedRange);
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-		$this->assertTrue($range instanceof VersionRange);
-	}
+        $this->assertTrue($range instanceof VersionRange);
+    }
 
-	/**
-	 * @dataProvider getVersionRangesForMatching
-	 *
-	 * @covers Stuart\SemverLib\VersionRange::matchesVersion
-	 * @covers Stuart\SemverLib\VersionRange::ensureMatchesVersion
-	 */
-	public function testCanMatchVersionRanges($range, $version, $expectedResult)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider getVersionRangesForMatching
+     *
+     * @covers Stuart\SemverLib\VersionRange::matchesVersion
+     * @covers Stuart\SemverLib\VersionRange::ensureMatchesVersion
+     */
+    public function testCanMatchVersionRanges($range, $version, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $range = new VersionRange($range);
+        $range = new VersionRange($range);
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $actualResult = $range->matchesVersion($version);
-	    if ($expectedResult) {
-	    	$range->ensureMatchesVersion($version);
-	    }
+        $actualResult = $range->matchesVersion($version);
+        if ($expectedResult) {
+            $range->ensureMatchesVersion($version);
+        }
 
-	    // ----------------------------------------------------------------
-	    // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-	    $this->assertEquals($expectedResult, $actualResult);
-	}
+        $this->assertEquals($expectedResult, $actualResult);
+    }
 
-	/**
-	 * @dataProvider getVersionRangesThatNeverMatch
-	 *
-	 * @covers Stuart\SemverLib\VersionRange::ensureMatchesVersion
-	 * @covers Stuart\SemverLib\E4xx_VersionDoesNotMatchRange
-	 *
-	 * @expectedException Stuart\SemverLib\E4xx_VersionDoesNotMatchRange
-	 */
-	public function testCanEnsureVersionRangeIsMatched($range, $version)
-	{
-	    // ----------------------------------------------------------------
-	    // setup your test
+    /**
+     * @dataProvider getVersionRangesThatNeverMatch
+     *
+     * @covers Stuart\SemverLib\VersionRange::ensureMatchesVersion
+     * @covers Stuart\SemverLib\E4xx_VersionDoesNotMatchRange
+     *
+     * @expectedException Stuart\SemverLib\E4xx_VersionDoesNotMatchRange
+     */
+    public function testCanEnsureVersionRangeIsMatched($range, $version)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-	    $range = new VersionRange($range);
+        $range = new VersionRange($range);
 
-	    // ----------------------------------------------------------------
-	    // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-	    $range->ensureMatchesVersion($version);
-	}
+        $range->ensureMatchesVersion($version);
+    }
 
-	public function getVersionRanges()
-	{
-		$retval = [];
-		foreach ($this->getVersionRangesForMatching() as $dataset) {
-			$retval[] = [ $dataset[0] ];
-		}
+    public function getVersionRanges()
+    {
+        $retval = [];
+        foreach ($this->getVersionRangesForMatching() as $dataset) {
+            $retval[] = [ $dataset[0] ];
+        }
 
-		return $retval;
-	}
+        return $retval;
+    }
 
-	public function getVersionRangesForMatching()
-	{
-		return array_merge(
-			$this->getVersionRangesThatAlwaysMatch(),
-		    $this->getVersionRangesThatNeverMatch()
-		);
-	}
+    public function getVersionRangesForMatching()
+    {
+        return array_merge(
+            $this->getVersionRangesThatAlwaysMatch(),
+            $this->getVersionRangesThatNeverMatch()
+        );
+    }
 
 
-	public function getVersionRangesThatAlwaysMatch()
-	{
-		return [
-			[
-				">1.0,<2.0",
-				"1.0.1",
-				true
-			],
-			[
-				">1.0,<2.0",
-				"1.1.0",
-				true
-			],
-			[
-				">1.0,<2.0",
-				"2.0.0-alpha-1",
-				true
-			],
-			[
-				">1.0,<2.0,!1.5.6",
-				"1.5",
-				true
-			],
-			[
-				"~1.0,!1.5.6",
-				"1.5",
-				true
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"1.5",
-				true
-			],
-		];
-	}
+    public function getVersionRangesThatAlwaysMatch()
+    {
+        return [
+            [
+                ">1.0,<2.0",
+                "1.0.1",
+                true
+            ],
+            [
+                ">1.0,<2.0",
+                "1.1.0",
+                true
+            ],
+            [
+                ">1.0,<2.0",
+                "2.0.0-alpha-1",
+                true
+            ],
+            [
+                ">1.0,<2.0,!1.5.6",
+                "1.5",
+                true
+            ],
+            [
+                "~1.0,!1.5.6",
+                "1.5",
+                true
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "1.5",
+                true
+            ],
+        ];
+    }
 
-	public function getVersionRangesThatNeverMatch()
-	{
-		return [
-			[
-				">1.0,<2.0,!1.5.6",
-				"1.5.6",
-				false
-			],
-			[
-				"~1.4,!1.5.6",
-				"1.3.9",
-				false
-			],
-			[
-				"~1.4,!1.5.6",
-				"1.5.6",
-				false
-			],
-			[
-				"~1.0,!1.5.6",
-				"2.0.0-alpha-1",
-				false
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"1.4.8",
-				false
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"1.5.6",
-				false
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"2.0.0-alpha-1",
-				false
-			],
-		];
-	}
+    public function getVersionRangesThatNeverMatch()
+    {
+        return [
+            [
+                ">1.0,<2.0,!1.5.6",
+                "1.5.6",
+                false
+            ],
+            [
+                "~1.4,!1.5.6",
+                "1.3.9",
+                false
+            ],
+            [
+                "~1.4,!1.5.6",
+                "1.5.6",
+                false
+            ],
+            [
+                "~1.0,!1.5.6",
+                "2.0.0-alpha-1",
+                false
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "1.4.8",
+                false
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "1.5.6",
+                false
+            ],
+            [
+                "^1.4.9,!1.5.6",
+                "2.0.0-alpha-1",
+                false
+            ],
+        ];
+    }
 }
