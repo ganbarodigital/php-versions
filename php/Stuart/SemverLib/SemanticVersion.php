@@ -421,7 +421,7 @@ class SemanticVersion implements VersionNumber
     {
         static $cmp = null;
 
-        if ($cmp === null) {
+        if (!$cmp instanceof VersionComparitor) {
             $cmp = new VersionComparitor;
         }
 
