@@ -16,7 +16,7 @@
     ],
     "autoload": {
         "psr-0": {
-            "": "php"
+            "": [ "php", "tests" ]
         }
     },
     "minimum-stability": "stable"
