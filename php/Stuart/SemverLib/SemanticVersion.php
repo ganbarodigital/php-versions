@@ -84,7 +84,7 @@ class SemanticVersion implements VersionNumber
      *
      * @var string
      */
-    protected $buildNumber = null;
+    protected $build = null;
 
     /**
      * Constructor. Takes an optional version string as the parameter.
@@ -247,7 +247,7 @@ class SemanticVersion implements VersionNumber
      */
     public function hasBuildNumber()
     {
-        if ($this->buildNumber === null) {
+        if ($this->build === null) {
             return false;
         }
 
@@ -261,7 +261,7 @@ class SemanticVersion implements VersionNumber
      */
     public function getBuildNumber()
     {
-        return $this->buildNumber;
+        return $this->build;
     }
 
     /**
@@ -270,9 +270,9 @@ class SemanticVersion implements VersionNumber
      * @param string $buildNumber
      *        my new build number
      */
-    public function setBuildNumber($buildNumber)
+    public function setBuildNumber($build)
     {
-        $this->buildNumber = $buildNumber;
+        $this->build = $build;
     }
 
     // ==================================================================
@@ -345,23 +345,22 @@ class SemanticVersion implements VersionNumber
      */
     public function __toString()
     {
-        // every version number has these
-        $retval = $this->major
-                . '.' . $this->minor;
+        static $parts = [
+            'major'      => '',
+            'minor'      => '.',
+            'patchLevel' => '.',
+            'preRelease' => '-',
+            'build'      => '+',
+        ];
 
-        // this is optional
-        if (isset($this->patchLevel)) {
-            $retval = $retval . '.' . $this->patchLevel;
-        }
+        // our return value
+        $retval = "";
 
-        // this is optional
-        if (isset($this->preRelease)) {
-            $retval = $retval . '-' . $this->preRelease;
-        }
-
-        // this is optional
-        if (isset($this->buildNumber)) {
-            $retval = $retval . '+' . $this->buildNumber;
+        // build up the string piece by piece
+        foreach ($parts as $key => $prefix) {
+            if (isset($this->$key)) {
+                $retval = $retval . $prefix . $this->$key;
+            }
         }
 
         // all done
@@ -378,23 +377,15 @@ class SemanticVersion implements VersionNumber
     {
         // every version number has these
         $retval = [
-            'major'      => $this->major,
-            'minor'      => $this->minor,
+            'major' => $this->major,
+            'minor' => $this->minor,
         ];
 
-        // patchlevels are optional
-        if ($this->hasPatchLevel()) {
-            $retval['patchLevel'] = $this->patchLevel;
-        }
-
-        // this is optional
-        if (isset($this->preRelease)) {
-            $retval['preRelease'] = $this->preRelease;
-        }
-
-        // this optional
-        if (isset($this->buildNumber)) {
-            $retval['build'] = $this->buildNumber;
+        // these are all optional
+        foreach(['patchLevel', 'preRelease', 'build'] as $key) {
+            if (isset($this->$key)) {
+                $retval[$key] = $this->$key;
+            }
         }
 
         // all done
