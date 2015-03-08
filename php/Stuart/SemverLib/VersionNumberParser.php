@@ -95,35 +95,26 @@ class VersionNumberParser
      */
     public function parseIntoObject($versionString, VersionNumber $target)
     {
+        // the parts of the breakdown, and where they go
+        static $parts = [
+            'major'      => 'setMajor',
+            'minor'      => 'setMinor',
+            'patchLevel' => 'setPatchLevel',
+            'preRelease' => 'setPreRelease',
+            'build'      => 'setBuildNumber'
+        ];
+
         // make sense of the string
         //
         // and if we can't, watch the exception sail by
         $breakdown = $this->parseVersionString($versionString);
 
-        // these are always present in any version string
-        $target->setMajor($breakdown['major']);
-        $target->setMinor($breakdown['minor']);
-
-        // this is optional
-        //
-        // yes, semver.org says that it is mandatory, but let's be a little
-        // pragmatic here :)
-        //
-        // our SemanticVersion object knows when to infer that a missing
-        // patchLevel means '0', and the ~ operator needs to know when the
-        // patchLevel wasn't explicitly set
-        if (isset($breakdown['patchLevel'])) {
-            $target->setPatchLevel($breakdown['patchLevel']);
-        }
-
-        // this is optional
-        if (isset($breakdown['preRelease'])) {
-            $target->setPreRelease($breakdown['preRelease']);
-        }
-
-        // this is optional
-        if (isset($breakdown['build'])) {
-            $target->setBuildNumber($breakdown['build']);
+        // use our findings to setup the $target
+        foreach ($parts as $key => $method)
+        {
+            if (isset($breakdown[$key])) {
+                $target->$method($breakdown[$key]);
+            }
         }
 
         // all done
