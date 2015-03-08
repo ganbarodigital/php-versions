@@ -49,6 +49,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @covers Stuart\SemverLib\ComparisonExpression::__construct
+	 * @covers Stuart\SemverLib\ComparisonExpression::__toString
 	 */
 	public function testCanInstantiate()
 	{
@@ -61,6 +62,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // test the results
 
 		$this->assertTrue($obj instanceof ComparisonExpression);
+		$this->assertEquals(ComparisonExpression::EMPTY_EXPRESSION, (string)$obj);
 	}
 
 	/**
@@ -225,6 +227,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider provideExpressionToEvaluate
 	 *
 	 * @covers Stuart\SemverLib\ComparisonExpression::matchesVersion
+	 * @covers Stuart\SemverLib\ComparisonExpression::__toString()
 	 */
 	public function testCanEvaluateExpression($op, $exprVersion, $cmpVersion, $expectedResult)
 	{
@@ -232,16 +235,19 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // setup your test
 
 	    $obj = new ComparisonExpression($op, $exprVersion);
+	    $expectedExpr = $op . ' ' . $exprVersion;
 
 	    // ----------------------------------------------------------------
 	    // perform the change
 
 	    $actualResult = $obj->matchesVersion($cmpVersion);
+	    $actualExpr   = (string)$obj;
 
 	    // ----------------------------------------------------------------
 	    // test the results
 
 	    $this->assertEquals($expectedResult, $actualResult);
+	    $this->assertEquals($expectedExpr, $actualExpr);
 	}
 
 	public function provideExpressionToEvaluate()

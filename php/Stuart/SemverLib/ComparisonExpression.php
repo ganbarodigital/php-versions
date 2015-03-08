@@ -48,6 +48,8 @@ namespace Stuart\SemverLib;
  */
 class ComparisonExpression
 {
+	const EMPTY_EXPRESSION = "<empty expression>";
+
 	// we will need some help to make sure we're dealing with objects and
 	// not version strings
 	use EnsureVersionNumber;
@@ -163,5 +165,21 @@ class ComparisonExpression
 		// ask our version what it thinks
 		$ourVersion = $this->getVersion();
 		return call_user_func([$versionObj, $method], $ourVersion);
+	}
+
+	// ==================================================================
+	//
+	// Type convertors
+	//
+	// ------------------------------------------------------------------
+
+	public function __toString()
+	{
+		// do we have an expression?
+		if ($this->operator === null || $this->version === null) {
+			return self::EMPTY_EXPRESSION;
+		}
+
+		return $this->operator . ' ' . (string)$this->version;
 	}
 }
