@@ -72,27 +72,15 @@ class ComparisonExpression
 	protected $versionAsObject = null;
 
 	/**
-	 * helper to use to compare two versions
-	 *
-	 * @var VersionComparitor
-	 */
-	protected $versionComparitor = null;
-
-	/**
 	 * create a new ComparisonExpression object
 	 *
-	 * @param VersionComparitor
-	 *        the comparitor to use for comparing versions
 	 * @param string $operator
 	 *        one of the ComparisonOperators::$operators keys
 	 * @param string $version
 	 *        a semantic version number, or a hash
 	 */
-	public function __construct(VersionComparitor $comparitor, $operator = null, $version = null)
+	public function __construct($operator = null, $version = null)
 	{
-		// we always have one of these
-		$this->setVersionComparitor($comparitor);
-
 		// we sometimes have these
 		if ($operator !== null) {
 			$this->setOperator($operator);
@@ -182,26 +170,6 @@ class ComparisonExpression
 		//
 		// a) we do not know if the version is a semantic version, or if
 		//    it is simply a hash of some kind
-	}
-
-	/**
-	 * get the comparitor to use for comparing versions
-	 *
-	 * @return VersionComparitor
-	 */
-	public function getVersionComparitor()
-	{
-		return $this->versionComparitor;
-	}
-
-	/**
-	 * set the comparitor to use for comparing versions
-	 *
-	 * @param VersionComparitor $comparitor
-	 */
-	public function setVersionComparitor(VersionComparitor $comparitor)
-	{
-		$this->versionComparitor = $comparitor;
 	}
 
 	// ==================================================================
