@@ -529,6 +529,43 @@ class VersionComparitorTest extends PHPUnit_Framework_TestCase
 				"1.0.0-alpha",
 				true
 			],
+			[
+				"1.0+R4",
+				"1.0.0+R4",
+				true
+			],
+			[
+				// these two are equal because build numbers are never
+				// included when comparing version numbers
+				"1.0+R4",
+				"1.0.0+R5",
+				true
+			],
+			[
+				"1.0",
+				"1.0.1",
+				false
+			],
+			[
+				"1.0.0",
+				"1.0.1",
+				false
+			],
+			[
+				"1.1",
+				"1.1.1",
+				false
+			],
+			[
+				"1.1",
+				"1.1.1",
+				false
+			],
+			[
+				"1.0-alpha",
+				"1.0-beta",
+				false
+			],
 		];
 	}
 }
