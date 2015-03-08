@@ -106,6 +106,7 @@ class SemanticVersion implements VersionNumber
      *
      * @param string $version
      *        the version string to parse and initialise me from
+     * @return void
      */
     public function setVersion($version)
     {
@@ -129,6 +130,7 @@ class SemanticVersion implements VersionNumber
      *
      * @param int $major
      *        my new major version number
+     * @return void
      */
     public function setMajor($major)
     {
@@ -150,6 +152,7 @@ class SemanticVersion implements VersionNumber
      *
      * @param int $minor
      *        my new minor version number
+     * @return void
      */
     public function setMinor($minor)
     {
@@ -195,6 +198,7 @@ class SemanticVersion implements VersionNumber
      *
      * @param int $patchLevel
      *        my new patch level
+     * @return void
      */
     public function setPatchLevel($patchLevel)
     {
@@ -232,6 +236,7 @@ class SemanticVersion implements VersionNumber
      *
      * @param string $preRelease
      *        my new pre-release version string
+     * @return void
      */
     public function setPreRelease($preRelease)
     {
@@ -269,6 +274,7 @@ class SemanticVersion implements VersionNumber
      *
      * @param string $build
      *        my new build number
+     * @return void
      */
     public function setBuildNumber($build)
     {

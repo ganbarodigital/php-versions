@@ -53,6 +53,7 @@ interface VersionNumber
      *
      * @param string $version
      *        the version string to parse and initialise me from
+     * @return void
      */
     public function setVersion($version);
 
@@ -68,6 +69,7 @@ interface VersionNumber
      *
      * @param int $major
      *        my new major version number
+     * @return void
      */
     public function setMajor($major);
 
@@ -83,6 +85,7 @@ interface VersionNumber
      *
      * @param int $minor
      *        my new minor version number
+     * @return void
      */
     public function setMinor($minor);
 
@@ -109,6 +112,7 @@ interface VersionNumber
      *
      * @param int $patchLevel
      *        my new patch level
+     * @return void
      */
     public function setPatchLevel($patchLevel);
 
@@ -133,6 +137,7 @@ interface VersionNumber
      *
      * @param string $preRelease
      *        my new pre-release version string
+     * @return void
      */
     public function setPreRelease($preRelease);
 
@@ -157,6 +162,7 @@ interface VersionNumber
      *
      * @param string $buildNumber
      *        my new build number
+     * @return void
      */
     public function setBuildNumber($buildNumber);
 

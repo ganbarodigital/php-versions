@@ -74,6 +74,7 @@ class HashedVersion implements VersionNumber
      *
      * @param int $major
      *        my new major version number
+     * @return void
      */
     public function setMajor($major)
     {
@@ -95,6 +96,7 @@ class HashedVersion implements VersionNumber
      *
      * @param int $minor
      *        my new minor version number
+     * @return void
      */
     public function setMinor($minor)
     {
@@ -130,6 +132,7 @@ class HashedVersion implements VersionNumber
      *
      * @param int $patchLevel
      *        my new patch level
+     * @return void
      */
     public function setPatchLevel($patchLevel)
     {
@@ -163,6 +166,7 @@ class HashedVersion implements VersionNumber
      *
      * @param string $preRelease
      *        my new pre-release version string
+     * @return void
      */
     public function setPreRelease($preRelease)
     {
@@ -196,6 +200,7 @@ class HashedVersion implements VersionNumber
      *
      * @param string $buildNumber
      *        my new build number
+     * @return void
      */
     public function setBuildNumber($buildNumber)
     {
