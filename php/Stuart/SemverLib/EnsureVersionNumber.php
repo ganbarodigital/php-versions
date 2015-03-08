@@ -75,7 +75,7 @@ trait EnsureVersionNumber
 
 		// deal with any other surprises
 		if (!is_string($input)) {
-			throw new E4xx_BadVersionString($input);
+			throw new E4xx_NotAVersionNumber($input);
 		}
 
 		// convert and return
