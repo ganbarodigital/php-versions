@@ -82,7 +82,7 @@ class SemanticVersion implements VersionNumber
 	/**
 	 * the 'R' in an X.Y.Z[-<preRelease>[+R]] version number
 	 *
-	 * @var integer
+	 * @var string
 	 */
 	protected $buildNumber = null;
 
