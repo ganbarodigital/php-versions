@@ -156,7 +156,34 @@ class SemverParser
 
         $matches = [];
         if (preg_match($regex, $versionString, $matches)) {
-            return $matches;
+            // we need to sanitise the regex result before returning
+            // our return value
+            $retval = [];
+
+            // these are always present in any version string
+            $retval['major'] = strval($matches['major']);
+            $retval['minor'] = strval($matches['minor']);
+
+            // this is optional
+            if (isset($matches['patchLevel']) && !empty($matches['patchLevel'])) {
+                $retval['patchLevel'] = strval($matches['patchLevel']);
+            }
+            else {
+                $retval['patchLevel'] = 0;
+            }
+
+            // this is optional
+            if (isset($matches['preRelease']) && !empty($matches['preRelease'])) {
+                $retval['preRelease'] = $matches['preRelease'];
+            }
+
+            // this is optional
+            if (isset($matches['build'])) {
+                $retval['build'] = $matches['build'];
+            }
+
+            // all done
+            return $retval;
         }
 
         // if we get here, then nothing matched
@@ -171,34 +198,6 @@ class SemverParser
 
     public function parseIntoArray($versionString)
     {
-        $breakdown = $this->parseVersionString($versionString);
-
-        // our return value
-        $retval = [];
-
-        // these are always present in any version string
-        $retval['major'] = strval($breakdown['major']);
-        $retval['minor'] = strval($breakdown['minor']);
-
-        // this is optional
-        if (isset($breakdown['patchLevel']) && !empty($breakdown['patchLevel'])) {
-            $retval['patchLevel'] = strval($breakdown['patchLevel']);
-        }
-        else {
-            $retval['patchLevel'] = 0;
-        }
-
-        // this is optional
-        if (isset($breakdown['preRelease']) && !empty($breakdown['preRelease'])) {
-            $retval['preRelease'] = $breakdown['preRelease'];
-        }
-
-        // this is optional
-        if (isset($breakdown['build'])) {
-            $retval['build'] = $breakdown['build'];
-        }
-
-        // all done
-        return $retval;
+        return $this->parseVersionString($versionString);
     }
 }
