@@ -113,6 +113,13 @@ class ComparisonOperators
         return array_keys(self::$operators);
     }
 
+    /**
+     * check an operator to see if it is one of ours or not
+     *
+     * @param  string $operator
+     * @return boolean
+     *         TRUE on success, FALSE otherwise
+     */
     public static function isValidOperator($operator)
     {
         if (!isset(self::$operators[$operator])) {

@@ -57,14 +57,14 @@ class ComparisonExpression
     /**
      * one of the ComparisonOperators::$operators keys
      *
-     * @var string
+     * @var string|null
      */
     protected $operator = null;
 
     /**
      * the expression's version
      *
-     * @var VersionNumber
+     * @var VersionNumber|null
      */
     protected $version = null;
 
