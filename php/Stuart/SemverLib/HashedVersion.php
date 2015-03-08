@@ -53,6 +53,7 @@ class HashedVersion implements VersionNumber
      *
      * @param string $version
      *        the version string to parse and initialise me from
+     * @return void
      */
     public function setVersion($version)
     {
