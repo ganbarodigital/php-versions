@@ -47,7 +47,7 @@ use PHPUnit_Framework_TestCase;
 
 class ComparisonOperatorsDatasets
 {
-	static public function provideValidOperators()
+	static public function getValidOperators()
 	{
 		return [
 			[ "=",  "equals" ],
@@ -61,7 +61,7 @@ class ComparisonOperatorsDatasets
 		];
 	}
 
-	static public function provideInvalidOperators()
+	static public function getInvalidOperators()
 	{
 		return [
 			[ "£" ],

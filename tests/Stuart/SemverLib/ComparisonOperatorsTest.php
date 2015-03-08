@@ -67,7 +67,7 @@ class ComparisonOperatorsTest extends PHPUnit_Framework_TestCase
 
 	public function provideOperatorList()
 	{
-		return ComparisonOperatorsDatasets::provideValidOperators();
+		return ComparisonOperatorsDatasets::getValidOperators();
 	}
 
 	/**
@@ -89,7 +89,7 @@ class ComparisonOperatorsTest extends PHPUnit_Framework_TestCase
 
 	public function provideInvalidOperators()
 	{
-		return ComparisonOperatorsDatasets::provideInvalidOperators();
+		return ComparisonOperatorsDatasets::getInvalidOperators();
 	}
 
 	/**
