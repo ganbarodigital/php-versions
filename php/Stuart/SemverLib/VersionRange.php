@@ -61,7 +61,7 @@ class VersionRange
      */
     public function __construct($range = null)
     {
-        if ($range != null) {
+        if ($range !== null) {
             $this->parse($range);
         }
     }
@@ -94,7 +94,7 @@ class VersionRange
 
         foreach($this->expressions as $expression)
         {
-            if (!$expression->matchesVersion($version)) {
+            if (!$expression->matchesVersion($versionObj)) {
                 return false;
             }
         }
