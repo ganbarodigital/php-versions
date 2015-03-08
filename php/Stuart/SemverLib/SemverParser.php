@@ -45,6 +45,12 @@ namespace Stuart\SemverLib;
 
 class SemverParser
 {
+    const REGEX_MAJOR = "0|[1-9]\d*";
+    const REGEX_MINOR = "0|[1-9]\d*";
+    const REGEX_PATCHLEVEL = "0|[1-9]\d*";
+    const REGEX_PRERELEASE = "(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*";
+    const REGEX_BUILDNUMBER = "[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*";
+
     public function __construct()
     {
         // nothing to do
@@ -138,7 +144,15 @@ class SemverParser
         // one regex to rule them all
         //
         // based on a regex proposed in the semver.org Github issues list
-        $regex = "%^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(\.(?P<patchLevel>0|[1-9]\d*)){0,1}(-(?P<preRelease>(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)){0,1}(\+(?P<build>[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)){0,1}$%";
+        //
+        // I've tried using multiple regexes here to see if we can match
+        // more quickly, but it doesn't make a noticable difference
+        //$regex = "%^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(\.(?P<patchLevel>0|[1-9]\d*)){0,1}(-(?P<preRelease>(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)){0,1}(\+(?P<build>[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)){0,1}$%";
+        $regex = "%^(?P<major>" . self::REGEX_MAJOR . ")"
+               . "\.(?P<minor>" . self::REGEX_MINOR . ")"
+               . "(\.(?P<patchLevel>" . self::REGEX_PATCHLEVEL . ")){0,1}"
+               . "(-(?P<preRelease>" . self::REGEX_PRERELEASE . ")){0,1}"
+               . "(\+(?P<build>" . self::REGEX_BUILDNUMBER . ")){0,1}$%";
 
         $matches = [];
         if (preg_match($regex, $versionString, $matches)) {
