@@ -110,7 +110,7 @@ class SemanticVersion implements VersionNumber
 	public function setVersion($version)
 	{
 		// if we get here, we need to parse the version string
-		$parser = new VersionParser();
+		$parser = new VersionNumberParser();
 		$parser->parseIntoObject($version, $this);
 	}
 

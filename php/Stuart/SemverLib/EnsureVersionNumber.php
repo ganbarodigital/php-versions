@@ -63,7 +63,7 @@ trait EnsureVersionNumber
 		 * we'll keep this around as we may have to parse more than one
 		 * string before we're done
 		 *
-		 * @var VersionParser
+		 * @var VersionNumberParser
 		 */
 		static $parser = null;
 
@@ -80,7 +80,7 @@ trait EnsureVersionNumber
 
 		// convert and return
 		if ($parser === null) {
-			$parser = new VersionParser;
+			$parser = new VersionNumberParser;
 		}
 		return $parser->parse($input);
 	}
