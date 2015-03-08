@@ -43,7 +43,7 @@
 
 namespace Stuart\SemverLib;
 
-class SemverParser
+class VersionParser
 {
     const REGEX_MAJOR = "0|[1-9]\d*";
     const REGEX_MINOR = "0|[1-9]\d*";

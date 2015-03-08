@@ -45,36 +45,36 @@ namespace Stuart\SemverLib;
 
 use PHPUnit_Framework_TestCase;
 
-class SemverParserTest extends PHPUnit_Framework_TestCase
+class VersionParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @covers Stuart\SemverLib\SemverParser::__construct
+	 * @covers Stuart\SemverLib\VersionParser::__construct
 	 */
 	public function testCanInstantiate()
 	{
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$parser = new SemverParser();
+		$parser = new VersionParser();
 
 	    // ----------------------------------------------------------------
 	    // test the results
 
-		$this->assertTrue($parser instanceof SemverParser);
+		$this->assertTrue($parser instanceof VersionParser);
 	}
 
 	/**
 	 * @dataProvider provideVersionStrings
 	 *
-	 * @covers Stuart\SemverLib\SemverParser::parseIntoArray
-	 * @covers Stuart\SemverLib\SemverParser::parseVersionString
+	 * @covers Stuart\SemverLib\VersionParser::parseIntoArray
+	 * @covers Stuart\SemverLib\VersionParser::parseVersionString
 	 */
 	public function testCanParseVersionStrings($versionString, $expectedBreakdown)
 	{
 	    // ----------------------------------------------------------------
 	    // setup your test
 
-	    $parser = new SemverParser();
+	    $parser = new VersionParser();
 
 	    // ----------------------------------------------------------------
 	    // perform the change
