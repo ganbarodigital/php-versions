@@ -567,4 +567,91 @@ class ComparisonExpressionDatasets
 			],
 		];
 	}
+
+	static public function getValidExpressionsToEvaluate()
+	{
+		// we're going to build a substantial dataset by combining all of
+		// these datasets
+		$validOperators   = ComparisonOperatorsDatasets::getValidOperators();
+		$validVersions    = SemanticVersionDatasets::getVersionNumberDataset();
+
+		// our return value
+		$retval = [];
+
+		// let's build the dataset
+		foreach ($validOperators as $op) {
+			foreach ($validVersions as $dataset) {
+				$retval[] = [ $op[0] . $dataset[0] ];
+				$retval[] = [ $op[0] . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . '	' . $dataset[0]];
+			}
+		}
+
+		// all done
+		return $retval;
+	}
+
+	static public function getBadExpressionsToEvaluate()
+	{
+		return [
+			[ null ],
+			[ [ "1.0.0 "] ],
+			[ false ],
+			[ true ],
+			[ 3.1415927 ],
+			[ 100 ],
+			[ (object)[ "version" => "1.0.0" ] ],
+		];
+	}
+
+	static public function getInvalidExpressionsToEvaluate()
+	{
+		// we're going to build a substantial dataset by combining all of
+		// these datasets
+		$invalidOperators = ComparisonOperatorsDatasets::getInvalidOperators();
+		$validOperators   = ComparisonOperatorsDatasets::getValidOperators();
+		$validVersions    = SemanticVersionDatasets::getVersionNumberDataset();
+		$invalidVersions  = SemanticVersionDatasets::getBadVersionNumberDataset();
+
+		// our return value
+		$retval = [];
+
+		// let's build the dataset
+		foreach ($invalidOperators as $op) {
+			foreach ($validVersions as $dataset) {
+				$retval[] = [ $op[0] . $dataset[0] ];
+				$retval[] = [ $op[0] . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . '	' . $dataset[0]];
+			}
+			foreach ($invalidVersions as $dataset) {
+				$retval[] = [ $op[0] . $dataset[0] ];
+				$retval[] = [ $op[0] . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . '	' . $dataset[0]];
+			}
+		}
+
+		// let's build the dataset
+		foreach ($validOperators as $op) {
+			foreach ($invalidVersions as $dataset) {
+				$retval[] = [ $op[0] . $dataset[0] ];
+				$retval[] = [ $op[0] . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . 'v' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] ];
+				$retval[] = [ $op[0] . ' ' . $dataset[0] . ' '];
+				$retval[] = [ $op[0] . '	' . $dataset[0]];
+			}
+		}
+
+		// all done
+		return $retval;
+	}
 }
