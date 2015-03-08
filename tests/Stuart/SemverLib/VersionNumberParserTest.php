@@ -45,38 +45,38 @@ namespace Stuart\SemverLib;
 
 use PHPUnit_Framework_TestCase;
 
-class VersionParserTest extends PHPUnit_Framework_TestCase
+class VersionNumberParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @covers Stuart\SemverLib\VersionParser::__construct
+	 * @covers Stuart\SemverLib\VersionNumberParser::__construct
 	 */
 	public function testCanInstantiate()
 	{
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$parser = new VersionParser();
+		$parser = new VersionNumberParser();
 
 	    // ----------------------------------------------------------------
 	    // test the results
 
-		$this->assertTrue($parser instanceof VersionParser);
+		$this->assertTrue($parser instanceof VersionNumberParser);
 	}
 
 	/**
 	 * @dataProvider provideVersionStrings
 	 *
-	 * @covers Stuart\SemverLib\VersionParser::parse
-	 * @covers Stuart\SemverLib\VersionParser::parseIntoObject
-	 * @covers Stuart\SemverLib\VersionParser::parseIntoArray
-	 * @covers Stuart\SemverLib\VersionParser::parseVersionString
+	 * @covers Stuart\SemverLib\VersionNumberParser::parse
+	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
+	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoArray
+	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
 	 */
 	public function testCanParseVersionStrings($versionString, $expectedBreakdown)
 	{
 	    // ----------------------------------------------------------------
 	    // setup your test
 
-	    $parser = new VersionParser();
+	    $parser = new VersionNumberParser();
 
 	    // ----------------------------------------------------------------
 	    // perform the change
@@ -99,9 +99,9 @@ class VersionParserTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider provideBadVersionStrings
 	 *
-	 * @covers Stuart\SemverLib\VersionParser::parse
-	 * @covers Stuart\SemverLib\VersionParser::parseIntoObject
-	 * @covers Stuart\SemverLib\VersionParser::parseVersionString
+	 * @covers Stuart\SemverLib\VersionNumberParser::parse
+	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
+	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
 	 */
@@ -110,7 +110,7 @@ class VersionParserTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // setup your test
 
-	    $parser = new VersionParser();
+	    $parser = new VersionNumberParser();
 
 	    // ----------------------------------------------------------------
 	    // perform the change
@@ -126,9 +126,9 @@ class VersionParserTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider provideBadVersionNumbers
 	 *
-	 * @covers Stuart\SemverLib\VersionParser::parse
-	 * @covers Stuart\SemverLib\VersionParser::parseIntoObject
-	 * @covers Stuart\SemverLib\VersionParser::parseVersionString
+	 * @covers Stuart\SemverLib\VersionNumberParser::parse
+	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
+	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_BadVersionString
 	 */
@@ -137,7 +137,7 @@ class VersionParserTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // setup your test
 
-	    $parser = new VersionParser();
+	    $parser = new VersionNumberParser();
 
 	    // ----------------------------------------------------------------
 	    // perform the change
