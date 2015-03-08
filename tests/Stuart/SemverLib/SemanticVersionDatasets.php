@@ -143,4 +143,150 @@ class SemanticVersionDatasets
 			[ "1.0-alpha1", "1.1" ],
 		];
 	}
+
+	/**
+	 * $b is never approximately equal to $a
+	 *
+	 * BUT they may match other operators, so beware how you combine them!
+	 *
+	 * @return array
+	 */
+	static public function getNeverApproximatelyEqualDataset()
+	{
+		return [
+			[ "1.0", "2.0" ],
+			[ "1.0", "2.0.0" ],
+			[ "1.0", "2.0.1" ],
+			[ "1.0.0", "2.0" ],
+			[ "1.0.0", "2.0.0" ],
+			[ "1.0.0", "2.0.1" ],
+			[ "1.1.0", "1.2.0" ],
+			[ "1.0", "2.1" ],
+			[ "1.0", "2.0-alpha-1" ],
+		];
+	}
+
+	/**
+	 * $b is never compatible with $a
+	 *
+	 * BUT they may match other operators, so beware how you combine them!
+	 *
+	 * @return array
+	 */
+	static public function getNeverCompatibleDataset()
+	{
+		return [
+			[ "1.0", "2.0" ],
+			[ "1.0", "2.0.0" ],
+			[ "1.0", "2.0.1" ],
+			[ "1.0.0", "2.0" ],
+			[ "1.0.0", "2.0.0" ],
+			[ "1.0.0", "2.0.1" ],
+			[ "1.0", "2.1" ],
+			[ "1.0", "2.0-alpha-1" ],
+		];
+	}
+
+	static public function getVersionNumberDataset()
+	{
+		return [
+			[
+				"1.0",
+				[
+					"major" => 1,
+					"minor" => 0
+				]
+			],
+			[
+				"1.0.0",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0
+				]
+			],
+			// this one is interesting because we don't provide the
+			// patchLevel in the version string
+			[
+				"1.0-alpha",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"preRelease" => "alpha"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-alpha",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preRelease" => "alpha"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-alpha.1",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preRelease" => "alpha.1"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-0.3.7",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preRelease" => "0.3.7"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-x.7.z.92",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preRelease" => "x.7.z.92"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-alpha+001",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preRelease" => "alpha",
+					"build" => "001"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0+20130313144700",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"build" => "20130313144700"
+				]
+			],
+			// example taken from semver.org
+			[
+				"1.0.0-beta+exp.sha.5114f85",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preRelease" => "beta",
+					"build" => "exp.sha.5114f85"
+				]
+			]
+		];
+	}
 }

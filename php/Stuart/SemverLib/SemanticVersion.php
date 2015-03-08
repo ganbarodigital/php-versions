@@ -410,6 +410,11 @@ class SemanticVersion implements VersionNumber
 	 * helper objects.
 	 *
 	 * @return VersionComparitor
+	 *
+	 * Xdebug isn't generating full code coverage stats for this method, even
+	 * though it gets called over 200 times by our unit tests
+	 *
+	 * @codeCoverageIgnore
 	 */
 	protected function getVersionComparitor()
 	{
