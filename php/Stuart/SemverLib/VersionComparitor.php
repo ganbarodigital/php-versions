@@ -231,7 +231,7 @@ class VersionComparitor
 		return self::BOTH_ARE_EQUAL;
 	}
 
-	public function compareForEqualsOperator(SemanticVersion $a, SemanticVersion $b)
+	public function equals(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
 		if ($res == 0) {
@@ -241,7 +241,17 @@ class VersionComparitor
 		return false;
 	}
 
-	public function compareForGreaterThanOrEqualToOperator(SemanticVersion $a, SemanticVersion $b)
+	public function isGreaterThan(SemanticVersion $a, SemanticVersion $b)
+	{
+		$res = $this->compare($a, $b);
+		if ($res >= 0) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function isGreaterThanOrEqualTo(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
 		if ($res > 0) {
@@ -251,7 +261,7 @@ class VersionComparitor
 		return true;
 	}
 
-	public function compareForLessThanOrEqualToOperator(SemanticVersion $a, SemanticVersion $b)
+	public function isLessThanOrEqualTo(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
 		if ($res < 0) {
@@ -261,7 +271,7 @@ class VersionComparitor
 		return true;
 	}
 
-	public function compareForLessThanOperator(SemanticVersion $a, SemanticVersion $b)
+	public function isLessThan(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
 		if ($res > 0) {
@@ -271,7 +281,7 @@ class VersionComparitor
 		return false;
 	}
 
-	public function compareForAvoidOperator(SemanticVersion $a, SemanticVersion $b)
+	public function avoid(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
 		if ($res == 0) {
@@ -281,7 +291,7 @@ class VersionComparitor
 		return true;
 	}
 
-	public function compareForProximityOperator(SemanticVersion $a, SemanticVersion $b)
+	public function inProximity(SemanticVersion $a, SemanticVersion $b)
 	{
 		// we turn this into two tests:
 		//
@@ -289,7 +299,7 @@ class VersionComparitor
 		// $b has to be < $c
 		//
 		// where $c is our calculated upper bound for the proximity operator
-		$res = $this->compareForGreaterThanOrEqualToOperator($a, $b);
+		$res = $this->isGreaterThanOrEqualTo($a, $b);
 		if (!$res) {
 			return false;
 		}
@@ -314,7 +324,7 @@ class VersionComparitor
 		}
 		$c->setVersion($upperBound);
 
-		$res = $this->compareForLessThanOperator($c, $b);
+		$res = $this->isLessThan($c, $b);
 		if (!$res) {
 			return false;
 		}
@@ -332,7 +342,7 @@ class VersionComparitor
 		return true;
 	}
 
-	public function compareForCompatibleOperator(SemanticVersion $a, SemanticVersion $b)
+	public function isCompatible(SemanticVersion $a, SemanticVersion $b)
 	{
 		// we turn this into two tests:
 		//
@@ -340,7 +350,7 @@ class VersionComparitor
 		// $b has to be < $c
 		//
 		// where $c is our next stable major version
-		$res = $this->compareForGreaterThanOrEqualToOperator($a, $b);
+		$res = $this->isGreaterThanOrEqualTo($a, $b);
 		if (!$res) {
 			return false;
 		}
@@ -349,7 +359,7 @@ class VersionComparitor
 		$c = new SemanticVersion();
 		$c->setVersion($a->getMajor() +1 . '.0');
 
-		$res = $this->compareForLessThanOperator($c, $b);
+		$res = $this->isLessThan($c, $b);
 		if (!$res) {
 			return false;
 		}
@@ -364,7 +374,7 @@ class VersionComparitor
 		return true;
 	}
 
-	public function compareForNonVersionOperator($a, $b)
+	public function equalNonVersion($a, $b)
 	{
 		if (strcmp($a, $b) == 0) {
 			return true;

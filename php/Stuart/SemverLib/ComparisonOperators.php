@@ -55,16 +55,19 @@ class ComparisonOperators
 	 */
 	static protected $operators = [
 		// we want an exact match
-		"=" => "EqualsOperator",
+		"=" => "equals",
+
+		// anything newer
+		">" => "isGreaterThan",
 
 		// this or anything newer
-		">=" => "GreaterThanOrEqualToOperator",
+		">=" => "isGreaterThanOrEqualTo",
 
 		// this or anything older
-		"<=" => "LessThanOrEqualToOperator",
+		"<=" => "isLessThanOrEqualTo",
 
 		// we only want anything older
-		"<" => "LessThanOperator",
+		"<" => "isLessThan",
 
 		// for ~X, means >= X.0.0, < X+1.0.0
 		// for ~X.Y means >= X.Y.0, < X+1.0.0
@@ -72,18 +75,18 @@ class ComparisonOperators
 		// we treat X+1.0.0-preRelease as not matching
 		//
 		// and so on
-		"~" => "ProximityOperator",
+		"~" => "inProximity",
 
 		// same as >= X.Y.Z, < X+1.0.0
 		//
 		// we treat X+1.0.0-preRelease as not matching
-		"^" => "CompatibleOperator",
+		"^" => "isCompatible",
 
 		// when the version string isn't semantic (e.g. a Git hash)
-		"@" => "NonVersionOperator",
+		"@" => "nonVersion",
 
 		// we never want this version
-		"!" => "AvoidOperator"
+		"!" => "avoid"
 	];
 
 	/**

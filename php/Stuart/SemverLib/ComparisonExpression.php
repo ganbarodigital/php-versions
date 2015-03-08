@@ -217,7 +217,7 @@ class ComparisonExpression
 	{
 		// which method do we call?
 		$cmp    = $this->getVersionComparitor();
-		$method = "compareFor" . ComparisonOperators::getOperatorName($this->operator);
+		$method = ComparisonOperators::getOperatorName($this->operator);
 
 		// special case - '@' operator
 		if ($this->getOperator() == '@') {
