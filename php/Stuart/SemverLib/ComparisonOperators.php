@@ -57,11 +57,11 @@ class ComparisonOperators
 		// we want an exact match
 		"=" => "equals",
 
-		// anything newer
-		">" => "isGreaterThan",
-
 		// this or anything newer
 		">=" => "isGreaterThanOrEqualTo",
+
+		// anything newer
+		">" => "isGreaterThan",
 
 		// this or anything older
 		"<=" => "isLessThanOrEqualTo",
@@ -82,11 +82,8 @@ class ComparisonOperators
 		// we treat X+1.0.0-preRelease as not matching
 		"^" => "isCompatible",
 
-		// when the version string isn't semantic (e.g. a Git hash)
-		"@" => "nonVersion",
-
 		// we never want this version
-		"!" => "avoid"
+		"!" => "shouldAvoid"
 	];
 
 	/**

@@ -48,6 +48,8 @@ namespace Stuart\SemverLib;
  */
 class ComparisonExpression
 {
+	use EnsureSemanticVersion;
+
 	/**
 	 * one of the ComparisonOperators::$operators keys
 	 *
@@ -219,27 +221,15 @@ class ComparisonExpression
 	 */
 	public function matchesVersion($version)
 	{
+		// if $version is a version string, this will ensure that we have
+		// an object to work with
+		$versionObj = $this->ensureSemanticVersion($version);
+
 		// which method do we call?
-		$cmp    = $this->getVersionComparitor();
 		$method = ComparisonOperators::getOperatorName($this->operator);
 
-		// special case - '@' operator
-		if ($this->getOperator() == '@') {
-			// '@' can only compare two strings
-			if (!is_string($version)) {
-				throw new E4xx_NeedVersionString();
-			}
-
-			return call_user_func([$cmp, $method], $this->getVersionAsString(), $version);
-		}
-
-		// special case - do we have an object?
-		$versionObj = $version;
-		if (!is_object($version)) {
-			$versionObj = new SemanticVersion($version);
-		}
-
-		// delegate to our comparitor
-		return call_user_func([$cmp, $method], $this->getVersionAsObject(), $versionObj);
+		// ask our version what it thinks
+		$ourVersion = $this->getVersionAsObject();
+		return call_user_func([$versionObj, $method], $ourVersion);
 	}
 }

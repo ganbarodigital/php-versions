@@ -344,4 +344,261 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	    $this->assertEquals($expectedVersion, $actualVersion);
 	}
 
+	/**
+	 * @dataProvider provideEqualityDataset
+	 *
+	 * @covers Stuart\SemverLib\SemanticVersion::equals
+	 */
+	public function testCanCheckForEquality($a, $b, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $aVer = new SemanticVersion($a);
+	    $bVer = new SemanticVersion($b);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $aVer->equals($bVer);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideEqualityDataset()
+	{
+		$retval = [];
+		foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getNeverEqualDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * @dataProvider provideIsGreaterThanDataset
+	 *
+	 * @covers Stuart\SemverLib\SemanticVersion::isGreaterThan
+	 */
+	public function testCanCheckForIsGreaterThan($a, $b, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $aVer = new SemanticVersion($a);
+	    $bVer = new SemanticVersion($b);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $bVer->isGreaterThan($aVer);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideIsGreaterThanDataset()
+	{
+		$retval = [];
+		foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * @dataProvider provideIsGreaterThanOrEqualToDataset
+	 *
+	 * @covers Stuart\SemverLib\SemanticVersion::isGreaterThanOrEqualTo
+	 */
+	public function testCanCheckForIsGreaterThanOrEqualTo($a, $b, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $aVer = new SemanticVersion($a);
+	    $bVer = new SemanticVersion($b);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $bVer->isGreaterThanOrEqualTo($aVer);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideIsGreaterThanOrEqualToDataset()
+	{
+		$retval = [];
+		foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+
+		return $retval;
+	}
+
+
+
+	/**
+	 * @dataProvider provideIsLessThanDataset
+	 *
+	 * @covers Stuart\SemverLib\SemanticVersion::isLessThan
+	 */
+	public function testCanCheckForIsLessThan($a, $b, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $aVer = new SemanticVersion($a);
+	    $bVer = new SemanticVersion($b);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $bVer->isLessThan($aVer);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideIsLessThanDataset()
+	{
+		$retval = [];
+		foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+
+		return $retval;
+	}
+
+	/**
+	 * @dataProvider provideIsLessThanOrEqualToDataset
+	 *
+	 * @covers Stuart\SemverLib\SemanticVersion::isLessThanOrEqualTo
+	 */
+	public function testCanCheckForIsLessThanOrEqualTo($a, $b, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $aVer = new SemanticVersion($a);
+	    $bVer = new SemanticVersion($b);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $bVer->isLessThanOrEqualTo($aVer);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideIsLessThanOrEqualToDataset()
+	{
+		$retval = [];
+		foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+
+		return $retval;
+	}
+
+
+	/**
+	 * @dataProvider provideIsApproximatelyEqualDataset
+	 *
+	 * @covers Stuart\SemverLib\SemanticVersion::isApproximately
+	 */
+	public function testCanCheckForIsApproximate($a, $b, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $aVer = new SemanticVersion($a);
+	    $bVer = new SemanticVersion($b);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $actualResult = $bVer->isApproximately($aVer);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, $actualResult);
+	}
+
+	public function provideIsApproximatelyEqualDataset()
+	{
+		$retval = [];
+		foreach (SemanticVersionDatasets::getAlwaysApproximatelyEqualDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+			$dataset[] = true;
+			$retval[] = $dataset;
+		}
+		foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
+			$dataset[] = false;
+			$retval[] = $dataset;
+		}
+
+		return $retval;
+	}
+
 }

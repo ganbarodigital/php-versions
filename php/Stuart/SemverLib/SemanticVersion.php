@@ -48,6 +48,9 @@ namespace Stuart\SemverLib;
  */
 class SemanticVersion
 {
+	// helper for converting version strings to an object
+	use EnsureSemanticVersion;
+
 	/**
 	 * the 'X' in an X.Y.Z[-<preRelease>[+R]] version number
 	 *
@@ -198,6 +201,15 @@ class SemanticVersion
 		$this->patchLevel = $patchLevel;
 	}
 
+	public function hasPreRelease()
+	{
+		if ($this->preRelease === null) {
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Get the 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number
 	 *
@@ -217,6 +229,15 @@ class SemanticVersion
 	public function setPreRelease($preRelease)
 	{
 		$this->preRelease = $preRelease;
+	}
+
+	public function hasBuildNumber()
+	{
+		if ($this->buildNumber === null) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -360,5 +381,286 @@ class SemanticVersion
 
 		// all done
 		return $retval;
+	}
+
+	// ==================================================================
+	//
+	// Comparisons go here
+	//
+	// ------------------------------------------------------------------
+
+	/**
+	 * get a helper for comparing two version numbers
+	 *
+	 * This is an old PHP trick to avoid constantly creating and destroying
+	 * helper objects.
+	 *
+	 * @return VersionComparitor
+	 */
+	protected function getVersionComparitor()
+	{
+		static $cmp = null;
+
+		if ($cmp === null) {
+			$cmp = new VersionComparitor;
+		}
+
+		return $cmp;
+	}
+
+	/**
+	 * does $this equal $b?
+	 *
+	 * @param  SemanticVersion|string $b
+	 * @return boolean
+	 *         TRUE if $this == $b
+	 *         FALSE otherwise
+	 */
+	public function equals($b)
+	{
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we need some help to perform this comparison
+		$comp = $this->getVersionComparitor();
+
+		// are the two versions equal?
+		$res  = $comp->compare($this, $bObj);
+		if ($res == VersionComparitor::BOTH_ARE_EQUAL) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * is $this >= $b?
+	 *
+	 * @param  SemanticVersion|string $b
+	 * @return boolean
+	 *         TRUE if $this => $b
+	 *         FALSE otherwise
+	 */
+	public function isGreaterThanOrEqualTo($b)
+	{
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we need some help to perform this comparison
+		$comp = $this->getVersionComparitor();
+
+		// how do the two versions compare?
+		$res  = $comp->compare($this, $bObj);
+		if ($res == VersionComparitor::A_IS_LESS) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * is $this > $b?
+	 *
+	 * @param  SemanticVersion|string $b
+	 * @return boolean
+	 *         TRUE if $this > $b
+	 *         FALSE otherwise
+	 */
+	public function isGreaterThan($b)
+	{
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we need some help to perform this comparison
+		$comp = $this->getVersionComparitor();
+
+		// how do the two versions compare?
+		$res  = $comp->compare($this, $bObj);
+		if ($res == VersionComparitor::A_IS_GREATER) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * is $this <= $b?
+	 *
+	 * @param  SemanticVersion|string $b
+	 * @return boolean
+	 *         TRUE if $this <= $b
+	 *         FALSE otherwise
+	 */
+	public function isLessThanOrEqualTo($b)
+	{
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we need some help to perform this comparison
+		$comp = $this->getVersionComparitor();
+
+		// how do the two versions compare?
+		$res  = $comp->compare($this, $bObj);
+		if ($res == VersionComparitor::A_IS_GREATER) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * is $this < $b?
+	 *
+	 * @param  SemanticVersion|string $b
+	 * @return boolean
+	 *         TRUE if $this < $b
+	 *         FALSE otherwise
+	 */
+	public function isLessThan($b)
+	{
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we need some help to perform this comparison
+		$comp = $this->getVersionComparitor();
+
+		// how do the two versions compare?
+		$res  = $comp->compare($this, $bObj);
+		if ($res == VersionComparitor::A_IS_LESS) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * is $this approximately equal to $b, according to the rules of the
+	 * ~ operator?
+	 *
+	 * NOTES:
+	 *
+	 * - you can only use the ~ operator to pin down which major / minor
+	 *   version to limit to, not the preRelease level
+	 *
+	 * @param  SemanticVersion|string $b
+	 * @return boolean
+	 *         TRUE if $this ~= $b
+	 *         FALSE otherwise
+	 */
+	public function isApproximately($b)
+	{
+		// var_dump("__A__", (string)$this);
+		// var_dump("__B__", (string)$b);
+
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we turn this into two tests:
+		//
+		// $this has to be >= $b, and
+		// $this has to be < $c
+		//
+		// where $c is $b's calculated upper bound for the proximity operator
+		$res = $this->isGreaterThanOrEqualTo($bObj);
+		if (!$res) {
+			return false;
+		}
+
+		// work out our upper boundary
+		//
+		// ~1.2.3 becomes <1.3.0
+		// ~1.2   becomes <2.0.0
+		$cObj = $bObj->getApproximateUpperBoundary();
+
+		// is $b within our upper boundary?
+		$res = $this->isLessThan($cObj);
+		if (!$res) {
+			return false;
+		}
+
+		// finally, a special case
+		// avoid installing an unstable version of the upper boundary
+		if ($cObj->getMajor() == $this->getMajor() && $cObj->getMinor() == $this->getMinor() && $this->getPreRelease() !== null) {
+			return false;
+		}
+
+		// if we get here, then we're good
+		return true;
+	}
+
+	/**
+	 * is $this compatible with $b, according to the rules of the
+	 * ^ operator?
+	 *
+	 * @param  SemanticVersion|string $b [description]
+	 * @return boolean    [description]
+	 */
+	public function isCompatible($b)
+	{
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we turn this into two tests:
+		//
+		// $this has to be >= $b, and
+		// $this has to be < $c
+		//
+		// where $c is $b's next stable major version
+		$res = $this->isGreaterThanOrEqualTo($bObj);
+		if (!$res) {
+			return false;
+		}
+
+		// calculate our upper boundary
+		$cObj = $bObj->getCompatibleUpperBoundary();
+
+		// is $b within our upper boundary?
+		$res = $this->isLessThan($cObj);
+		if (!$res) {
+			return false;
+		}
+
+		// finally, a special case
+		// avoid installing an unstable version of the upper boundary
+		if ($cObj->getMajor() == $this->getMajor() && $this->getPreRelease() !== null) {
+			return false;
+		}
+
+		// if we get here, we're good
+		return true;
+	}
+
+	/**
+	 * should we avoid $b, according to the rules of the ! operator?
+	 *
+	 * @param  SemanticVersion|string $b
+	 * @return boolean
+	 *         TRUE if $b is a version that $this should avoid
+	 *         FALSE otherwise
+	 */
+	public function shouldAvoid($b)
+	{
+		// if $b is a version string, this will automatically convert it
+		// to an object for us
+		$bObj = $this->ensureSemanticVersion($b);
+
+		// we need some help to perform this comparison
+		$comp = $this->getVersionComparitor();
+
+		// are the two versions equal?
+		$res  = $comp->compare($this, $bObj);
+		if ($res == VersionComparitor::BOTH_ARE_EQUAL) {
+			// yes they are - that is a bad thing
+			return false;
+		}
+
+		return true;
 	}
 }
