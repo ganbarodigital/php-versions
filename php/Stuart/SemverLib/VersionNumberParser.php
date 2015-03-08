@@ -51,6 +51,9 @@ class VersionNumberParser
     const REGEX_PRERELEASE = "(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*";
     const REGEX_BUILDNUMBER = "[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*";
 
+    const PART_IS_NUMERIC = 1;
+    const PART_IS_STRING  = 2;
+
     public function __construct()
     {
         // nothing to do
@@ -133,6 +136,7 @@ class VersionNumberParser
      */
     protected function parseVersionString($versionString)
     {
+
         // do we have something we can safely attempt to parse?
         if (!is_string($versionString)) {
             throw new E4xx_NotAVersionString($versionString);
@@ -154,33 +158,53 @@ class VersionNumberParser
         if (preg_match($regex, $versionString, $matches)) {
             // we need to sanitise the regex result before returning
             // our return value
-            $retval = [];
-
-            // these are always present in any version string
-            $retval['major'] = strval($matches['major']);
-            $retval['minor'] = strval($matches['minor']);
-
-            // this is optional
-            if (isset($matches['patchLevel']) && $matches['patchLevel'] != "") {
-                $retval['patchLevel'] = strval($matches['patchLevel']);
-            }
-
-            // this is optional
-            if (isset($matches['preRelease']) && $matches['preRelease'] != "") {
-                $retval['preRelease'] = $matches['preRelease'];
-            }
-
-            // this is optional
-            if (isset($matches['build']) && $matches['build'] != "") {
-                $retval['build'] = $matches['build'];
-            }
-
-            // all done
-            return $retval;
+            return $this->cleanupMatches($matches);
         }
 
         // if we get here, then nothing matched
         throw new E4xx_BadVersionString($versionString);
+    }
+
+    /**
+     * cleanup a regex result
+     *
+     * @param  array $matches
+     *         the result from a preg_match() call
+     * @return array
+     */
+    protected function cleanupMatches($matches)
+    {
+        static $parts = [
+            "major" => self::PART_IS_NUMERIC,
+            "minor" => self::PART_IS_NUMERIC,
+            "patchLevel" => self::PART_IS_NUMERIC,
+            "preRelease" => self::PART_IS_STRING,
+            "build" => self::PART_IS_STRING,
+        ];
+
+        // we need to sanitise the regex result before returning
+        // our return value
+        $retval = [];
+
+        foreach ($parts as $key => $type) {
+            switch ($type)
+            {
+                case self::PART_IS_NUMERIC:
+                    if (isset($matches[$key]) && $matches[$key] != "") {
+                        $retval[$key] = strval($matches[$key]);
+                    }
+                    break;
+
+                case self::PART_IS_STRING:
+                    if (isset($matches[$key]) && $matches[$key] != "") {
+                        $retval[$key] = $matches[$key];
+                    }
+                    break;
+            }
+        }
+
+        // all done
+        return $retval;
     }
 
     // ==================================================================
