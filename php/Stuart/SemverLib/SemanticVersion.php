@@ -186,7 +186,7 @@ class SemanticVersion implements VersionNumber
     {
         // special case - patchLevels are optional
         if ($this->patchLevel === null) {
-            return '0';
+            return 0;
         }
 
         // general case
