@@ -124,19 +124,15 @@ class VersionComparitor
     public function compareXYZ($aVer, $bVer)
     {
         // compare major version numbers
-        if ($aVer['major'] < $bVer['major']) {
-            return self::A_IS_LESS;
-        }
-        else if ($aVer['major'] > $bVer['major']) {
-            return self::A_IS_GREATER;
+        $res = $this->compareN($aVer['major'], $bVer['major']);
+        if ($res !== self::BOTH_ARE_EQUAL) {
+            return $res;
         }
 
         // compare minor version numbers
-        if ($aVer['minor'] < $bVer['minor']) {
-            return self::A_IS_LESS;
-        }
-        else if ($aVer['minor'] > $bVer['minor']) {
-            return self::A_IS_GREATER;
+        $res = $this->compareN($aVer['minor'], $bVer['minor']);
+        if ($res !== self::BOTH_ARE_EQUAL) {
+            return $res;
         }
 
         // what about the patch level?
@@ -158,6 +154,19 @@ class VersionComparitor
             return self::A_IS_LESS;
         }
         else if ($aPatchLevel > $bPatchLevel) {
+            return self::A_IS_GREATER;
+        }
+
+        return self::BOTH_ARE_EQUAL;
+    }
+
+    protected function compareN($aN, $bN)
+    {
+        // compare two version number parts
+        if ($aN < $bN) {
+            return self::A_IS_LESS;
+        }
+        if ($aN > $bN) {
             return self::A_IS_GREATER;
         }
 
