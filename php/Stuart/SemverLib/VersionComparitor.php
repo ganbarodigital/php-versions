@@ -123,43 +123,36 @@ class VersionComparitor
      */
     public function compareXYZ($aVer, $bVer)
     {
-        // compare major version numbers
-        $res = $this->compareN($aVer['major'], $bVer['major']);
-        if ($res !== self::BOTH_ARE_EQUAL) {
-            return $res;
+        // compare each part in turn
+        foreach (['major', 'minor', 'patchLevel'] as $key)
+        {
+            // make sure we have a part to compare
+            $aN = isset($aVer[$key]) ? $aVer[$key] : 0;
+            $bN = isset($bVer[$key]) ? $bVer[$key] : 0;
+
+            // compare the two parts
+            $res = $this->compareN($aN, $bN);
+
+            // are they different?
+            if ($res !== self::BOTH_ARE_EQUAL) {
+                return $res;
+            }
         }
 
-        // compare minor version numbers
-        $res = $this->compareN($aVer['minor'], $bVer['minor']);
-        if ($res !== self::BOTH_ARE_EQUAL) {
-            return $res;
-        }
-
-        // what about the patch level?
-        //
-        // this is optional; we infer a value of '0' when none is supplied
-        if (!isset($aVer['patchLevel'])) {
-            $aPatchLevel = 0;
-        }
-        else {
-            $aPatchLevel = $aVer['patchLevel'];
-        }
-        if (!isset($bVer['patchLevel'])) {
-            $bPatchLevel = 0;
-        }
-        else {
-            $bPatchLevel = $bVer['patchLevel'];
-        }
-        if ($aPatchLevel < $bPatchLevel) {
-            return self::A_IS_LESS;
-        }
-        else if ($aPatchLevel > $bPatchLevel) {
-            return self::A_IS_GREATER;
-        }
-
+        // if we get here, then both $a and $b have the same X.Y.Z
         return self::BOTH_ARE_EQUAL;
     }
 
+    /**
+     * compare two numbers
+     *
+     * @param  int $aN
+     * @param  int $bN
+     * @return int
+     *         self::A_IS_LESS if $aN < $bN
+     *         self::A_IS_GREATER if $aN > $bN
+     *         self::BOTH_ARE_EQUAL if $aN == $bN
+     */
     protected function compareN($aN, $bN)
     {
         // compare two version number parts
