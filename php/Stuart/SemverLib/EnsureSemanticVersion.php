@@ -51,7 +51,7 @@ trait EnsureSemanticVersion
 	/**
 	 * if $input is a string, convert it to a SemanticVersion object
 	 *
-	 * @param  SemanticVersion|string $input
+	 * @param  VersionNumber|string $input
 	 *         the version number that we may need to convert
 	 * @return SemanticVersion
 	 */
