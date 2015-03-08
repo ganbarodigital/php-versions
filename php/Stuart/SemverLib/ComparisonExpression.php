@@ -118,7 +118,7 @@ class ComparisonExpression
     /**
      * retrieve the version we will use in any comparisons
      *
-     * @return VersionNumber
+     * @return VersionNumber|null
      */
     public function getVersion()
     {
