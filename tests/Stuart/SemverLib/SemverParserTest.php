@@ -66,7 +66,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider provideVersionStrings
 	 *
-	 * @covers Stuart\SemverLib\SemverParser::parseVersionIntoArray
+	 * @covers Stuart\SemverLib\SemverParser::parseIntoArray
 	 * @covers Stuart\SemverLib\SemverParser::parseVersionString
 	 */
 	public function testCanParseVersionStrings($versionString, $expectedBreakdown)
@@ -79,7 +79,7 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-	    $actualBreakdown = $parser->parseVersionIntoArray($versionString);
+	    $actualBreakdown = $parser->parseIntoArray($versionString);
 
 	    // ----------------------------------------------------------------
 	    // test the results

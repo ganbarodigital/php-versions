@@ -67,7 +67,7 @@ class SemverParser
      *         the string to parse
      * @return SemanticVersion
      */
-    public function parseVersion($versionString)
+    public function parse($versionString)
     {
         // we need something to store the results into
         $retval = new SemanticVersion();
@@ -93,7 +93,7 @@ class SemverParser
      *
      * @return void
      */
-    public function parseVersionIntoObject($versionString, SemanticVersion $target)
+    public function parseIntoObject($versionString, SemanticVersion $target)
     {
         // make sense of the string
         //
@@ -169,7 +169,7 @@ class SemverParser
     //
     // ------------------------------------------------------------------
 
-    public function parseVersionIntoArray($versionString)
+    public function parseIntoArray($versionString)
     {
         $breakdown = $this->parseVersionString($versionString);
 

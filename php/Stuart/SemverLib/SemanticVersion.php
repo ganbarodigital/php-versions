@@ -108,7 +108,7 @@ class SemanticVersion
 	{
 		// if we get here, we need to parse the version string
 		$parser = new SemverParser();
-		$parser->parseVersionIntoObject($version, $this);
+		$parser->parseIntoObject($version, $this);
 	}
 
 	/**
