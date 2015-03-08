@@ -194,47 +194,10 @@ class VersionComparitor
             // shorthand
             $bPart = $bParts[$i];
 
-            // what are we looking at?
-            $aPartIsNumeric = ctype_digit($aPart);
-            $bPartIsNumeric = ctype_digit($bPart);
-
-            // make sense of it
-            if ($aPartIsNumeric) {
-                if (!$bPartIsNumeric) {
-                    // $bPart is a string
-                    //
-                    // strings always win
-                    return self::A_IS_LESS;
-                }
-
-                // at this point, we have two numbers
-                $aInt = strval($aPart);
-                $bInt = strval($bPart);
-
-                if ($aInt < $bInt) {
-                    return self::A_IS_LESS;
-                }
-                else if ($aInt > $bInt) {
-                    return self::A_IS_GREATER;
-                }
-            }
-            else if ($bPartIsNumeric) {
-                // $aPart is a string
-                //
-                // strings always win
-                return self::A_IS_GREATER;
-            }
-            else {
-                // two strings to compare
-                //
-                // unfortunately, strcmp() doesn't return -1 / 0 / 1
-                $res = strcmp($aPart, $bPart);
-                if ($res < 0) {
-                    return self::A_IS_LESS;
-                }
-                else if ($res > 0) {
-                    return self::A_IS_GREATER;
-                }
+            // what can we learn about them?
+            $res = $this->comparePreReleasePart($aPart, $bPart);
+            if ($res !== self::BOTH_ARE_EQUAL) {
+                return $res;
             }
         }
 
@@ -244,6 +207,62 @@ class VersionComparitor
         }
 
         // at this point, we've exhausted all of the possibilities
+        return self::BOTH_ARE_EQUAL;
+    }
+
+    /**
+     * compare A and B part of the preRelease string
+     *
+     * @param  string|int $aPart
+     * @param  string|int $bPart
+     * @return int
+     */
+    protected function comparePreReleasePart($aPart, $bPart)
+    {
+        // what are we looking at?
+        $aPartIsNumeric = ctype_digit($aPart);
+        $bPartIsNumeric = ctype_digit($bPart);
+
+        // make sense of it
+        if ($aPartIsNumeric) {
+            if (!$bPartIsNumeric) {
+                // $bPart is a string
+                //
+                // strings always win
+                return self::A_IS_LESS;
+            }
+
+            // at this point, we have two numbers
+            $aInt = strval($aPart);
+            $bInt = strval($bPart);
+
+            if ($aInt < $bInt) {
+                return self::A_IS_LESS;
+            }
+            else if ($aInt > $bInt) {
+                return self::A_IS_GREATER;
+            }
+        }
+        else if ($bPartIsNumeric) {
+            // $aPart is a string
+            //
+            // strings always win
+            return self::A_IS_GREATER;
+        }
+        else {
+            // two strings to compare
+            //
+            // unfortunately, strcmp() doesn't return -1 / 0 / 1
+            $res = strcmp($aPart, $bPart);
+            if ($res < 0) {
+                return self::A_IS_LESS;
+            }
+            else if ($res > 0) {
+                return self::A_IS_GREATER;
+            }
+        }
+
+        // if we get here, we cannot tell them apart
         return self::BOTH_ARE_EQUAL;
     }
 }
