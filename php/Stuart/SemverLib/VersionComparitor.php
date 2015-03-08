@@ -434,8 +434,7 @@ class VersionComparitor
 		}
 
 		// calculate our upper boundary
-		$c = new SemanticVersion();
-		$c->setVersion($a->getMajor() +1 . '.0');
+		$c = $a->getCompatibleUpperBoundary();
 
 		$res = $this->isLessThan($c, $b);
 		if (!$res) {

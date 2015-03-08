@@ -264,13 +264,34 @@ class SemanticVersion
 		// ~X.Y.Z has an upper boundary of X.Y+1.0
 		if ($this->hasPatchLevel()) {
 			$upperBound = $this->getMajor() . '.' . ($this->getMinor() + 1);
-			$boundByMinor = true;
 		}
 		else {
 			// ~X.Y has an upper boundary of X+1.Y
 			$upperBound = ($this->getMajor() + 1) . '.0';
-			$boundByMajor = true;
 		}
+		$retval->setVersion($upperBound);
+
+		return $retval;
+	}
+
+	/**
+	 * return a SemanticVersion that represents our upper boundary according
+	 * to the rules of the ^ operator
+	 *
+	 * the return value needs to be used with the < operator, and you will
+	 * need to do manual filtering out of pre-release versions of the
+	 * return value
+	 *
+	 * @return SemanticVersion
+	 */
+	public function getCompatibleUpperBoundary()
+	{
+		// our return value
+		$retval = new SemanticVersion;
+
+		// ^X.Y.Z has an upper boundary of X+1.0
+		// ^X.Y has an upper boundary of X+1.0
+		$upperBound = ($this->getMajor() + 1) . '.0';
 		$retval->setVersion($upperBound);
 
 		return $retval;
