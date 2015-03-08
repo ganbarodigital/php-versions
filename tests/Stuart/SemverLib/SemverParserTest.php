@@ -106,6 +106,17 @@ class SemverParserTest extends PHPUnit_Framework_TestCase
 					"patchLevel" => 0
 				]
 			],
+			// this one is interesting because we don't provide the
+			// patchLevel in the version string
+			[
+				"1.0-alpha",
+				[
+					"major" => 1,
+					"minor" => 0,
+					"patchLevel" => 0,
+					"preRelease" => "alpha"
+				]
+			],
 			// example taken from semver.org
 			[
 				"1.0.0-alpha",

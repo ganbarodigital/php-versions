@@ -108,7 +108,7 @@ class SemverParser
         //
         // yes, semver.org says that it is mandatory, but let's be a little
         // pragmatic here :)
-        if (isset($breakdown['patchLevel'])) {
+        if (isset($breakdown['patchLevel']) && !empty($breakdown['patchLevel'])) {
             $target->setPatchLevel(strval($breakdown['patchLevel']));
         }
         else {
@@ -181,7 +181,7 @@ class SemverParser
         $retval['minor'] = strval($breakdown['minor']);
 
         // this is optional
-        if (isset($breakdown['patchLevel'])) {
+        if (isset($breakdown['patchLevel']) && !empty($breakdown['patchLevel'])) {
             $retval['patchLevel'] = strval($breakdown['patchLevel']);
         }
         else {
