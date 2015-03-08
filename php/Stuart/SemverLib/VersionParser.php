@@ -73,7 +73,7 @@ class VersionParser
         $retval = new SemanticVersion();
 
         // initialise $retval from our version string
-        $this->parseVersionIntoObject($versionString, $retval);
+        $this->parseIntoObject($versionString, $retval);
 
         // all done
         return $retval;
