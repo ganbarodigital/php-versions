@@ -94,7 +94,7 @@ class ComparisonOperators
 	 * @param  string $operator
 	 * @return string
 	 */
-	static public function getOperatorName($operator)
+	public static function getOperatorName($operator)
 	{
 		if (!self::isValidOperator($operator)) {
 			throw new E4xx_UnknownOperator($operator);
@@ -108,12 +108,12 @@ class ComparisonOperators
 	 *
 	 * @return array<string>
 	 */
-	static public function getOperators()
+	public static function getOperators()
 	{
 		return array_keys(self::$operators);
 	}
 
-	static public function isValidOperator($operator)
+	public static function isValidOperator($operator)
 	{
 		if (!isset(self::$operators[$operator])) {
 			return false;
