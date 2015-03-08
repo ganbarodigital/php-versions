@@ -74,6 +74,7 @@ class ComparisonOperatorsTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider provideInvalidOperators
 	 *
 	 * @covers Stuart\SemverLib\ComparisonOperators::getOperatorName
+	 * @covers Stuart\SemverLib\E4xx_UnknownOperator
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_UnknownOperator
 	 */

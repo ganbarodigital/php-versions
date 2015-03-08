@@ -113,6 +113,7 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider getVersionRangesThatNeverMatch
 	 *
 	 * @covers Stuart\SemverLib\VersionRange::ensureMatchesVersion
+	 * @covers Stuart\SemverLib\E4xx_VersionDoesNotMatchRange
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_VersionDoesNotMatchRange
 	 */

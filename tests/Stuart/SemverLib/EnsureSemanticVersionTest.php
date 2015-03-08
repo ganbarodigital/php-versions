@@ -104,6 +104,8 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @covers Stuart\SemverLib\EnsureSemanticVersion::ensureSemanticVersion
+	 * @covers Stuart\SemverLib\E4xx_UnsupportedVersionNumber
+	 *
 	 * @expectedException Stuart\SemverLib\E4xx_UnsupportedVersionNumber
 	 */
 	public function testRejectsOtherVersionNumbersAsInput()
@@ -124,6 +126,8 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider provideInvalidInputs
 	 *
 	 * @covers Stuart\SemverLib\EnsureSemanticVersion::ensureSemanticVersion
+	 * @covers Stuart\SemverLib\E4xx_NotAVersionNumber
+	 *
 	 * @expectedException Stuart\SemverLib\E4xx_NotAVersionNumber
 	 */
 	public function testRejectsDoublesEtAlAsInput($input)

@@ -102,6 +102,7 @@ class VersionNumberParserTest extends PHPUnit_Framework_TestCase
 	 * @covers Stuart\SemverLib\VersionNumberParser::parse
 	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
 	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
+	 * @covers Stuart\SemverLib\E4xx_NotAVersionString
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
 	 */
@@ -129,6 +130,7 @@ class VersionNumberParserTest extends PHPUnit_Framework_TestCase
 	 * @covers Stuart\SemverLib\VersionNumberParser::parse
 	 * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
 	 * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
+	 * @covers Stuart\SemverLib\E4xx_BadVersionString
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_BadVersionString
 	 */

@@ -128,6 +128,8 @@ class EnsureVersionNumberTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider provideInvalidInputs
 	 *
 	 * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+	 * @covers Stuart\SemverLib\E4xx_NotAVersionNumber
+	 *
 	 * @expectedException Stuart\SemverLib\E4xx_NotAVersionNumber
 	 */
 	public function testRejectsDoublesEtAlAsInput($input)

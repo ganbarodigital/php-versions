@@ -135,6 +135,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
 	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
+	 * @covers Stuart\SemverLib\E4xx_UnknownOperator
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_UnknownOperator
 	 */

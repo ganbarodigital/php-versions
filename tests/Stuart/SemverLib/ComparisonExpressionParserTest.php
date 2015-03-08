@@ -113,7 +113,7 @@ class ComparisonExpressionParserTest extends PHPUnit_Framework_TestCase
 	 * @dataProvider provideInvalidExpressionToEvaluate
 	 *
 	 * @covers Stuart\SemverLib\ComparisonExpressionParser::parse
-	 * @covers Stuart\SemverLib\E4xx_NotAComparisonExpression::__construct
+	 * @covers Stuart\SemverLib\E4xx_UnsupportedComparisonExpression::__construct
 	 *
 	 * @expectedException Stuart\SemverLib\E4xx_UnsupportedComparisonExpression
 	 */
