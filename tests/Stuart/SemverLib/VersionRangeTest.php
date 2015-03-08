@@ -64,14 +64,17 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider getVersionRanges
+	 *
 	 * @covers Stuart\SemverLib\VersionRange::__construct
+	 * @covers Stuart\SemverLib\VersionRange::parse
 	 */
-	public function testCanInstantiateWithRange()
+	public function testCanInstantiateWithRange($expectedRange)
 	{
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$range = new VersionRange(">1.0,<2.0");
+		$range = new VersionRange($expectedRange);
 
 	    // ----------------------------------------------------------------
 	    // test the results
@@ -80,9 +83,10 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @dataProvider getVersionRanges
+	 * @dataProvider getVersionRangesForMatching
 	 *
 	 * @covers Stuart\SemverLib\VersionRange::matchesVersion
+	 * @covers Stuart\SemverLib\VersionRange::ensureMatchesVersion
 	 */
 	public function testCanMatchVersionRanges($range, $version, $expectedResult)
 	{
@@ -95,6 +99,9 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
 	    // perform the change
 
 	    $actualResult = $range->matchesVersion($version);
+	    if ($expectedResult) {
+	    	$range->ensureMatchesVersion($version);
+	    }
 
 	    // ----------------------------------------------------------------
 	    // test the results
@@ -102,7 +109,46 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
 	    $this->assertEquals($expectedResult, $actualResult);
 	}
 
+	/**
+	 * @dataProvider getVersionRangesThatNeverMatch
+	 *
+	 * @covers Stuart\SemverLib\VersionRange::ensureMatchesVersion
+	 *
+	 * @expectedException Stuart\SemverLib\E4xx_VersionDoesNotMatchRange
+	 */
+	public function testCanEnsureVersionRangeIsMatched($range, $version)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $range = new VersionRange($range);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $range->ensureMatchesVersion($version);
+	}
+
 	public function getVersionRanges()
+	{
+		$retval = [];
+		foreach ($this->getVersionRangesForMatching() as $dataset) {
+			$retval[] = [ $dataset[0] ];
+		}
+
+		return $retval;
+	}
+
+	public function getVersionRangesForMatching()
+	{
+		return array_merge(
+			$this->getVersionRangesThatAlwaysMatch(),
+		    $this->getVersionRangesThatNeverMatch()
+		);
+	}
+
+
+	public function getVersionRangesThatAlwaysMatch()
 	{
 		return [
 			[
@@ -126,14 +172,25 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
 				true
 			],
 			[
-				">1.0,<2.0,!1.5.6",
-				"1.5.6",
-				false
-			],
-			[
 				"~1.0,!1.5.6",
 				"1.5",
 				true
+			],
+			[
+				"^1.4.9,!1.5.6",
+				"1.5",
+				true
+			],
+		];
+	}
+
+	public function getVersionRangesThatNeverMatch()
+	{
+		return [
+			[
+				">1.0,<2.0,!1.5.6",
+				"1.5.6",
+				false
 			],
 			[
 				"~1.4,!1.5.6",
@@ -149,11 +206,6 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
 				"~1.0,!1.5.6",
 				"2.0.0-alpha-1",
 				false
-			],
-			[
-				"^1.4.9,!1.5.6",
-				"1.5",
-				true
 			],
 			[
 				"^1.4.9,!1.5.6",

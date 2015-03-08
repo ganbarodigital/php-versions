@@ -45,7 +45,7 @@ namespace Stuart\SemverLib;
 
 class VersionRange
 {
-    use EnsureSemanticVersion;
+    use EnsureVersionNumber;
 
     /**
      * ordered list of expressions that make up our version range
@@ -64,26 +64,6 @@ class VersionRange
         if ($range != null) {
             $this->parse($range);
         }
-    }
-
-    /**
-     * add an expression to the end of our list
-     *
-     * @param ComparisonExpression $e
-     */
-    public function addExpression(ComparisonExpression $e)
-    {
-        $this->expressions[] = $e;
-    }
-
-    /**
-     * retrieve our list of expressions
-     *
-     * @return array<ComparisonExpression>
-     */
-    public function getExpressions()
-    {
-        return $this->expressions;
     }
 
     /**
@@ -110,7 +90,7 @@ class VersionRange
      */
     public function matchesVersion($version)
     {
-        $versionObj = $this->ensureSemanticVersion($version);
+        $versionObj = $this->ensureVersionNumber($version);
 
         foreach($this->expressions as $expression)
         {
@@ -135,12 +115,12 @@ class VersionRange
      */
     public function ensureMatchesVersion($version)
     {
-        $versionObj = $this->ensureSemanticVersion($version);
+        $versionObj = $this->ensureVersionNumber($version);
 
         foreach($this->expressions as $expression)
         {
-            if (!$expression->matchesVersion($version)) {
-                throw new E4xx_VersionDoesNotMatchRange($version, $expression);
+            if (!$expression->matchesVersion($versionObj)) {
+                throw new E4xx_VersionDoesNotMatchRange($versionObj, $expression);
             }
         }
     }
