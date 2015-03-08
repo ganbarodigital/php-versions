@@ -187,18 +187,22 @@ class VersionNumberParser
         $retval = [];
 
         foreach ($parts as $key => $type) {
+            // skip over optional parts
+            if (!isset($matches[$key]) || $matches[$key] == "") {
+                continue;
+            }
+
+            // what do we need to do to this part?
             switch ($type)
             {
                 case self::PART_IS_NUMERIC:
-                    if (isset($matches[$key]) && $matches[$key] != "") {
-                        $retval[$key] = strval($matches[$key]);
-                    }
+                    // force it to be numeric now
+                    $retval[$key] = strval($matches[$key]);
                     break;
 
                 case self::PART_IS_STRING:
-                    if (isset($matches[$key]) && $matches[$key] != "") {
-                        $retval[$key] = $matches[$key];
-                    }
+                    // just copy it across
+                    $retval[$key] = $matches[$key];
                     break;
             }
         }
