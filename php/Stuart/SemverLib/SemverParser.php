@@ -57,7 +57,7 @@ class SemverParser
     }
 
     /**
-     * convert a string in the form 'X.Y[.Z][-<stability>][-R]' into a
+     * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into a
      * SemanticVersion object
      *
      * @throws E4xx_BadVersionString
@@ -80,7 +80,7 @@ class SemverParser
     }
 
     /**
-     * convert a string in the form 'X.Y[.Z][-<stability>][-R]' into your
+     * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into your
      * existing SemanticVersion object
      *
      * @throws E4xx_BadVersionString
@@ -129,7 +129,7 @@ class SemverParser
     }
 
     /**
-     * extract the individual parts of an 'X.Y[.Z][-<stability>][+R]' version
+     * extract the individual parts of an 'X.Y[.Z][-<preRelease>][+R]' version
      * string
      *
      * @throws E4xx_BadVersionString
