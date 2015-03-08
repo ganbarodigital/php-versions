@@ -153,7 +153,6 @@ class VersionNumberParser
         //
         // I've tried using multiple regexes here to see if we can match
         // more quickly, but it doesn't make a noticable difference
-        //$regex = "%^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)(\.(?P<patchLevel>0|[1-9]\d*)){0,1}(-(?P<preRelease>(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*)){0,1}(\+(?P<build>[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*)){0,1}$%";
         $regex = "%^\s*v{0,1}(?P<major>" . self::REGEX_MAJOR . ")"
                . "\.(?P<minor>" . self::REGEX_MINOR . ")"
                . "(\.(?P<patchLevel>" . self::REGEX_PATCHLEVEL . ")){0,1}"
