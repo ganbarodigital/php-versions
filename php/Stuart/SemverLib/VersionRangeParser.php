@@ -71,45 +71,16 @@ class VersionRangeParser
         // the expression can contain multiple comparisons
         $parts = explode(",", $expr);
 
+        // our expression parser
+        $parser = new ComparisonExpressionParser();
+
         // what do we have?
         foreach ($parts as $part)
         {
-            $retval[] = $this->parseIntoComparisonExpression(trim(rtrim($part)));
+            $retval[] = $parser->parse($part);
         }
 
         // all done
         return $retval;
-    }
-
-    /**
-     * turn a single comparison expression clause into a ComparisonExpression
-     * object
-     *
-     * @throws Stuart\SemverLib\E4xx_UnsupportedComparison
-     *         if we cannot parse the string
-     *
-     * @param  string $input
-     *         the expression to parse
-     * @return ComparisonExpression
-     */
-    protected function parseIntoComparisonExpression($input)
-    {
-        // do we have a valid expression?
-        foreach (ComparisonOperators::getOperators() as $operator) {
-            $opLength = strlen($operator);
-
-            if (substr($input, 0, $opLength) != $operator) {
-                continue;
-            }
-
-            // if we get here, we have a match!
-            $retval = new ComparisonExpression();
-            $retval->setOperator($operator);
-            $retval->setVersion(substr($input, $opLength));
-            return $retval;
-        }
-
-        // if we get here, then we do not have a valid expression
-        throw new E4xx_UnsupportedComparison($input);
     }
 }
