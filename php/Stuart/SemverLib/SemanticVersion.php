@@ -94,7 +94,7 @@ class SemanticVersion implements VersionNumber
 	 */
 	public function __construct($version = null)
 	{
-		if ($version == null) {
+		if ($version === null) {
 			return;
 		}
 
