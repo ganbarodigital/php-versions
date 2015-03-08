@@ -200,6 +200,47 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider provideVersionsForApproximateUpperBoundary
+	 *
+	 * @covers Stuart\SemverLib\SemanticVersion::getApproximateUpperBoundary
+	 */
+	public function testCanGetApproximateUpperBoundary($version, $expectedResult)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $obj = new SemanticVersion($version);
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $upperBoundary = $obj->getApproximateUpperBoundary();
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($expectedResult, (string)$upperBoundary);
+	}
+
+	public function provideVersionsForApproximateUpperBoundary()
+	{
+		return [
+			[
+				"1.0",
+				"2.0"
+			],
+			[
+				"1.0.0",
+				"1.1"
+			],
+			[
+				"1.0.1",
+				"1.1"
+			],
+		];
+	}
+
+	/**
 	 * @dataProvider provideVersionsForStringCasting
 	 *
 	 * @covers Stuart\SemverLib\SemanticVersion::__toString()

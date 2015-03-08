@@ -388,22 +388,9 @@ class VersionComparitor
 		//
 		// ~1.2.3 becomes <1.3.0
 		// ~1.2   becomes <2.0.0
-		//
-		// and keep track of which boundary we're locked against
-		$boundByMajor = false;
-		$boundByMinor = false;
+		$c = $a->getApproximateUpperBoundary();
 
-		$c = new SemanticVersion();
-		if ($a->getPatchLevel() > 0) {
-			$upperBound = $a->getMajor() . '.' . ($a->getMinor() + 1);
-			$boundByMinor = true;
-		}
-		else {
-			$upperBound = ($a->getMajor() + 1) . '.0';
-			$boundByMajor = true;
-		}
-		$c->setVersion($upperBound);
-
+		// is $b within our upper boundary?
 		$res = $this->isLessThan($c, $b);
 		if (!$res) {
 			return false;
@@ -414,7 +401,7 @@ class VersionComparitor
 		if ($c->getMajor() == $b->getMajor() && $b->getPreRelease() !== null) {
 			return false;
 		}
-		if ($boundByMinor && $c->getMinor() == $b->getMinor() && $b->getPreRelease() !== null) {
+		else if ($c->getMinor() == $b->getMinor() && $b->getPreRelease() !== null) {
 			return false;
 		}
 

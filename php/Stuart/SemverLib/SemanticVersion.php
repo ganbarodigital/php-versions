@@ -240,6 +240,48 @@ class SemanticVersion
 		$this->buildNumber = $buildNumber;
 	}
 
+	// ==================================================================
+	//
+	// Calculated properties go here
+	//
+	// ------------------------------------------------------------------
+
+	/**
+	 * return a SemanticVersion that represents our upper boundary according
+	 * to the rules of the ~ operator
+	 *
+	 * the return value needs to be used with the < operator, and you will
+	 * need to do manual filtering out of pre-release versions of the
+	 * return value
+	 *
+	 * @return SemanticVersion
+	 */
+	public function getApproximateUpperBoundary()
+	{
+		// our return value
+		$retval = new SemanticVersion;
+
+		// ~X.Y.Z has an upper boundary of X.Y+1.0
+		if ($this->hasPatchLevel()) {
+			$upperBound = $this->getMajor() . '.' . ($this->getMinor() + 1);
+			$boundByMinor = true;
+		}
+		else {
+			// ~X.Y has an upper boundary of X+1.Y
+			$upperBound = ($this->getMajor() + 1) . '.0';
+			$boundByMajor = true;
+		}
+		$retval->setVersion($upperBound);
+
+		return $retval;
+	}
+
+	// ==================================================================
+	//
+	// Type convertors go here
+	//
+	// ------------------------------------------------------------------
+
 	/**
 	 * magic method for when you need a simple string to use
 	 *
