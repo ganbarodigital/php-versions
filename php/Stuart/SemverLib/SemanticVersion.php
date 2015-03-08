@@ -267,7 +267,7 @@ class SemanticVersion implements VersionNumber
     /**
      * Set the 'build number' in my X.Y.Z[-<preRelease>[+R]] version number
      *
-     * @param string $buildNumber
+     * @param string $build
      *        my new build number
      */
     public function setBuildNumber($build)
