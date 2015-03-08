@@ -65,7 +65,7 @@ class VersionParser
      *
      * @param  string $versionString
      *         the string to parse
-     * @return SemanticVersion
+     * @return VersionNumber
      */
     public function parse($versionString)
     {
@@ -88,12 +88,12 @@ class VersionParser
      *
      * @param  string          $versionString
      *         the string to parse
-     * @param  SemanticVersion $target
+     * @param  VersionNumber $target
      *         the object to initialise from the version string
      *
      * @return void
      */
-    public function parseIntoObject($versionString, SemanticVersion $target)
+    public function parseIntoObject($versionString, VersionNumber $target)
     {
         // make sense of the string
         //
@@ -194,6 +194,18 @@ class VersionParser
     //
     // ------------------------------------------------------------------
 
+    /**
+     * parse the version string and return the components as an associative
+     * array for further use
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @param  string $versionString
+     *         the version string to parse
+     * @return array
+     *         the parsed string
+     */
     public function parseIntoArray($versionString)
     {
         return $this->parseVersionString($versionString);
