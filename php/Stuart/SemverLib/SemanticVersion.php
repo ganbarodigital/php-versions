@@ -46,7 +46,7 @@ namespace Stuart\SemverLib;
 /**
  * Represents a version number
  */
-class SemanticVersion
+class SemanticVersion implements VersionNumber
 {
 	// helper for converting version strings to an object
 	use EnsureSemanticVersion;
@@ -201,6 +201,13 @@ class SemanticVersion
 		$this->patchLevel = $patchLevel;
 	}
 
+	/**
+	 * Is there a 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number?
+	 *
+	 * @return boolean
+	 *         TRUE if preRelease has been set
+	 *         FALSE otherwise
+	 */
 	public function hasPreRelease()
 	{
 		if ($this->preRelease === null) {
@@ -231,6 +238,13 @@ class SemanticVersion
 		$this->preRelease = $preRelease;
 	}
 
+	/**
+	 * Is there a 'R' in my X.Y.Z[-<preRelease>[+R]] version number?
+	 *
+	 * @return boolean
+	 *         TRUE if R has been set
+	 *         FALSE otherwise
+	 */
 	public function hasBuildNumber()
 	{
 		if ($this->buildNumber === null) {
@@ -268,14 +282,14 @@ class SemanticVersion
 	// ------------------------------------------------------------------
 
 	/**
-	 * return a SemanticVersion that represents our upper boundary according
+	 * return a VersionNumber that represents our upper boundary according
 	 * to the rules of the ~ operator
 	 *
 	 * the return value needs to be used with the < operator, and you will
 	 * need to do manual filtering out of pre-release versions of the
 	 * return value
 	 *
-	 * @return SemanticVersion
+	 * @return VersionNumber
 	 */
 	public function getApproximateUpperBoundary()
 	{
@@ -296,14 +310,14 @@ class SemanticVersion
 	}
 
 	/**
-	 * return a SemanticVersion that represents our upper boundary according
+	 * return a VersionNumber that represents our upper boundary according
 	 * to the rules of the ^ operator
 	 *
 	 * the return value needs to be used with the < operator, and you will
 	 * need to do manual filtering out of pre-release versions of the
 	 * return value
 	 *
-	 * @return SemanticVersion
+	 * @return VersionNumber
 	 */
 	public function getCompatibleUpperBoundary()
 	{
@@ -411,7 +425,7 @@ class SemanticVersion
 	/**
 	 * does $this equal $b?
 	 *
-	 * @param  SemanticVersion|string $b
+	 * @param  VersionNumber|string $b
 	 * @return boolean
 	 *         TRUE if $this == $b
 	 *         FALSE otherwise
@@ -437,7 +451,7 @@ class SemanticVersion
 	/**
 	 * is $this >= $b?
 	 *
-	 * @param  SemanticVersion|string $b
+	 * @param  VersionNumber|string $b
 	 * @return boolean
 	 *         TRUE if $this => $b
 	 *         FALSE otherwise
@@ -463,7 +477,7 @@ class SemanticVersion
 	/**
 	 * is $this > $b?
 	 *
-	 * @param  SemanticVersion|string $b
+	 * @param  VersionNumber|string $b
 	 * @return boolean
 	 *         TRUE if $this > $b
 	 *         FALSE otherwise
@@ -489,7 +503,7 @@ class SemanticVersion
 	/**
 	 * is $this <= $b?
 	 *
-	 * @param  SemanticVersion|string $b
+	 * @param  VersionNumber|string $b
 	 * @return boolean
 	 *         TRUE if $this <= $b
 	 *         FALSE otherwise
@@ -515,7 +529,7 @@ class SemanticVersion
 	/**
 	 * is $this < $b?
 	 *
-	 * @param  SemanticVersion|string $b
+	 * @param  VersionNumber|string $b
 	 * @return boolean
 	 *         TRUE if $this < $b
 	 *         FALSE otherwise
@@ -547,7 +561,7 @@ class SemanticVersion
 	 * - you can only use the ~ operator to pin down which major / minor
 	 *   version to limit to, not the preRelease level
 	 *
-	 * @param  SemanticVersion|string $b
+	 * @param  VersionNumber|string $b
 	 * @return boolean
 	 *         TRUE if $this ~= $b
 	 *         FALSE otherwise
@@ -598,8 +612,10 @@ class SemanticVersion
 	 * is $this compatible with $b, according to the rules of the
 	 * ^ operator?
 	 *
-	 * @param  SemanticVersion|string $b [description]
-	 * @return boolean    [description]
+	 * @param  VersionNumber|string $b
+	 * @return boolean
+	 *         TRUE if $this is compatible with $b
+	 *         FALSE otherwise
 	 */
 	public function isCompatible($b)
 	{
@@ -640,7 +656,7 @@ class SemanticVersion
 	/**
 	 * should we avoid $b, according to the rules of the ! operator?
 	 *
-	 * @param  SemanticVersion|string $b
+	 * @param  VersionNumber|string $b
 	 * @return boolean
 	 *         TRUE if $b is a version that $this should avoid
 	 *         FALSE otherwise
