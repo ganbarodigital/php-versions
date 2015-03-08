@@ -121,6 +121,10 @@ class ComparisonExpression
 	 */
 	public function setOperator($operator)
 	{
+		if (!ComparisonOperators::isValidOperator($operator)) {
+			throw new E4xx_UnknownOperator($operator);
+		}
+
 		$this->operator = $operator;
 	}
 
