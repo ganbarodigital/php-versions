@@ -64,33 +64,46 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider provideValidVersionNumbers
+	 *
 	 * @covers Stuart\SemverLib\SemanticVersion::__construct
 	 * @covers Stuart\SemverLib\SemanticVersion::setVersion
-	 * @covers Stuart\SemverLib\SemanticVersion::getMajor
-	 * @covers Stuart\SemverLib\SemanticVersion::setMajor
-	 * @covers Stuart\SemverLib\SemanticVersion::getMinor
-	 * @covers Stuart\SemverLib\SemanticVersion::setMinor
-	 * @covers Stuart\SemverLib\SemanticVersion::hasPatchLevel
-	 * @covers Stuart\SemverLib\SemanticVersion::getPatchLevel
-	 * @covers Stuart\SemverLib\SemanticVersion::setPatchLevel
 	 */
-	public function testCanInstantiateWithVersionParameter()
+	public function testCanInstantiateWithVersionParameter($version)
 	{
 	    // ----------------------------------------------------------------
 	    // perform the change
 
-		$obj = new SemanticVersion("1.0.0");
+		$obj = new SemanticVersion($version);
 
 	    // ----------------------------------------------------------------
 	    // test the results
 
 		$this->assertTrue($obj instanceof SemanticVersion);
-		$this->assertEquals(1, $obj->getMajor());
-		$this->assertEquals(0, $obj->getMinor());
-		$this->assertEquals(0, $obj->getPatchLevel());
-		$this->assertTrue($obj->hasPatchLevel());
-		$this->assertNull($obj->getPreRelease());
-		$this->assertNull($obj->getBuildNumber());
+	}
+
+	public function provideValidVersionNumbers()
+	{
+		$validVersions = SemanticVersionDatasets::getVersionNumberDataset();
+
+		// our return value
+		$retval = [];
+
+		// let's build the dataset
+		//
+		// we're throwing in a few curveballs to make sure that we cope with
+		// surprises
+		foreach ($validVersions as $dataset) {
+			$retval[] = [ $dataset[0] ];
+			$retval[] = [ $dataset[0] . ' '];
+			$retval[] = [ 'v' . $dataset[0] ];
+			$retval[] = [ ' ' . $dataset[0] ];
+			$retval[] = [ ' ' . $dataset[0] . ' '];
+			$retval[] = [ '	' . $dataset[0]];
+		}
+
+		// all done
+		return $retval;
 	}
 
 	/**
