@@ -231,6 +231,15 @@ class VersionComparitor
 		return self::BOTH_ARE_EQUAL;
 	}
 
+	/**
+	 * are two version numbers the same?
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 *         TRUE if they are the same
+	 *         FALSE otherwise
+	 */
 	public function equals(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
@@ -241,6 +250,15 @@ class VersionComparitor
 		return false;
 	}
 
+	/**
+	 * is version number $b greater than $a?
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 *         TRUE if $b is greater than $a
+	 *         FALSE otherwise
+	 */
 	public function isGreaterThan(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
@@ -251,6 +269,15 @@ class VersionComparitor
 		return true;
 	}
 
+	/**
+	 * is version number $b >= $a?
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 *         TRUE if $b >= $a
+	 *         FALSE otherwise
+	 */
 	public function isGreaterThanOrEqualTo(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
@@ -261,6 +288,15 @@ class VersionComparitor
 		return true;
 	}
 
+	/**
+	 * is version number $b <= $a?
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 *         TRUE if $b <= $a
+	 *         FALSE otherwise
+	 */
 	public function isLessThanOrEqualTo(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
@@ -271,6 +307,15 @@ class VersionComparitor
 		return true;
 	}
 
+	/**
+	 * is version number $b < $a?
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 *         TRUE if $b < $a
+	 *         FALSE otherwise
+	 */
 	public function isLessThan(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
@@ -281,6 +326,18 @@ class VersionComparitor
 		return false;
 	}
 
+	/**
+	 * is version number $b something that we should avoid using, according
+	 * to version number $a?
+	 *
+	 * (this is the !$a expression)
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 *         TRUE if $b should be avoided
+	 *         FALSE otherwise
+	 */
 	public function avoid(SemanticVersion $a, SemanticVersion $b)
 	{
 		$res = $this->compare($a, $b);
@@ -291,6 +348,15 @@ class VersionComparitor
 		return true;
 	}
 
+	/**
+	 * is version number $b approximately the same as $a?
+	 *
+	 * (this is the ~$a expression)
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 */
 	public function isApproximately(SemanticVersion $a, SemanticVersion $b)
 	{
 		// we turn this into two tests:
@@ -342,6 +408,17 @@ class VersionComparitor
 		return true;
 	}
 
+	/**
+	 * is version number $b compatible with $a?
+	 *
+	 * (this is the ^$a expression)
+	 *
+	 * @param  SemanticVersion $a
+	 * @param  SemanticVersion $b
+	 * @return boolean
+	 *         TRUE if $b is compatible with $a
+	 *         FALSE otherwise
+	 */
 	public function isCompatible(SemanticVersion $a, SemanticVersion $b)
 	{
 		// we turn this into two tests:
@@ -374,6 +451,18 @@ class VersionComparitor
 		return true;
 	}
 
+	/**
+	 * are hashes $a and $b the same?
+	 *
+	 * (this is the @$a operator for pinning to a Git commit)
+	 *
+	 * @param  string $a
+	 *         a hash string
+	 * @param  string $b
+	 *         the hash string to compare against $a
+	 * @return boolean
+	 *         TRUE if $a == $b
+	 */
 	public function equalNonVersion($a, $b)
 	{
 		if (strcmp($a, $b) == 0) {
