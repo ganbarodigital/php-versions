@@ -94,6 +94,78 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * @dataProvider provideAllValidOperators
+	 *
+	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
+	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
+	 */
+	public function testSupportsAllValidOperators($operator)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $obj = new ComparisonExpression();
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+	    //
+	    // if we attempt to set an invalid operator, an exception is thrown
+
+		$obj->setOperator($operator);
+
+	    // ----------------------------------------------------------------
+	    // test the results
+
+	    $this->assertEquals($operator, $obj->getOperator());
+	}
+
+	public function provideAllValidOperators()
+	{
+		$retval = [];
+		foreach (ComparisonOperators::getOperators() as $operator) {
+			$retval[] = [ $operator ];
+		}
+		return $retval;
+	}
+
+	/**
+	 * @dataProvider provideInvalidOperators
+	 *
+	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
+	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
+	 *
+	 * @expectedException Stuart\SemverLib\E4xx_UnknownOperator
+	 */
+	public function testRejectsInvalidOperators($operator)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $obj = new ComparisonExpression();
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+	    //
+	    // if we attempt to set an invalid operator, an exception is thrown
+
+		$obj->setOperator($operator);
+	}
+
+	public function provideInvalidOperators()
+	{
+		return [
+			[ "£" ],
+			[ "#" ],
+			[ "$" ],
+			[ "%" ],
+			[ "&" ],
+			[ "*" ],
+			[ "(" ],
+			[ ")" ],
+		];
+	}
+
+	/**
 	 * @covers Stuart\SemverLib\ComparisonExpression::getVersion
 	 */
 	public function testCanGetVersion()
