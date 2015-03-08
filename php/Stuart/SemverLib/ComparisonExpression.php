@@ -71,9 +71,9 @@ class ComparisonExpression
     /**
      * create a new ComparisonExpression object
      *
-     * @param string $operator
+     * @param string|null $operator
      *        one of the ComparisonOperators::$operators keys
-     * @param string $version
+     * @param string|null $version
      *        something we can parse into a VersionNumber
      */
     public function __construct($operator = null, $version = null)

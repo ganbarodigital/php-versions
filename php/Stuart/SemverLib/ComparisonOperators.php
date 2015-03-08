@@ -106,7 +106,7 @@ class ComparisonOperators
     /**
      * get a list of supported operators
      *
-     * @return array<string>
+     * @return array
      */
     public static function getOperators()
     {
