@@ -1,6 +1,8 @@
 SemverLib
 =========
 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/stuartherbert/php-semver/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/stuartherbert/php-semver/?branch=develop) [![Build Status](https://scrutinizer-ci.com/g/stuartherbert/php-semver/badges/build.png?b=develop)](https://scrutinizer-ci.com/g/stuartherbert/php-semver/build-status/develop)
+
 **SemverLib** is a simple-to-use PHP component for easily comparing two semantic version numbers with each other.
 
 This is a port of [my go_semver package](https://github.com/stuartherbert/go_semver).
