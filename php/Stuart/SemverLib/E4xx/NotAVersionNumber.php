@@ -43,38 +43,10 @@
 
 namespace Stuart\SemverLib;
 
-/**
- * Helper to deal with when we accept both strings and SemanticVersion objs
- */
-trait EnsureSemanticVersion
+class E4xx_NotAVersionNumber extends E4xx_SemverException
 {
-	/**
-	 * if $input is a string, convert it to a SemanticVersion object
-	 *
-	 * @param  SemanticVersion|string $input
-	 *         the version number that we may need to convert
-	 * @return SemanticVersion
-	 */
-	protected function ensureSemanticVersion($input)
+	public function __construct($input)
 	{
-		// do we need to do anything at all?
-		if ($input instanceof SemanticVersion) {
-			// no, we do not
-			return $input;
-		}
-
-		// have we been given a different version number?
-		if ($input instanceof VersionNumber) {
-			// we can't accept these
-			throw new E4xx_UnsupportedVersionNumber($input, 'SemanticVersion');
-		}
-
-		// deal with any other surprises
-		if (!is_string($input)) {
-			throw new E4xx_NotAVersionNumber($input);
-		}
-
-		// convert and return
-		return new SemanticVersion($input);
+		parent::__construct("Data of type '" . gettype($input) . "' is not a version number", 400);
 	}
 }
