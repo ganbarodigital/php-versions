@@ -67,7 +67,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	 * @covers Stuart\SemverLib\ComparisonExpression::__construct
 	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
 	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::getVersionAsString
+	 * @covers Stuart\SemverLib\ComparisonExpression::getVersion
 	 * @covers Stuart\SemverLib\ComparisonExpression::setVersion
 	 */
 	public function testCanInstantiateWithOperatorAndVersion()
@@ -87,16 +87,16 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // test the results
 
 		$actualOperator = $obj->getOperator();
-		$actualVersion  = $obj->getVersionAsString();
+		$actualVersion  = $obj->getVersion();
 
 		$this->assertEquals($expectedOperator, $actualOperator);
-		$this->assertEquals($expectedVersion,  $actualVersion);
+		$this->assertEquals($expectedVersion,  (string)$actualVersion);
 	}
 
 	/**
-	 * @covers Stuart\SemverLib\ComparisonExpression::getVersionAsString
+	 * @covers Stuart\SemverLib\ComparisonExpression::getVersion
 	 */
-	public function testCanGetVersionAsString()
+	public function testCanGetVersion()
 	{
 		// ----------------------------------------------------------------
 		// setup the test
@@ -113,17 +113,17 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // test the results
 
 		$actualOperator = $obj->getOperator();
-		$actualVersion  = $obj->getVersionAsString();
+		$actualVersion  = $obj->getVersion();
 
 		$this->assertEquals($expectedOperator, $actualOperator);
-		$this->assertEquals($expectedVersion,  $actualVersion);
+		$this->assertEquals($expectedVersion,  (string)$actualVersion);
 	}
 
 	/**
 	 * @covers Stuart\SemverLib\ComparisonExpression::__construct
 	 * @covers Stuart\SemverLib\ComparisonExpression::getOperator
 	 * @covers Stuart\SemverLib\ComparisonExpression::setOperator
-	 * @covers Stuart\SemverLib\ComparisonExpression::getVersionAsObject
+	 * @covers Stuart\SemverLib\ComparisonExpression::getVersion
 	 * @covers Stuart\SemverLib\ComparisonExpression::setVersion
 	 */
 	public function testCanGetVersionAsObject()
@@ -143,7 +143,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
 	    // test the results
 
 		$actualOperator = $obj->getOperator();
-		$actualVersion  = $obj->getVersionAsObject();
+		$actualVersion  = $obj->getVersion();
 
 		$this->assertEquals($expectedOperator, $actualOperator);
 		$this->assertEquals($expectedVersion,  $actualVersion);

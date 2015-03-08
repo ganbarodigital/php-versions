@@ -48,7 +48,9 @@ namespace Stuart\SemverLib;
  */
 class ComparisonExpression
 {
-	use EnsureSemanticVersion;
+	// we will need some help to make sure we're dealing with objects and
+	// not version strings
+	use EnsureVersionNumber;
 
 	/**
 	 * one of the ComparisonOperators::$operators keys
@@ -58,18 +60,11 @@ class ComparisonExpression
 	protected $operator = null;
 
 	/**
-	 * the expression's version string
+	 * the expression's version
 	 *
-	 * @var string
+	 * @var VersionNumber
 	 */
-	protected $versionAsString = null;
-
-	/**
-	 * the expression's version as a SemanticVersion object
-	 *
-	 * @var SemanticVersion
-	 */
-	protected $versionAsObject = null;
+	protected $version = null;
 
 	/**
 	 * create a new ComparisonExpression object
@@ -77,7 +72,7 @@ class ComparisonExpression
 	 * @param string $operator
 	 *        one of the ComparisonOperators::$operators keys
 	 * @param string $version
-	 *        a semantic version number, or a hash
+	 *        something we can parse into a VersionNumber
 	 */
 	public function __construct($operator = null, $version = null)
 	{
@@ -121,55 +116,24 @@ class ComparisonExpression
 	/**
 	 * retrieve the version we will use in any comparisons
 	 *
-	 * @throws Stuart\SemverLib\E4xx_VersionIsNotSemantic
-	 *         if you call this, and we are using the '@' operator
-	 *
-	 * @return SemanticVersion
+	 * @return VersionNumber
 	 */
-	public function getVersionAsObject()
+	public function getVersion()
 	{
-		// special case - the '@' operator
-		if ($this->operator == '@') {
-			throw new E4xx_VersionIsNotSemantic($this->versionAsString);
-		}
-
-		// special case - have we parsed it yet?
-		//
-		// this might throw an exception
-		if ($this->versionAsObject === null) {
-			$this->versionAsObject = new SemanticVersion($this->versionAsString);
-		}
-
 		// all done
-		return $this->versionAsObject;
-	}
-
-	/**
-	 * retrieve the version we will use in any comparisons
-	 *
-	 * @return string
-	 */
-	public function getVersionAsString()
-	{
-		return $this->versionAsString;
+		return $this->version;
 	}
 
 	/**
 	 * tell us what version to use in any comparisons
 	 *
-	 * @param string $version
+	 * @param VersionNumber|string $version
 	 *        the version to use
 	 */
 	public function setVersion($version)
 	{
-		$this->versionAsString = $version;
-
-		// NOTE:
-		//
-		// we do NOT parse the version into an object here
-		//
-		// a) we do not know if the version is a semantic version, or if
-		//    it is simply a hash of some kind
+		$vObj = $this->ensureVersionNumber($version);
+		$this->version = $version;
 	}
 
 	// ==================================================================
@@ -181,7 +145,7 @@ class ComparisonExpression
 	/**
 	 * check the given version to see if it matches our expression
 	 *
-	 * @param  SemanticVersion|string $version
+	 * @param  VersionNumber|string $version
 	 *         the version to check against
 	 * @return bool
 	 *         TRUE if the given version matches
@@ -191,13 +155,13 @@ class ComparisonExpression
 	{
 		// if $version is a version string, this will ensure that we have
 		// an object to work with
-		$versionObj = $this->ensureSemanticVersion($version);
+		$versionObj = $this->ensureVersionNumber($version);
 
 		// which method do we call?
 		$method = ComparisonOperators::getOperatorName($this->operator);
 
 		// ask our version what it thinks
-		$ourVersion = $this->getVersionAsObject();
+		$ourVersion = $this->getVersion();
 		return call_user_func([$versionObj, $method], $ourVersion);
 	}
 }
