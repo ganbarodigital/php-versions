@@ -289,4 +289,25 @@ class SemanticVersionDatasets
 			]
 		];
 	}
+
+	static public function getBadVersionStringDataset()
+	{
+		return [
+			[ null ],
+			[ [ "1.0.0 "] ],
+			[ false ],
+			[ true ],
+			[ 3.1415927 ],
+			[ 100 ],
+			[ (object)[ "version" => "1.0.0" ] ],
+		];
+	}
+
+	static public function getBadVersionNumberDataset()
+	{
+		return [
+			[ "00.0.1 "],
+			[ "hello world!" ],
+		];
+	}
 }

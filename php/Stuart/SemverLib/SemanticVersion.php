@@ -380,8 +380,12 @@ class SemanticVersion implements VersionNumber
 		$retval = [
 			'major'      => $this->major,
 			'minor'      => $this->minor,
-			'patchLevel' => $this->patchLevel
 		];
+
+		// patchlevels are optional
+		if ($this->hasPatchLevel()) {
+			$retval['patchLevel'] = $this->patchLevel;
+		}
 
 		// this is optional
 		if (isset($this->preRelease)) {

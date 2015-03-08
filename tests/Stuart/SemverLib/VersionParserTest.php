@@ -66,6 +66,8 @@ class VersionParserTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @dataProvider provideVersionStrings
 	 *
+	 * @covers Stuart\SemverLib\VersionParser::parse
+	 * @covers Stuart\SemverLib\VersionParser::parseIntoObject
 	 * @covers Stuart\SemverLib\VersionParser::parseIntoArray
 	 * @covers Stuart\SemverLib\VersionParser::parseVersionString
 	 */
@@ -79,115 +81,72 @@ class VersionParserTest extends PHPUnit_Framework_TestCase
 	    // ----------------------------------------------------------------
 	    // perform the change
 
+	    $versionObj      = $parser->parse($versionString);
 	    $actualBreakdown = $parser->parseIntoArray($versionString);
 
 	    // ----------------------------------------------------------------
 	    // test the results
 
 	    $this->assertEquals($expectedBreakdown, $actualBreakdown);
+	    $this->assertEquals($expectedBreakdown, $versionObj->__toArray());
 	}
 
 	public function provideVersionStrings()
 	{
-		return [
-			[
-				"1.0",
-				[
-					"major" => 1,
-					"minor" => 0
-				]
-			],
-			[
-				"1.0.0",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0
-				]
-			],
-			// this one is interesting because we don't provide the
-			// patchLevel in the version string
-			[
-				"1.0-alpha",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"preRelease" => "alpha"
-				]
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-alpha",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0,
-					"preRelease" => "alpha"
-				]
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-alpha.1",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0,
-					"preRelease" => "alpha.1"
-				]
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-0.3.7",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0,
-					"preRelease" => "0.3.7"
-				]
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-x.7.z.92",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0,
-					"preRelease" => "x.7.z.92"
-				]
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-alpha+001",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0,
-					"preRelease" => "alpha",
-					"build" => "001"
-				]
-			],
-			// example taken from semver.org
-			[
-				"1.0.0+20130313144700",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0,
-					"build" => "20130313144700"
-				]
-			],
-			// example taken from semver.org
-			[
-				"1.0.0-beta+exp.sha.5114f85",
-				[
-					"major" => 1,
-					"minor" => 0,
-					"patchLevel" => 0,
-					"preRelease" => "beta",
-					"build" => "exp.sha.5114f85"
-				]
-			]
-		];
+		return SemanticVersionDatasets::getVersionNumberDataset();
+	}
 
+	/**
+	 * @dataProvider provideBadVersionStrings
+	 *
+	 * @covers Stuart\SemverLib\VersionParser::parse
+	 * @covers Stuart\SemverLib\VersionParser::parseIntoObject
+	 * @covers Stuart\SemverLib\VersionParser::parseVersionString
+	 *
+	 * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
+	 */
+	public function testRejectsDoublesEtAlAsVersionStrings($versionString)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $parser = new VersionParser();
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $parser->parse($versionString);
+	}
+
+	public function provideBadVersionStrings()
+	{
+		return SemanticVersionDatasets::getBadVersionStringDataset();
+	}
+
+	/**
+	 * @dataProvider provideBadVersionNumbers
+	 *
+	 * @covers Stuart\SemverLib\VersionParser::parse
+	 * @covers Stuart\SemverLib\VersionParser::parseIntoObject
+	 * @covers Stuart\SemverLib\VersionParser::parseVersionString
+	 *
+	 * @expectedException Stuart\SemverLib\E4xx_BadVersionString
+	 */
+	public function testRejectsUnparseableVersionStrings($versionString)
+	{
+	    // ----------------------------------------------------------------
+	    // setup your test
+
+	    $parser = new VersionParser();
+
+	    // ----------------------------------------------------------------
+	    // perform the change
+
+	    $parser->parse($versionString);
+	}
+
+	public function provideBadVersionNumbers()
+	{
+		return SemanticVersionDatasets::getBadVersionNumberDataset();
 	}
 }

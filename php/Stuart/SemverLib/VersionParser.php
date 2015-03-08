@@ -101,8 +101,8 @@ class VersionParser
         $breakdown = $this->parseVersionString($versionString);
 
         // these are always present in any version string
-        $target->setMajor(strval($breakdown['major']));
-        $target->setMinor(strval($breakdown['minor']));
+        $target->setMajor($breakdown['major']);
+        $target->setMinor($breakdown['minor']);
 
         // this is optional
         //
@@ -113,7 +113,7 @@ class VersionParser
         // patchLevel means '0', and the ~ operator needs to know when the
         // patchLevel wasn't explicitly set
         if (isset($breakdown['patchLevel'])) {
-            $target->setPatchLevel(strval($breakdown['patchLevel']));
+            $target->setPatchLevel($breakdown['patchLevel']);
         }
 
         // this is optional
@@ -142,6 +142,11 @@ class VersionParser
      */
     protected function parseVersionString($versionString)
     {
+        // do we have something we can safely attempt to parse?
+        if (!is_string($versionString)) {
+            throw new E4xx_NotAVersionString($versionString);
+        }
+
         // one regex to rule them all
         //
         // based on a regex proposed in the semver.org Github issues list
