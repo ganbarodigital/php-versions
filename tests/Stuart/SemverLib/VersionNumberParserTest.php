@@ -70,6 +70,7 @@ class VersionNumberParserTest extends PHPUnit_Framework_TestCase
      * @covers Stuart\SemverLib\VersionNumberParser::parseIntoObject
      * @covers Stuart\SemverLib\VersionNumberParser::parseIntoArray
      * @covers Stuart\SemverLib\VersionNumberParser::parseVersionString
+     * @covers Stuart\SemverLib\VersionNumberParser::cleanupMatches
      */
     public function testCanParseVersionStrings($versionString, $expectedBreakdown)
     {

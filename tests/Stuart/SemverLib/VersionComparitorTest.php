@@ -68,7 +68,9 @@ class VersionComparitorTest extends PHPUnit_Framework_TestCase
      *
      * @covers Stuart\SemverLib\VersionComparitor::compare
      * @covers Stuart\SemverLib\VersionComparitor::compareXYZ
+     * @covers Stuart\SemverLib\VersionComparitor::compareN
      * @covers Stuart\SemverLib\VersionComparitor::comparePreRelease
+     * @covers Stuart\SemverLib\VersionComparitor::comparePreReleasePart
      */
     public function testCanCompareVersionStrings($a, $b, $expectedResult)
     {
