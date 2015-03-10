@@ -89,7 +89,7 @@ class SemanticVersion implements VersionNumber
     /**
      * Constructor. Takes an optional version string as the parameter.
      *
-     * @param string $version
+     * @param string|null $version
      *        the version string to parse and initialise me from
      */
     public function __construct($version = null)
