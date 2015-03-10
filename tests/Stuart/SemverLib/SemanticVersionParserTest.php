@@ -45,117 +45,110 @@ namespace Stuart\SemverLib;
 
 use PHPUnit_Framework_TestCase;
 
-class VersionNumberParserTest extends PHPUnit_Framework_TestCase
+class SemanticVersionParserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Stuart\SemverLib\VersionNumberParser::__construct
+     * @covers Stuart\SemverLib\SemanticVersionParser::__construct
      */
     public function testCanInstantiate()
     {
         // ----------------------------------------------------------------
         // perform the change
 
-        $parser = new VersionNumberParser();
+        $parser = new SemanticVersionParser();
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($parser instanceof VersionNumberParser);
+        $this->assertTrue($parser instanceof SemanticVersionParser);
     }
 
     /**
      * @dataProvider provideVersionStrings
      *
-     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @covers Stuart\SemverLib\SemanticVersionParser::parse
+     * @covers Stuart\SemverLib\SemanticVersionParser::parseIntoObject
+     * @covers Stuart\SemverLib\SemanticVersionParser::parseIntoArray
+     * @covers Stuart\SemverLib\SemanticVersionParser::parseVersionString
+     * @covers Stuart\SemverLib\SemanticVersionParser::cleanupMatches
      */
-    public function testCanParseVersionStrings($versionString, $expectedType)
+    public function testCanParseVersionStrings($versionString, $expectedBreakdown)
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        // we need something to parse the version
-        $parser = new VersionNumberParser();
-
-        // we need to cleanup the version a little for comparison purposes
-        $expectedVersion = trim(rtrim($versionString));
-        if (substr($expectedVersion, 0, 1) == 'v') {
-            $expectedVersion = substr($expectedVersion, 1);
-        }
+        $parser = new SemanticVersionParser();
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $numberObj = $parser->parse($versionString);
+        $versionObj      = $parser->parse($versionString);
+        $actualBreakdown = $parser->parseIntoArray($versionString);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertEquals($expectedVersion, (string)$numberObj);
-        $this->assertTrue($numberObj instanceof VersionNumber);
-        $this->assertEquals($expectedType, get_class($numberObj));
+        $this->assertEquals($expectedBreakdown, $actualBreakdown);
+        $this->assertEquals($expectedBreakdown, $versionObj->__toArray());
     }
 
     public function provideVersionStrings()
     {
-        $retval = [];
-        foreach(SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-            $retval[] = [ $dataset[0], SemanticVersion::class ];
-        }
-        foreach(HashedVersionDatasets::getVersionNumberDataset() as $dataset) {
-            $retval[] = [ $dataset[0], HashedVersion::class ];
-        }
-
-        return $retval;
-    }
-
-    /**
-     * @dataProvider provideNonVersionStrings
-     *
-     * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
-     *
-     * @covers Stuart\SemverLib\VersionNumberParser::parse
-     */
-    public function testRejectsNonStrings($nonVersion)
-    {
-        // ----------------------------------------------------------------
-        // setup your test
-
-        // we need something to parse the version
-        $parser = new VersionNumberParser();
-
-        // ----------------------------------------------------------------
-        // perform the change
-
-        $parser->parse($nonVersion);
-    }
-
-    public function provideNonVersionStrings()
-    {
-        return SemanticVersionDatasets::getBadVersionStringDataset();
+        return SemanticVersionDatasets::getVersionNumberDataset();
     }
 
     /**
      * @dataProvider provideBadVersionStrings
      *
-     * @expectedException Stuart\SemverLib\E4xx_BadVersionString
+     * @covers Stuart\SemverLib\SemanticVersionParser::parse
+     * @covers Stuart\SemverLib\SemanticVersionParser::parseIntoObject
+     * @covers Stuart\SemverLib\SemanticVersionParser::parseVersionString
+     * @covers Stuart\SemverLib\E4xx_NotAVersionString
      *
-     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
      */
-    public function testRejectsStringsWithInvalidVersions($nonVersion)
+    public function testRejectsDoublesEtAlAsVersionStrings($versionString)
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        // we need something to parse the version
-        $parser = new VersionNumberParser();
+        $parser = new SemanticVersionParser();
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $parser->parse($nonVersion);
+        $parser->parse($versionString);
     }
 
     public function provideBadVersionStrings()
+    {
+        return SemanticVersionDatasets::getBadVersionStringDataset();
+    }
+
+    /**
+     * @dataProvider provideBadVersionNumbers
+     *
+     * @covers Stuart\SemverLib\SemanticVersionParser::parse
+     * @covers Stuart\SemverLib\SemanticVersionParser::parseIntoObject
+     * @covers Stuart\SemverLib\SemanticVersionParser::parseVersionString
+     * @covers Stuart\SemverLib\E4xx_BadVersionString
+     *
+     * @expectedException Stuart\SemverLib\E4xx_BadVersionString
+     */
+    public function testRejectsUnparseableVersionStrings($versionString)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $parser = new SemanticVersionParser();
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $parser->parse($versionString);
+    }
+
+    public function provideBadVersionNumbers()
     {
         return SemanticVersionDatasets::getBadVersionNumberDataset();
     }

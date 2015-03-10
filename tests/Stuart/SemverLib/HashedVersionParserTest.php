@@ -45,36 +45,38 @@ namespace Stuart\SemverLib;
 
 use PHPUnit_Framework_TestCase;
 
-class VersionNumberParserTest extends PHPUnit_Framework_TestCase
+class HashedVersionParserTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers Stuart\SemverLib\VersionNumberParser::__construct
+     * @covers Stuart\SemverLib\HashedVersionParser::__construct
      */
     public function testCanInstantiate()
     {
         // ----------------------------------------------------------------
         // perform the change
 
-        $parser = new VersionNumberParser();
+        $parser = new HashedVersionParser();
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($parser instanceof VersionNumberParser);
+        $this->assertTrue($parser instanceof HashedVersionParser);
     }
 
     /**
      * @dataProvider provideVersionStrings
      *
-     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @covers Stuart\SemverLib\HashedVersionParser::parse
+     * @covers Stuart\SemverLib\HashedVersionParser::parseIntoObject
+     * @covers Stuart\SemverLib\HashedVersionParser::parseVersionString
      */
-    public function testCanParseVersionStrings($versionString, $expectedType)
+    public function testCanParseVersionStrings($versionString)
     {
         // ----------------------------------------------------------------
         // setup your test
 
         // we need something to parse the version
-        $parser = new VersionNumberParser();
+        $parser = new HashedVersionParser();
 
         // we need to cleanup the version a little for comparison purposes
         $expectedVersion = trim(rtrim($versionString));
@@ -90,17 +92,13 @@ class VersionNumberParserTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // test the results
 
+        $this->assertTrue($numberObj instanceof HashedVersion);
         $this->assertEquals($expectedVersion, (string)$numberObj);
-        $this->assertTrue($numberObj instanceof VersionNumber);
-        $this->assertEquals($expectedType, get_class($numberObj));
     }
 
     public function provideVersionStrings()
     {
         $retval = [];
-        foreach(SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-            $retval[] = [ $dataset[0], SemanticVersion::class ];
-        }
         foreach(HashedVersionDatasets::getVersionNumberDataset() as $dataset) {
             $retval[] = [ $dataset[0], HashedVersion::class ];
         }
@@ -113,7 +111,9 @@ class VersionNumberParserTest extends PHPUnit_Framework_TestCase
      *
      * @expectedException Stuart\SemverLib\E4xx_NotAVersionString
      *
-     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @covers Stuart\SemverLib\HashedVersionParser::parse
+     * @covers Stuart\SemverLib\HashedVersionParser::parseIntoObject
+     * @covers Stuart\SemverLib\HashedVersionParser::parseVersionString
      */
     public function testRejectsNonStrings($nonVersion)
     {
@@ -121,7 +121,7 @@ class VersionNumberParserTest extends PHPUnit_Framework_TestCase
         // setup your test
 
         // we need something to parse the version
-        $parser = new VersionNumberParser();
+        $parser = new HashedVersionParser();
 
         // ----------------------------------------------------------------
         // perform the change
@@ -139,7 +139,9 @@ class VersionNumberParserTest extends PHPUnit_Framework_TestCase
      *
      * @expectedException Stuart\SemverLib\E4xx_BadVersionString
      *
-     * @covers Stuart\SemverLib\VersionNumberParser::parse
+     * @covers Stuart\SemverLib\HashedVersionParser::parse
+     * @covers Stuart\SemverLib\HashedVersionParser::parseIntoObject
+     * @covers Stuart\SemverLib\HashedVersionParser::parseVersionString
      */
     public function testRejectsStringsWithInvalidVersions($nonVersion)
     {

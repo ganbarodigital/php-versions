@@ -92,7 +92,8 @@ class HashedVersion implements VersionNumber
      */
     public function setVersion($version)
     {
-        $this->version = trim(rtrim($version));
+        $parser = new HashedVersionParser;
+        $parser->parseIntoObject($version, $this);
     }
 
     /**

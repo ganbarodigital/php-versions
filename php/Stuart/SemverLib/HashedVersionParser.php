@@ -43,7 +43,7 @@
 
 namespace Stuart\SemverLib;
 
-class VersionNumberParser
+class HashedVersionParser
 {
     public function __construct()
     {
@@ -51,8 +51,8 @@ class VersionNumberParser
     }
 
     /**
-     * convert a string that holds a supported version number format into a
-     * VersionNumber object of some kind
+     * convert a string in the form 'abcdef1234567890' into a
+     * HashedVersion object
      *
      * @throws E4xx_BadVersionString
      *         if we cannot parse $versionString
@@ -63,31 +63,72 @@ class VersionNumberParser
      */
     public function parse($versionString)
     {
-        static $supportedNumbers = [
-            SemanticVersion::class,
-            HashedVersion::class,
-        ];
+        // we need something to store the results into
+        $retval = new HashedVersion();
 
-        // make sure nothing nasty can slip through
+        // initialise $retval from our version string
+        $this->parseIntoObject($versionString, $retval);
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * convert a string in the form 'abcdef1234567890' into your
+     * existing HashedVersion object
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @param  string $versionString
+     *         the string to parse
+     * @param  VersionNumber $target
+     *         the object to initialise from the version string
+     *
+     * @return void
+     */
+    public function parseIntoObject($versionString, VersionNumber $target)
+    {
+        // make sense of the string
+        //
+        // and if we can't, watch the exception sail by
+        $matches = $this->parseVersionString($versionString);
+
+        // use our findings to setup the $target
+        $target->setMajor($matches['version']);
+
+        // all done
+    }
+
+    /**
+     * extract the individual parts of an 'X.Y[.Z][-<preRelease>][+R]' version
+     * string
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @param  string $versionString
+     *         the version string to parse
+     * @return array
+     */
+    protected function parseVersionString($versionString)
+    {
+        // do we have something we can safely attempt to parse?
         if (!is_string($versionString)) {
             throw new E4xx_NotAVersionString($versionString);
         }
 
-        // there's nothing clever at all about this approach
-        //
-        // we simply try each one in turn, and return the first one that
-        // doesn't throw an exception
-        foreach ($supportedNumbers as $classname) {
-            try {
-                $number = new $classname($versionString);
-                return $number;
-            }
-            catch (E4xx_BadVersionString $e) {
-                // do nothing
-            }
+        // as long as it is a hexadecimal string, we'll accept it
+        $regex = "%^\s*(?P<version>[A-Za-z0-9]{4,})\s*$%";
+
+        $matches = [];
+        if (preg_match($regex, $versionString, $matches)) {
+            // we need to sanitise the regex result before returning
+            // our return value
+            return $matches;
         }
 
-        // if we get here, then $versionString is not supported
+        // if we get here, then nothing matched
         throw new E4xx_BadVersionString($versionString);
     }
 }

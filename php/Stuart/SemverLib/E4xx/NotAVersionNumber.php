@@ -47,6 +47,12 @@ class E4xx_NotAVersionNumber extends E4xx_SemverException
 {
     public function __construct($input)
     {
-        parent::__construct("Data of type '" . gettype($input) . "' is not a version number", 400);
+    	if (!is_object($input)) {
+    		$msg = "Data of type '" . gettype($input) . "' is not a version number; string or VersionNumber expected";
+    	}
+    	else {
+    		$msg = "Class '" . get_class($input) . "' does not implement the VersionNumber interface";
+    	}
+        parent::__construct($msg, 400);
     }
 }
