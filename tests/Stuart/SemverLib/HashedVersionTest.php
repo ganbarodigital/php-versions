@@ -194,6 +194,7 @@ class HashedVersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Stuart\SemverLib\HashedVersion::setMinor
+     * @covers Stuart\SemverLib\E4xx_UnsupportedOperation::__construct
      *
      * @expectedException Stuart\SemverLib\E4xx_UnsupportedOperation
      */
@@ -252,6 +253,7 @@ class HashedVersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Stuart\SemverLib\HashedVersion::setPatchLevel
+     * @covers Stuart\SemverLib\E4xx_UnsupportedOperation::__construct
      *
      * @expectedException Stuart\SemverLib\E4xx_UnsupportedOperation
      */
@@ -310,6 +312,7 @@ class HashedVersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Stuart\SemverLib\HashedVersion::setPreRelease
+     * @covers Stuart\SemverLib\E4xx_UnsupportedOperation::__construct
      *
      * @expectedException Stuart\SemverLib\E4xx_UnsupportedOperation
      */
@@ -368,6 +371,7 @@ class HashedVersionTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers Stuart\SemverLib\HashedVersion::setBuildNumber
+     * @covers Stuart\SemverLib\E4xx_UnsupportedOperation::__construct
      *
      * @expectedException Stuart\SemverLib\E4xx_UnsupportedOperation
      */
