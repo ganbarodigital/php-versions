@@ -67,10 +67,19 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideValidVersionNumbers
      *
      * @covers Stuart\SemverLib\SemanticVersion::__construct
+     * @covers Stuart\SemverLib\SemanticVersion::getVersion
      * @covers Stuart\SemverLib\SemanticVersion::setVersion
      */
     public function testCanInstantiateWithVersionParameter($version)
     {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $expectedVersion = trim(rtrim($version));
+        if (substr($expectedVersion, 0, 1) == 'v') {
+            $expectedVersion = substr($expectedVersion, 1);
+        }
+
         // ----------------------------------------------------------------
         // perform the change
 
@@ -80,6 +89,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // test the results
 
         $this->assertTrue($obj instanceof SemanticVersion);
+        $this->assertEquals($expectedVersion, $obj->getVersion());
     }
 
     public function provideValidVersionNumbers()

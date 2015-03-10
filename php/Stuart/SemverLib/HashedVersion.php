@@ -49,6 +49,16 @@ namespace Stuart\SemverLib;
 class HashedVersion implements VersionNumber
 {
     /**
+     * returns the full version number
+     *
+     * @return string
+     */
+    public function getVersion()
+    {
+        return $this->__toString();
+    }
+
+    /**
      * I use $version to set my value.
      *
      * @param string $version

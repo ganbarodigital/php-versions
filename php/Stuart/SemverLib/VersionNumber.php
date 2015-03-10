@@ -49,6 +49,13 @@ namespace Stuart\SemverLib;
 interface VersionNumber
 {
     /**
+     * returns the full version number
+     *
+     * @return string
+     */
+    public function getVersion();
+
+    /**
      * I use $version to set my value.
      *
      * @param string $version
