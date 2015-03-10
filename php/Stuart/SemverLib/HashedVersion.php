@@ -61,7 +61,7 @@ class HashedVersion implements VersionNumber
     /**
      * Constructor. Takes an optional version string as the parameter.
      *
-     * @param string $version
+     * @param string|null $version
      *        the version string to parse and initialise me from
      */
     public function __construct($version = null)
@@ -76,7 +76,7 @@ class HashedVersion implements VersionNumber
     /**
      * returns the full version number
      *
-     * @return string
+     * @return string|null
      */
     public function getVersion()
     {
@@ -99,7 +99,7 @@ class HashedVersion implements VersionNumber
     /**
      * Get the 'X' in my X.Y.Z[-<preRelease>[+R]] version number
      *
-     * @return int|null
+     * @return string|null
      */
     public function getMajor()
     {
@@ -109,7 +109,7 @@ class HashedVersion implements VersionNumber
     /**
      * Set the 'X' in my X.Y.Z[-<preRelease>[+R]] version number
      *
-     * @param int $major
+     * @param string $major
      *        my new major version number
      * @return void
      */
@@ -158,7 +158,7 @@ class HashedVersion implements VersionNumber
      *
      * If $this->hasPatchLevel() == false, we will return '0'
      *
-     * @return int
+     * @return null
      */
     public function getPatchLevel()
     {
@@ -192,7 +192,7 @@ class HashedVersion implements VersionNumber
     /**
      * Get the 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number
      *
-     * @return string|null
+     * @return null
      */
     public function getPreRelease()
     {
@@ -226,7 +226,7 @@ class HashedVersion implements VersionNumber
     /**
      * Get the 'build number' in my X.Y.Z[-<preRelease>[+R]] version number
      *
-     * @return string|null
+     * @return null
      */
     public function getBuildNumber()
     {
@@ -290,7 +290,7 @@ class HashedVersion implements VersionNumber
     /**
      * magic method for when you need a simple string to use
      *
-     * @return string
+     * @return string|null
      */
     public function __toString()
     {
