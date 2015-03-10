@@ -48,6 +48,31 @@ namespace Stuart\SemverLib;
  */
 class HashedVersion implements VersionNumber
 {
+    // a helper for the operations that we support
+    use EnsureVersionNumber;
+
+    /**
+     * our version number
+     *
+     * @var string|null
+     */
+    protected $version = null;
+
+    /**
+     * Constructor. Takes an optional version string as the parameter.
+     *
+     * @param string $version
+     *        the version string to parse and initialise me from
+     */
+    public function __construct($version = null)
+    {
+        if ($version === null) {
+            return;
+        }
+
+        $this->setVersion($version);
+    }
+
     /**
      * returns the full version number
      *
@@ -67,7 +92,7 @@ class HashedVersion implements VersionNumber
      */
     public function setVersion($version)
     {
-        // tbd
+        $this->version = trim(rtrim($version));
     }
 
     /**
@@ -77,7 +102,7 @@ class HashedVersion implements VersionNumber
      */
     public function getMajor()
     {
-        // tbd
+        return $this->version;
     }
 
     /**
@@ -89,7 +114,7 @@ class HashedVersion implements VersionNumber
      */
     public function setMajor($major)
     {
-        // tbd
+        $this->version = $major;
     }
 
     /**
@@ -99,7 +124,8 @@ class HashedVersion implements VersionNumber
      */
     public function getMinor()
     {
-        // tbd
+        // we don't support minor version numbers
+        return 0;
     }
 
     /**
@@ -111,7 +137,7 @@ class HashedVersion implements VersionNumber
      */
     public function setMinor($minor)
     {
-        // tbd
+        throw new E4xx_UnsupportedOperation(self::class, __METHOD__);
     }
 
     /**
@@ -123,7 +149,7 @@ class HashedVersion implements VersionNumber
      */
     public function hasPatchLevel()
     {
-        // tbd
+        return false;
     }
 
     /**
@@ -135,7 +161,7 @@ class HashedVersion implements VersionNumber
      */
     public function getPatchLevel()
     {
-        // tbd
+        return null;
     }
 
     /**
@@ -147,7 +173,7 @@ class HashedVersion implements VersionNumber
      */
     public function setPatchLevel($patchLevel)
     {
-        // tbd
+        throw new E4xx_UnsupportedOperation(self::class, __METHOD__);
     }
 
     /**
@@ -159,7 +185,7 @@ class HashedVersion implements VersionNumber
      */
     public function hasPreRelease()
     {
-        // tbd
+        return false;
     }
 
     /**
@@ -169,7 +195,7 @@ class HashedVersion implements VersionNumber
      */
     public function getPreRelease()
     {
-        // tbd
+        return null;
     }
 
     /**
@@ -181,7 +207,7 @@ class HashedVersion implements VersionNumber
      */
     public function setPreRelease($preRelease)
     {
-        // tbd
+        throw new E4xx_UnsupportedOperation(self::class, __METHOD__);
     }
 
     /**
@@ -193,7 +219,7 @@ class HashedVersion implements VersionNumber
      */
     public function hasBuildNumber()
     {
-        // tbd
+        return false;
     }
 
     /**
@@ -203,7 +229,7 @@ class HashedVersion implements VersionNumber
      */
     public function getBuildNumber()
     {
-        // tbd
+        return null;
     }
 
     /**
@@ -215,7 +241,7 @@ class HashedVersion implements VersionNumber
      */
     public function setBuildNumber($buildNumber)
     {
-        // tbd
+        throw new E4xx_UnsupportedOperation(self::class, __METHOD__);
     }
 
     // ==================================================================
@@ -236,7 +262,7 @@ class HashedVersion implements VersionNumber
      */
     public function getApproximateUpperBoundary()
     {
-        // tbd
+        return $this;
     }
 
     /**
@@ -251,7 +277,7 @@ class HashedVersion implements VersionNumber
      */
     public function getCompatibleUpperBoundary()
     {
-        // tbd
+        return $this;
     }
 
     // ==================================================================
@@ -267,7 +293,7 @@ class HashedVersion implements VersionNumber
      */
     public function __toString()
     {
-        // tbd
+        return $this->version;
     }
 
     /**
@@ -278,7 +304,9 @@ class HashedVersion implements VersionNumber
      */
     public function __toArray()
     {
-        // tbd
+        return [
+            "major" => $this->version,
+        ];
     }
 
     // ==================================================================
@@ -297,7 +325,14 @@ class HashedVersion implements VersionNumber
      */
     public function equals($b)
     {
-        // tbd
+        $bObj = $this->ensureVersionNumber($b);
+        $bVer = $bObj->getVersion();
+
+        if ($bVer == $this->version) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -310,7 +345,7 @@ class HashedVersion implements VersionNumber
      */
     public function isGreaterThanOrEqualTo($b)
     {
-        // tbd
+        return $this->equals($b);
     }
 
     /**
@@ -323,7 +358,8 @@ class HashedVersion implements VersionNumber
      */
     public function isGreaterThan($b)
     {
-        // tbd
+        // this operator has no meaning for hashed versions
+        return false;
     }
 
     /**
@@ -336,7 +372,7 @@ class HashedVersion implements VersionNumber
      */
     public function isLessThanOrEqualTo($b)
     {
-        // tbd
+        return $this->equals($b);
     }
 
     /**
@@ -349,7 +385,8 @@ class HashedVersion implements VersionNumber
      */
     public function isLessThan($b)
     {
-        // tbd
+        // this operator has no meaning for hashed versions
+        return false;
     }
 
     /**
@@ -368,7 +405,7 @@ class HashedVersion implements VersionNumber
      */
     public function isApproximately($b)
     {
-        // tbd
+        return $this->equals($b);
     }
 
     /**
@@ -382,7 +419,7 @@ class HashedVersion implements VersionNumber
      */
     public function isCompatible($b)
     {
-        // tbd
+        return $this->equals($b);
     }
 
     /**
@@ -395,6 +432,10 @@ class HashedVersion implements VersionNumber
      */
     public function isNotBlacklisted($b)
     {
-        // tbd
+        if ($this->equals($b)) {
+            return false;
+        }
+
+        return true;
     }
 }
