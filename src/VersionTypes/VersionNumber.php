@@ -63,29 +63,11 @@ interface VersionNumber
     public function getMajor();
 
     /**
-     * Set the 'X' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param int $major
-     *        my new major version number
-     * @return void
-     */
-    public function setMajor($major);
-
-    /**
      * Get the 'Y' in my X.Y.Z[-<preRelease>[+R]] version number
      *
      * @return int|null
      */
     public function getMinor();
-
-    /**
-     * Set the 'Y' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param int $minor
-     *        my new minor version number
-     * @return void
-     */
-    public function setMinor($minor);
 
     /**
      * Is there a 'Z' in my X.Y.Z[-<preRelease>[+R]] version number?
@@ -106,15 +88,6 @@ interface VersionNumber
     public function getPatchLevel();
 
     /**
-     * Set the 'Z' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param int $patchLevel
-     *        my new patch level
-     * @return void
-     */
-    public function setPatchLevel($patchLevel);
-
-    /**
      * Is there a 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number?
      *
      * @return boolean
@@ -131,15 +104,6 @@ interface VersionNumber
     public function getPreRelease();
 
     /**
-     * Set the 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param string $preRelease
-     *        my new pre-release version string
-     * @return void
-     */
-    public function setPreRelease($preRelease);
-
-    /**
      * Is there a 'R' in my X.Y.Z[-<preRelease>[+R]] version number?
      *
      * @return boolean
@@ -154,15 +118,6 @@ interface VersionNumber
      * @return string|null
      */
     public function getBuildNumber();
-
-    /**
-     * Set the 'build number' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param string $buildNumber
-     *        my new build number
-     * @return void
-     */
-    public function setBuildNumber($buildNumber);
 
     // ==================================================================
     //
