@@ -1,7 +1,7 @@
 New BSD License
 ===============
 
-Copyright (c) 2015-present, Stuart Herbert
+Copyright (c) 2015-present, Ganbaro Digital Ltd
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
