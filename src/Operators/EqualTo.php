@@ -34,7 +34,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Compare
+ * @package   Versions/Operators
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
@@ -58,10 +58,10 @@ class EqualTo
      *         TRUE if $this == $b
      *         FALSE otherwise
      */
-    public static function check(VersionNumber $a, $b)
+    public static function calculate(VersionNumber $a, $b)
     {
         // are the two versions equal?
-        $res = Comparison::compare($a, $b);
+        $res = Comparison::calculate($a, $b);
         if ($res === Comparison::BOTH_ARE_EQUAL) {
             return true;
         }

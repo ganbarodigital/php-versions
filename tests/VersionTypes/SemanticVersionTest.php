@@ -582,7 +582,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = Versions\Operators\EqualTo::check($aVer, $bVer);
+        $actualResult = Versions\Operators\EqualTo::calculate($aVer, $bVer);
 
         // ----------------------------------------------------------------
         // test the results

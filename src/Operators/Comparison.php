@@ -75,7 +75,7 @@ class Comparison
      * @return int
      *         one of the self::* consts
      */
-    public static function compare(VersionNumber $a, $b)
+    public static function calculate(VersionNumber $a, $b)
     {
         // make sure $a is supported
         $type = FilterNamespace::fromString(get_class($a));
