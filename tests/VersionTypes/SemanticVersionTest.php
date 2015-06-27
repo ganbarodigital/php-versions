@@ -110,6 +110,8 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideMajorVersionNumbers
      *
      * @covers ::__construct
+     * @covers ::getMajor
+     * @covers ::__toString
      */
     public function testSupportsMajorNumbers($majorNumber, $expectedVersion)
     {
@@ -142,442 +144,426 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         return $retval;
     }
 
-    // /**
-    //  *
-    //  * @dataProvider provideMinorVersionNumbers
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getMinor
-    //  * @covers Stuart\SemverLib\SemanticVersion::setMinor
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString
-    //  */
-    // public function testSupportsMinorNumbers($version, $expectedMinor)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion();
-    //     $this->assertNotEquals(1, $obj->getMajor());
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $obj->setVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals($expectedMinor, $obj->getMinor());
-    //     $this->assertEquals($version, (string)$obj);
-    // }
-
-    // public function provideMinorVersionNumbers()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         $retval[] = [ $dataset[0], $dataset[1]["minor"] ];
-    //     }
-
-    //     // all done
-    //     return $retval;
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionNumbersWithPatchLevels
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getPatchLevel
-    //  * @covers Stuart\SemverLib\SemanticVersion::setPatchLevel
-    //  * @covers Stuart\SemverLib\SemanticVersion::hasPatchLevel
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString
-    //  */
-    // public function testSupportsPatchLevels($version, $patchLevel)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion();
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $obj->setVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals($patchLevel, $obj->getPatchLevel());
-    //     $this->assertTrue($obj->hasPatchLevel());
-    //     $this->assertEquals($version, (string)$obj);
-    // }
-
-    // public function provideVersionNumbersWithPatchLevels()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         if (isset($dataset[1]["patchLevel"])) {
-    //             $retval[] = [ $dataset[0], $dataset[1]["patchLevel"] ];
-    //         }
-    //     }
-
-    //     // all done
-    //     return $retval;
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionNumbersWithoutPatchLevels
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getPatchLevel
-    //  * @covers Stuart\SemverLib\SemanticVersion::setPatchLevel
-    //  * @covers Stuart\SemverLib\SemanticVersion::hasPatchLevel
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString
-    //  */
-    // public function testPatchLevelsAreOptional($version)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion();
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $obj->setVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals(0, $obj->getPatchLevel());
-    //     $this->assertFalse($obj->hasPatchLevel());
-    //     $this->assertEquals($version, (string)$obj);
-    // }
-
-    // public function provideVersionNumbersWithoutPatchLevels()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         if (!isset($dataset[1]["patchLevel"])) {
-    //             $retval[] = [ $dataset[0] ];
-    //         }
-    //     }
-
-    //     // all done
-    //     return $retval;
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionNumbersWithPreRelease
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getPreRelease
-    //  * @covers Stuart\SemverLib\SemanticVersion::setPreRelease
-    //  * @covers Stuart\SemverLib\SemanticVersion::hasPreRelease
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString
-    //  */
-    // public function testSupportsPreReleaseMetadata($version, $preRelease)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion();
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $obj->setVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertTrue($obj->hasPreRelease());
-    //     $this->assertEquals($preRelease, $obj->getPreRelease());
-    //     $this->assertEquals($version, (string)$obj);
-    // }
-
-    // public function provideVersionNumbersWithPreRelease()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         if (isset($dataset[1]["preRelease"])) {
-    //             $retval[] = [ $dataset[0], $dataset[1]["preRelease"] ];
-    //         }
-    //     }
-
-    //     // all done
-    //     return $retval;
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionNumbersWithoutPreRelease
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getPreRelease
-    //  * @covers Stuart\SemverLib\SemanticVersion::setPreRelease
-    //  * @covers Stuart\SemverLib\SemanticVersion::hasPreRelease
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString
-    //  */
-    // public function testPreReleaseMetadataIsOptional($version)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion();
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $obj->setVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertFalse($obj->hasPreRelease());
-    //     $this->assertEquals(null, $obj->getPreRelease());
-    //     $this->assertEquals($version, (string)$obj);
-    // }
-
-    // public function provideVersionNumbersWithoutPreRelease()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         if (!isset($dataset[1]["preRelease"])) {
-    //             $retval[] = [ $dataset[0] ];
-    //         }
-    //     }
-
-    //     // all done
-    //     return $retval;
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionNumbersWithBuildNumbers
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getBuildNumber
-    //  * @covers Stuart\SemverLib\SemanticVersion::setBuildNumber
-    //  * @covers Stuart\SemverLib\SemanticVersion::hasBuildNumber
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString
-    //  */
-    // public function testSupportsBuildNumbers($version, $buildNumber)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion();
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $obj->setVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals($buildNumber, $obj->getBuildNumber());
-    //     $this->assertTrue($obj->hasBuildNumber());
-    //     $this->assertEquals($version, (string)$obj);
-    // }
-
-    // public function provideVersionNumbersWithBuildNumbers()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         if (isset($dataset[1]["build"])) {
-    //             $retval[] = [ $dataset[0], $dataset[1]["build"] ];
-    //         }
-    //     }
-
-    //     // all done
-    //     return $retval;
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionNumbersWithoutBuildNumbers
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getBuildNumber
-    //  * @covers Stuart\SemverLib\SemanticVersion::setBuildNumber
-    //  * @covers Stuart\SemverLib\SemanticVersion::hasBuildNumber
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString
-    //  */
-    // public function testBuildNumbersAreOptional($version)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion();
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $obj->setVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals(null, $obj->getBuildNumber());
-    //     $this->assertFalse($obj->hasBuildNumber());
-    //     $this->assertEquals($version, (string)$obj);
-    // }
-
-    // public function provideVersionNumbersWithoutBuildNumbers()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         if (!isset($dataset[1]["build"])) {
-    //             $retval[] = [ $dataset[0] ];
-    //         }
-    //     }
-
-    //     // all done
-    //     return $retval;
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionsForApproximateUpperBoundary
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getApproximateUpperBoundary
-    //  */
-    // public function testCanGetApproximateUpperBoundary($version, $expectedResult)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $upperBoundary = $obj->getApproximateUpperBoundary();
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals($expectedResult, (string)$upperBoundary);
-    // }
-
-    // public function provideVersionsForApproximateUpperBoundary()
-    // {
-    //     return [
-    //         [
-    //             "1.0",
-    //             "2.0"
-    //         ],
-    //         [
-    //             "1.0.0",
-    //             "1.1"
-    //         ],
-    //         [
-    //             "1.0.1",
-    //             "1.1"
-    //         ],
-    //     ];
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionsForCompatibleUpperBoundary
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::getCompatibleUpperBoundary
-    //  */
-    // public function testCanGetCompatibleUpperBoundary($version, $expectedResult)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion($version);
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $upperBoundary = $obj->getCompatibleUpperBoundary();
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals($expectedResult, (string)$upperBoundary);
-    // }
-
-    // public function provideVersionsForCompatibleUpperBoundary()
-    // {
-    //     return [
-    //         [
-    //             "1.0",
-    //             "2.0"
-    //         ],
-    //         [
-    //             "1.0.0",
-    //             "2.0"
-    //         ],
-    //         [
-    //             "1.0.1",
-    //             "2.0"
-    //         ],
-    //     ];
-    // }
-
-    // /**
-    //  * @dataProvider provideVersionsForStringCasting
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toString()
-    //  */
-    // public function testCastAsString($expectedVersion)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $obj = new SemanticVersion($expectedVersion);
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $actualVersion = (string)$obj;
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals($expectedVersion, $actualVersion);
-    // }
-
-    // public function provideVersionsForStringCasting()
-    // {
-    //     return [
-    //         [ "1.0" ],
-    //         [ "1.0-alpha" ],
-    //         [ "1.2.3" ],
-    //         [ "1.2.3-alpha" ],
-    //         [ "1.2.3+4" ],
-    //         [ "1.2+4" ]
-    //     ];
-    // }
-
-    // /**
-    //  * @covers Stuart\SemverLib\SemanticVersion::__toArray()
-    //  */
-    // public function testCanTurnIntoArray()
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
-
-    //     $expectedVersion = [
-    //         "major"      => 1,
-    //         "minor"      => 2,
-    //         "patchLevel" => 3,
-    //         "preRelease" => "alpha",
-    //         "build"      => 4,
-    //     ];
-    //     $obj = new SemanticVersion('1.2.3-alpha+4');
-
-    //     // ----------------------------------------------------------------
-    //     // perform the change
-
-    //     $actualVersion = $obj->__toArray();
-
-    //     // ----------------------------------------------------------------
-    //     // test the results
-
-    //     $this->assertEquals($expectedVersion, $actualVersion);
-    // }
+    /**
+     * @dataProvider provideMinorVersionNumbers
+     *
+     * @covers ::__construct
+     * @covers ::getMinor
+     * @covers ::__toString
+     */
+    public function testSupportsMinorNumbers($version, $expectedMinor)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedMinor, $obj->getMinor());
+        $this->assertEquals($version, (string)$obj);
+    }
+
+    public function provideMinorVersionNumbers()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            $retval[] = [ $dataset[0], $dataset[1]["minor"] ];
+        }
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * @dataProvider provideVersionNumbersWithPatchLevels
+     *
+     * @covers ::__construct
+     * @covers ::getPatchLevel
+     * @covers ::hasPatchLevel
+     * @covers ::__toString
+     */
+    public function testSupportsPatchLevels($version, $patchLevel)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($patchLevel, $obj->getPatchLevel());
+        $this->assertTrue($obj->hasPatchLevel());
+        $this->assertEquals($version, (string)$obj);
+    }
+
+    public function provideVersionNumbersWithPatchLevels()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            if (isset($dataset[1]["patchLevel"])) {
+                $retval[] = [ $dataset[0], $dataset[1]["patchLevel"] ];
+            }
+        }
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * @dataProvider provideVersionNumbersWithoutPatchLevels
+     *
+     * @covers ::__construct
+     * @covers ::getPatchLevel
+     * @covers ::hasPatchLevel
+     * @covers ::__toString
+     */
+    public function testPatchLevelsAreOptional($version)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals(0, $obj->getPatchLevel());
+        $this->assertFalse($obj->hasPatchLevel());
+        $this->assertEquals($version, (string)$obj);
+    }
+
+    public function provideVersionNumbersWithoutPatchLevels()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            if (!isset($dataset[1]["patchLevel"])) {
+                $retval[] = [ $dataset[0] ];
+            }
+        }
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * @dataProvider provideVersionNumbersWithPreRelease
+     *
+     * @covers ::__construct
+     * @covers ::getPreRelease
+     * @covers ::hasPreRelease
+     * @covers ::__toString
+     */
+    public function testSupportsPreReleaseMetadata($version, $preRelease)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj->hasPreRelease());
+        $this->assertEquals($preRelease, $obj->getPreRelease());
+        $this->assertEquals($version, (string)$obj);
+    }
+
+    public function provideVersionNumbersWithPreRelease()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            if (isset($dataset[1]["preRelease"])) {
+                $retval[] = [ $dataset[0], $dataset[1]["preRelease"] ];
+            }
+        }
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * @dataProvider provideVersionNumbersWithoutPreRelease
+     *
+     * @covers ::__construct
+     * @covers ::getPreRelease
+     * @covers ::hasPreRelease
+     * @covers ::__toString
+     */
+    public function testPreReleaseMetadataIsOptional($version)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertFalse($obj->hasPreRelease());
+        $this->assertEquals(null, $obj->getPreRelease());
+        $this->assertEquals($version, (string)$obj);
+    }
+
+    public function provideVersionNumbersWithoutPreRelease()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            if (!isset($dataset[1]["preRelease"])) {
+                $retval[] = [ $dataset[0] ];
+            }
+        }
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * @dataProvider provideVersionNumbersWithBuildNumbers
+     *
+     * @covers ::__construct
+     * @covers ::getBuildNumber
+     * @covers ::hasBuildNumber
+     * @covers ::__toString
+     */
+    public function testSupportsBuildNumbers($version, $buildNumber)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($buildNumber, $obj->getBuildNumber());
+        $this->assertTrue($obj->hasBuildNumber());
+        $this->assertEquals($version, (string)$obj);
+    }
+
+    public function provideVersionNumbersWithBuildNumbers()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            if (isset($dataset[1]["build"])) {
+                $retval[] = [ $dataset[0], $dataset[1]["build"] ];
+            }
+        }
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * @dataProvider provideVersionNumbersWithoutBuildNumbers
+     *
+     * @covers ::__construct
+     * @covers ::getBuildNumber
+     * @covers ::hasBuildNumber
+     * @covers ::__toString
+     */
+    public function testBuildNumbersAreOptional($version)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals(null, $obj->getBuildNumber());
+        $this->assertFalse($obj->hasBuildNumber());
+        $this->assertEquals($version, (string)$obj);
+    }
+
+    public function provideVersionNumbersWithoutBuildNumbers()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            if (!isset($dataset[1]["build"])) {
+                $retval[] = [ $dataset[0] ];
+            }
+        }
+
+        // all done
+        return $retval;
+    }
+
+    /**
+     * @dataProvider provideVersionsForApproximateUpperBoundary
+     *
+     * @covers ::getApproximateUpperBoundary
+     */
+    public function testCanGetApproximateUpperBoundary($version, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $upperBoundary = $obj->getApproximateUpperBoundary();
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, (string)$upperBoundary);
+    }
+
+    public function provideVersionsForApproximateUpperBoundary()
+    {
+        return [
+            [
+                "1.0",
+                "2.0"
+            ],
+            [
+                "1.0.0",
+                "1.1"
+            ],
+            [
+                "1.0.1",
+                "1.1"
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideVersionsForCompatibleUpperBoundary
+     *
+     * @covers ::getCompatibleUpperBoundary
+     */
+    public function testCanGetCompatibleUpperBoundary($version, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj = BuildSemanticVersion::fromString($version);
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $upperBoundary = $obj->getCompatibleUpperBoundary();
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, (string)$upperBoundary);
+    }
+
+    public function provideVersionsForCompatibleUpperBoundary()
+    {
+        return [
+            [
+                "1.0",
+                "2.0"
+            ],
+            [
+                "1.0.0",
+                "2.0"
+            ],
+            [
+                "1.0.1",
+                "2.0"
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider provideVersionsForStringCasting
+     *
+     * @covers ::__toString()
+     */
+    public function testCastAsString($expectedVersion)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj = BuildSemanticVersion::fromString($expectedVersion);
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualVersion = (string)$obj;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedVersion, $actualVersion);
+    }
+
+    public function provideVersionsForStringCasting()
+    {
+        return [
+            [ "1.0" ],
+            [ "1.0-alpha" ],
+            [ "1.2.3" ],
+            [ "1.2.3-alpha" ],
+            [ "1.2.3+4" ],
+            [ "1.2+4" ]
+        ];
+    }
+
+    /**
+     * @covers ::__toArray()
+     */
+    public function testCanTurnIntoArray()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $expectedVersion = [
+            "major"      => 1,
+            "minor"      => 2,
+            "patchLevel" => 3,
+            "preRelease" => "alpha",
+            "build"      => 4,
+        ];
+        $obj = BuildSemanticVersion::fromString('1.2.3-alpha+4');
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualVersion = $obj->__toArray();
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedVersion, $actualVersion);
+    }
 
     // /**
     //  * @dataProvider provideEqualityDataset
