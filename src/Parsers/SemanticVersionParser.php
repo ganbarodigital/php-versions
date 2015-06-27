@@ -61,13 +61,16 @@ class SemanticVersionParser
      * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into an
      * array of version parts
      *
-     * @throws E4xx_BadVersionString
-     *         if we cannot parse $versionString
-     *
      * @param  string $versionString
      *         the string to parse
      *
      * @return array
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @throws E4xx_NotAVersionString
+     *         if we're asked to parse something that isn't a string
      */
     public static function fromString($versionString)
     {
@@ -76,20 +79,8 @@ class SemanticVersionParser
             throw new E4xx_NotAVersionString($versionString);
         }
 
-        // one regex to rule them all
-        //
-        // based on a regex proposed in the semver.org Github issues list
-        //
-        // I've tried using multiple regexes here to see if we can match
-        // more quickly, but it doesn't make a noticable difference
-        $regex = "%^\s*v{0,1}(?P<major>" . self::REGEX_MAJOR . ")"
-               . "\.(?P<minor>" . self::REGEX_MINOR . ")"
-               . "(\.(?P<patchLevel>" . self::REGEX_PATCHLEVEL . ")){0,1}"
-               . "(-(?P<preRelease>" . self::REGEX_PRERELEASE . ")){0,1}"
-               . "(\+(?P<build>" . self::REGEX_BUILDNUMBER . ")){0,1}\s*$%";
-
         $matches = [];
-        if (preg_match($regex, $versionString, $matches)) {
+        if (preg_match(self::getRegex(), $versionString, $matches)) {
             // we need to sanitise the regex result before returning
             // our return value
             return self::cleanupMatches($matches);
@@ -97,6 +88,27 @@ class SemanticVersionParser
 
         // if we get here, then nothing matched
         throw new E4xx_BadVersionString($versionString);
+    }
+
+    private static function getRegex()
+    {
+        static $regex = null;
+
+        // one regex to rule them all
+        //
+        // based on a regex proposed in the semver.org Github issues list
+        //
+        // I've tried using multiple regexes here to see if we can match
+        // more quickly, but it doesn't make a noticable difference
+        if (!$regex) {
+            $regex = "%^\s*v{0,1}(?P<major>" . self::REGEX_MAJOR . ")"
+               . "\.(?P<minor>" . self::REGEX_MINOR . ")"
+               . "(\.(?P<patchLevel>" . self::REGEX_PATCHLEVEL . ")){0,1}"
+               . "(-(?P<preRelease>" . self::REGEX_PRERELEASE . ")){0,1}"
+               . "(\+(?P<build>" . self::REGEX_BUILDNUMBER . ")){0,1}\s*$%";
+       }
+
+        return $regex;
     }
 
     /**
