@@ -45,7 +45,7 @@ namespace GanbaroDigital\Versions\Internal\Helpers;
 
 use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionNumber;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedVersionNumber;
-use GanbaroDigital\Versions\VersionBuilders\SemanticVersionBuilder;
+use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
 use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 
@@ -81,6 +81,6 @@ trait EnsureSemanticVersion
         }
 
         // convert and return
-        return SemanticVersionBuilder::fromString($input);
+        return BuildSemanticVersion::fromString($input);
     }
 }

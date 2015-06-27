@@ -43,14 +43,14 @@
 
 namespace GanbaroDigital\Versions\VersionBuilders;
 
-use GanbaroDigital\Versions\Parsers\SemanticVersionParser;
+use GanbaroDigital\Versions\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
 
-class SemanticVersionBuilder
+class BuildSemanticVersion
 {
     public static function fromString($versionString)
     {
-        $parts = SemanticVersionParser::fromString($versionString);
+        $parts = ParseSemanticVersion::fromString($versionString);
 
         $retval = new SemanticVersion(
             $parts['major'],

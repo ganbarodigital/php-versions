@@ -50,9 +50,9 @@ use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\DataSets\SemanticVersionDatasets;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\Parsers\SemanticVersionParser
+ * @coversDefaultClass GanbaroDigital\Versions\Parsers\ParseSemanticVersion
  */
-class SemanticVersionParserTest extends PHPUnit_Framework_TestCase
+class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideVersionStrings
@@ -66,7 +66,7 @@ class SemanticVersionParserTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $parser = new SemanticVersionParser();
+        $parser = new ParseSemanticVersion();
 
         // ----------------------------------------------------------------
         // perform the change
@@ -93,7 +93,7 @@ class SemanticVersionParserTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualBreakdown = SemanticVersionParser::fromString($versionString);
+        $actualBreakdown = ParseSemanticVersion::fromString($versionString);
 
         // ----------------------------------------------------------------
         // test the results
@@ -121,7 +121,7 @@ class SemanticVersionParserTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        SemanticVersionParser::fromString($versionString);
+        ParseSemanticVersion::fromString($versionString);
     }
 
     public function provideBadVersionStrings()
@@ -144,7 +144,7 @@ class SemanticVersionParserTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        SemanticVersionParser::fromString($versionString);
+        ParseSemanticVersion::fromString($versionString);
     }
 
     public function provideBadVersionNumbers()

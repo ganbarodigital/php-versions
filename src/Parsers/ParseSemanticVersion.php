@@ -46,7 +46,7 @@ namespace GanbaroDigital\Versions\Parsers;
 use GanbaroDigital\Versions\Exceptions\E4xx_BadVersionString;
 use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionString;
 
-class SemanticVersionParser
+class ParseSemanticVersion
 {
     const REGEX_MAJOR = "0|[1-9]\d*";
     const REGEX_MINOR = "0|[1-9]\d*";
@@ -90,7 +90,7 @@ class SemanticVersionParser
         throw new E4xx_BadVersionString($versionString);
     }
 
-    private static function getRegex()
+    public static function getRegex()
     {
         static $regex = null;
 

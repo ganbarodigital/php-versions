@@ -47,7 +47,7 @@ require_once(__DIR__ . '/../Datasets/SemanticVersionDatasets.php');
 
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
-use GanbaroDigital\Versions\VersionBuilders\SemanticVersionBuilder;
+use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionTypes\SemanticVersion
@@ -73,7 +73,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = SemanticVersionBuilder::fromString($version);
+        $obj = BuildSemanticVersion::fromString($version);
 
         // ----------------------------------------------------------------
         // test the results
