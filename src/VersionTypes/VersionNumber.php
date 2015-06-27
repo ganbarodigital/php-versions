@@ -56,15 +56,6 @@ interface VersionNumber
     public function getVersion();
 
     /**
-     * I use $version to set my value.
-     *
-     * @param string $version
-     *        the version string to parse and initialise me from
-     * @return void
-     */
-    public function setVersion($version);
-
-    /**
      * Get the 'X' in my X.Y.Z[-<preRelease>[+R]] version number
      *
      * @return int|null

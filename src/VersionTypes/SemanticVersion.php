@@ -43,6 +43,8 @@
 
 namespace GanbaroDigital\Versions\VersionTypes;
 
+use GanbaroDigital\Versions\Internal\Helpers\EnsureSemanticVersion;
+
 /**
  * Represents a version number
  */
@@ -92,13 +94,13 @@ class SemanticVersion implements VersionNumber
      * @param string|null $version
      *        the version string to parse and initialise me from
      */
-    public function __construct($version = null)
+    public function __construct($major, $minor, $patchLevel = null, $preRelease = null, $build = null)
     {
-        if ($version === null) {
-            return;
-        }
-
-        $this->setVersion($version);
+        $this->major = $major;
+        $this->minor = $minor;
+        $this->patchLevel = $patchLevel;
+        $this->preRelease = $preRelease;
+        $this->build = $build;
     }
 
     /**
@@ -109,20 +111,6 @@ class SemanticVersion implements VersionNumber
     public function getVersion()
     {
         return $this->__toString();
-    }
-
-    /**
-     * I use $version to set my value.
-     *
-     * @param string $version
-     *        the version string to parse and initialise me from
-     * @return void
-     */
-    public function setVersion($version)
-    {
-        // if we get here, we need to parse the version string
-        $parser = new SemanticVersionParser();
-        $parser->parseIntoObject($version, $this);
     }
 
     /**

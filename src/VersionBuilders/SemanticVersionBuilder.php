@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2015-present Stuart Herbert.
+ * Copyright (c) 2015-present Ganbaro Digital Ltd.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,204 +33,33 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package     Stuart
- * @subpackage  SemverLib
- * @author      Stuart Herbert <stuart@stuartherbert.com>
- * @copyright   2015-present Stuart Herbert
- * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link        http://stuartherbert.github.io/php-semver
+ * @category  Libraries
+ * @package   Versions/VersionBuilders
+ * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
+ * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace Stuart\SemverLib;
+namespace GanbaroDigital\Versions\VersionBuilders;
 
-class SemanticVersionParser
+use GanbaroDigital\Versions\Parsers\SemanticVersionParser;
+use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
+
+class SemanticVersionBuilder
 {
-    const REGEX_MAJOR = "0|[1-9]\d*";
-    const REGEX_MINOR = "0|[1-9]\d*";
-    const REGEX_PATCHLEVEL = "0|[1-9]\d*";
-    const REGEX_PRERELEASE = "(0|[1-9]\d*|\d*|[a-zA-Z-][0-9a-zA-Z-]*)(\.(0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*";
-    const REGEX_BUILDNUMBER = "[0-9a-zA-Z-]+(\.[0-9a-zA-Z-]+)*";
-
-    const PART_IS_NUMERIC = 1;
-    const PART_IS_STRING  = 2;
-
-    public function __construct()
+    public static function fromString($versionString)
     {
-        // nothing to do
-    }
+        $parts = SemanticVersionParser::fromString($versionString);
 
-    /**
-     * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into a
-     * SemanticVersion object
-     *
-     * @throws E4xx_BadVersionString
-     *         if we cannot parse $versionString
-     *
-     * @param  string $versionString
-     *         the string to parse
-     * @return VersionNumber
-     */
-    public function parse($versionString)
-    {
-        // we need something to store the results into
-        $retval = new SemanticVersion();
+        $retval = new SemanticVersion(
+            $parts['major'],
+            $parts['minor'],
+            $parts['patchLevel'],
+            $parts['preRelease'],
+            $parts['build']
+        );
 
-        // initialise $retval from our version string
-        $this->parseIntoObject($versionString, $retval);
-
-        // all done
         return $retval;
-    }
-
-    /**
-     * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into your
-     * existing SemanticVersion object
-     *
-     * @throws E4xx_BadVersionString
-     *         if we cannot parse $versionString
-     *
-     * @param  string          $versionString
-     *         the string to parse
-     * @param  VersionNumber $target
-     *         the object to initialise from the version string
-     *
-     * @return void
-     */
-    public function parseIntoObject($versionString, VersionNumber $target)
-    {
-        // the parts of the breakdown, and where they go
-        static $parts = [
-            'major'      => 'setMajor',
-            'minor'      => 'setMinor',
-            'patchLevel' => 'setPatchLevel',
-            'preRelease' => 'setPreRelease',
-            'build'      => 'setBuildNumber'
-        ];
-
-        // make sense of the string
-        //
-        // and if we can't, watch the exception sail by
-        $breakdown = $this->parseVersionString($versionString);
-
-        // use our findings to setup the $target
-        foreach ($parts as $key => $method)
-        {
-            if (isset($breakdown[$key])) {
-                $target->$method($breakdown[$key]);
-            }
-        }
-
-        // all done
-    }
-
-    /**
-     * extract the individual parts of an 'X.Y[.Z][-<preRelease>][+R]' version
-     * string
-     *
-     * @throws E4xx_BadVersionString
-     *         if we cannot parse $versionString
-     *
-     * @param  string $versionString
-     *         the version string to parse
-     * @return array
-     */
-    protected function parseVersionString($versionString)
-    {
-
-        // do we have something we can safely attempt to parse?
-        if (!is_string($versionString)) {
-            throw new E4xx_NotAVersionString($versionString);
-        }
-
-        // one regex to rule them all
-        //
-        // based on a regex proposed in the semver.org Github issues list
-        //
-        // I've tried using multiple regexes here to see if we can match
-        // more quickly, but it doesn't make a noticable difference
-        $regex = "%^\s*v{0,1}(?P<major>" . self::REGEX_MAJOR . ")"
-               . "\.(?P<minor>" . self::REGEX_MINOR . ")"
-               . "(\.(?P<patchLevel>" . self::REGEX_PATCHLEVEL . ")){0,1}"
-               . "(-(?P<preRelease>" . self::REGEX_PRERELEASE . ")){0,1}"
-               . "(\+(?P<build>" . self::REGEX_BUILDNUMBER . ")){0,1}\s*$%";
-
-        $matches = [];
-        if (preg_match($regex, $versionString, $matches)) {
-            // we need to sanitise the regex result before returning
-            // our return value
-            return $this->cleanupMatches($matches);
-        }
-
-        // if we get here, then nothing matched
-        throw new E4xx_BadVersionString($versionString);
-    }
-
-    /**
-     * cleanup a regex result
-     *
-     * @param  array $matches
-     *         the result from a preg_match() call
-     * @return array
-     */
-    protected function cleanupMatches($matches)
-    {
-        static $parts = [
-            "major" => self::PART_IS_NUMERIC,
-            "minor" => self::PART_IS_NUMERIC,
-            "patchLevel" => self::PART_IS_NUMERIC,
-            "preRelease" => self::PART_IS_STRING,
-            "build" => self::PART_IS_STRING,
-        ];
-
-        // we need to sanitise the regex result before returning
-        // our return value
-        $retval = [];
-
-        foreach ($parts as $key => $type) {
-            // skip over optional parts
-            if (!isset($matches[$key]) || $matches[$key] == "") {
-                continue;
-            }
-
-            // what do we need to do to this part?
-            switch ($type)
-            {
-                case self::PART_IS_NUMERIC:
-                    // force it to be numeric now
-                    $retval[$key] = strval($matches[$key]);
-                    break;
-
-                case self::PART_IS_STRING:
-                    // just copy it across
-                    $retval[$key] = $matches[$key];
-                    break;
-            }
-        }
-
-        // all done
-        return $retval;
-    }
-
-    // ==================================================================
-    //
-    // Test helpers
-    //
-    // ------------------------------------------------------------------
-
-    /**
-     * parse the version string and return the components as an associative
-     * array for further use
-     *
-     * @throws E4xx_BadVersionString
-     *         if we cannot parse $versionString
-     *
-     * @param  string $versionString
-     *         the version string to parse
-     * @return array
-     *         the parsed string
-     */
-    public function parseIntoArray($versionString)
-    {
-        return $this->parseVersionString($versionString);
     }
 }
