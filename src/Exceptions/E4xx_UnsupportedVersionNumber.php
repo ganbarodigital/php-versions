@@ -34,53 +34,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Internal
+ * @package   Versions/Exceptions
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Internal\Helpers;
+namespace GanbaroDigital\Versions\Exceptions;
 
-use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionNumber;
-use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedVersionNumber;
-use GanbaroDigital\Versions\VersionBuilders\SemanticVersionBuilder;
-use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
-use GanbaroDigital\Versions\VersionTypes\VersionNumber;
-
-/**
- * Helper to deal with when we accept both strings and SemanticVersion objs
- */
-trait EnsureSemanticVersion
+class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
 {
-    /**
-     * if $input is a string, convert it to a SemanticVersion object
-     *
-     * @param  VersionNumber|string $input
-     *         the version number that we may need to convert
-     * @return SemanticVersion
-     */
-    protected function ensureSemanticVersion($input)
+    public function __construct($versionNumber, $supportedTypes)
     {
-        // do we need to do anything at all?
-        if ($input instanceof SemanticVersion) {
-            // no, we do not
-            return $input;
-        }
-
-        // have we been given a different version number?
-        if ($input instanceof VersionNumber) {
-            // we can't accept these
-            throw new E4xx_UnsupportedVersionNumber($input, 'SemanticVersion');
-        }
-
-        // deal with any other surprises
-        if (!is_string($input)) {
-            throw new E4xx_NotAVersionNumber($input);
-        }
-
-        // convert and return
-        return SemanticVersionBuilder::fromString($input);
+    	$msgData = [
+    		'versionNumber' => $versionNumber,
+    		'supportedTypes' => $supportedTypes,
+    	];
+    	$msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
+        parent::__construct(400, $msg, $msgData);
     }
 }
