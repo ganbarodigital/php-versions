@@ -106,41 +106,41 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         return $retval;
     }
 
-    // /**
-    //  * @dataProvider provideMajorVersionNumbers
-    //  *
-    //  * @covers ::__construct
-    //  */
-    // public function testSupportsMajorNumbers($majorNumber, $expectedVersion)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
+    /**
+     * @dataProvider provideMajorVersionNumbers
+     *
+     * @covers ::__construct
+     */
+    public function testSupportsMajorNumbers($majorNumber, $expectedVersion)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-    //     $obj = new SemanticVersion();
+        $versionString = "{$majorNumber}.0";
 
-    //     // ----------------------------------------------------------------
-    //     // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-    //     $obj->setMajor($majorNumber);
+        $obj = BuildSemanticVersion::fromString($versionString);
 
-    //     // ----------------------------------------------------------------
-    //     // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-    //     $this->assertEquals($majorNumber, $obj->getMajor());
-    //     $this->assertEquals($expectedVersion, (string)$obj);
-    // }
+        $this->assertEquals($majorNumber, $obj->getMajor());
+        $this->assertEquals($expectedVersion, (string)$obj);
+    }
 
-    // public function provideMajorVersionNumbers()
-    // {
-    //     // we'll use the full version number data set
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
-    //         $retval[] = [ $dataset[1]["major"], $dataset[1]["major"] . ".0" ];
-    //     }
+    public function provideMajorVersionNumbers()
+    {
+        // we'll use the full version number data set
+        $retval = [];
+        foreach (SemanticVersionDatasets::getVersionNumberDataset() as $dataset) {
+            $retval[] = [ $dataset[1]["major"], $dataset[1]["major"] . ".0" ];
+        }
 
-    //     // all done
-    //     return $retval;
-    // }
+        // all done
+        return $retval;
+    }
 
     // /**
     //  *
