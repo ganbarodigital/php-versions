@@ -44,6 +44,7 @@
 namespace GanbaroDigital\Versions\VersionTypes;
 
 use GanbaroDigital\Versions\Internal\Helpers\EnsureSemanticVersion;
+use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 
 /**
  * Represents a version number
@@ -132,18 +133,6 @@ class SemanticVersion implements VersionNumber
     }
 
     /**
-     * Set the 'X' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param int $major
-     *        my new major version number
-     * @return void
-     */
-    public function setMajor($major)
-    {
-        $this->major = $major;
-    }
-
-    /**
      * Get the 'Y' in my X.Y.Z[-<preRelease>[+R]] version number
      *
      * @return int|null
@@ -151,18 +140,6 @@ class SemanticVersion implements VersionNumber
     public function getMinor()
     {
         return $this->minor;
-    }
-
-    /**
-     * Set the 'Y' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param int $minor
-     *        my new minor version number
-     * @return void
-     */
-    public function setMinor($minor)
-    {
-        $this->minor = $minor;
     }
 
     /**
@@ -200,18 +177,6 @@ class SemanticVersion implements VersionNumber
     }
 
     /**
-     * Set the 'Z' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param int $patchLevel
-     *        my new patch level
-     * @return void
-     */
-    public function setPatchLevel($patchLevel)
-    {
-        $this->patchLevel = $patchLevel;
-    }
-
-    /**
      * Is there a 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number?
      *
      * @return boolean
@@ -235,18 +200,6 @@ class SemanticVersion implements VersionNumber
     public function getPreRelease()
     {
         return $this->preRelease;
-    }
-
-    /**
-     * Set the 'preRelease' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param string $preRelease
-     *        my new pre-release version string
-     * @return void
-     */
-    public function setPreRelease($preRelease)
-    {
-        $this->preRelease = $preRelease;
     }
 
     /**
@@ -275,18 +228,6 @@ class SemanticVersion implements VersionNumber
         return $this->build;
     }
 
-    /**
-     * Set the 'build number' in my X.Y.Z[-<preRelease>[+R]] version number
-     *
-     * @param string $build
-     *        my new build number
-     * @return void
-     */
-    public function setBuildNumber($build)
-    {
-        $this->build = $build;
-    }
-
     // ==================================================================
     //
     // Calculated properties go here
@@ -305,9 +246,6 @@ class SemanticVersion implements VersionNumber
      */
     public function getApproximateUpperBoundary()
     {
-        // our return value
-        $retval = new SemanticVersion;
-
         // ~X.Y.Z has an upper boundary of X.Y+1.0
         if ($this->hasPatchLevel()) {
             $upperBound = $this->getMajor() . '.' . ($this->getMinor() + 1);
@@ -316,8 +254,11 @@ class SemanticVersion implements VersionNumber
             // ~X.Y has an upper boundary of X+1.Y
             $upperBound = ($this->getMajor() + 1) . '.0';
         }
-        $retval->setVersion($upperBound);
 
+        // our return value
+        $retval = BuildSemanticVersion::fromString($upperBound);
+
+        // all done
         return $retval;
     }
 
@@ -333,14 +274,14 @@ class SemanticVersion implements VersionNumber
      */
     public function getCompatibleUpperBoundary()
     {
-        // our return value
-        $retval = new SemanticVersion;
-
         // ^X.Y.Z has an upper boundary of X+1.0
         // ^X.Y has an upper boundary of X+1.0
         $upperBound = ($this->getMajor() + 1) . '.0';
-        $retval->setVersion($upperBound);
 
+        // our return value
+        $retval = BuildSemanticVersion::fromString($upperBound);
+
+        // all done
         return $retval;
     }
 
