@@ -34,53 +34,38 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Internal
+ * @package   Versions/Compare
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Internal\Helpers;
+namespace GanbaroDigital\Versions\Operators;
 
-use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionNumber;
-use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedVersionNumber;
-use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
-use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
 use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 
 /**
- * Helper to deal with when we accept both strings and SemanticVersion objs
+ * Represents a version number
  */
-trait EnsureSemanticVersion
+class EqualTo
 {
     /**
-     * if $input is a string, convert it to a SemanticVersion object
+     * does $this equal $b?
      *
-     * @param  VersionNumber|string $input
-     *         the version number that we may need to convert
-     * @return SemanticVersion
+     * @param  VersionNumber|string $b
+     * @return boolean
+     *         TRUE if $this == $b
+     *         FALSE otherwise
      */
-    protected function ensureSemanticVersion($input)
+    public static function check(VersionNumber $a, $b)
     {
-        // do we need to do anything at all?
-        if ($input instanceof SemanticVersion) {
-            // no, we do not
-            return $input;
+        // are the two versions equal?
+        $res = Comparison::compare($a, $b);
+        if ($res === Comparison::BOTH_ARE_EQUAL) {
+            return true;
         }
 
-        // have we been given a different version number?
-        if ($input instanceof VersionNumber) {
-            // we can't accept these
-            throw new E4xx_UnsupportedVersionNumber($input, 'SemanticVersion');
-        }
-
-        // deal with any other surprises
-        if (!is_string($input)) {
-            throw new E4xx_NotAVersionNumber($input);
-        }
-
-        // convert and return
-        return BuildSemanticVersion::fromString($input);
+        return false;
     }
 }

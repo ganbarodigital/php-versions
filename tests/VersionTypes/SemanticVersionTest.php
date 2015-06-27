@@ -48,6 +48,7 @@ require_once(__DIR__ . '/../Datasets/SemanticVersionDatasets.php');
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
 use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
+use GanbaroDigital\Versions;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionTypes\SemanticVersion
@@ -565,45 +566,44 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedVersion, $actualVersion);
     }
 
-    // /**
-    //  * @dataProvider provideEqualityDataset
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::equals
-    //  * @covers Stuart\SemverLib\SemanticVersion::getVersionComparitor
-    //  */
-    // public function testCanCheckForEquality($a, $b, $expectedResult)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
+    /**
+     * @dataProvider provideEqualityDataset
+     *
+     * @coversNone
+     */
+    public function testCanCheckForEquality($a, $b, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-    //     $aVer = new SemanticVersion($a);
-    //     $bVer = new SemanticVersion($b);
+        $aVer = BuildSemanticVersion::fromString($a);
+        $bVer = BuildSemanticVersion::fromString($b);
 
-    //     // ----------------------------------------------------------------
-    //     // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-    //     $actualResult = $aVer->equals($bVer);
+        $actualResult = Versions\Operators\EqualTo::check($aVer, $bVer);
 
-    //     // ----------------------------------------------------------------
-    //     // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-    //     $this->assertEquals($expectedResult, $actualResult);
-    // }
+        $this->assertEquals($expectedResult, $actualResult);
+    }
 
-    // public function provideEqualityDataset()
-    // {
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
-    //         $dataset[] = true;
-    //         $retval[] = $dataset;
-    //     }
-    //     foreach (SemanticVersionDatasets::getNeverEqualDataset() as $dataset) {
-    //         $dataset[] = false;
-    //         $retval[] = $dataset;
-    //     }
+    public function provideEqualityDataset()
+    {
+        $retval = [];
+        foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+            $dataset[] = true;
+            $retval[] = $dataset;
+        }
+        foreach (SemanticVersionDatasets::getNeverEqualDataset() as $dataset) {
+            $dataset[] = false;
+            $retval[] = $dataset;
+        }
 
-    //     return $retval;
-    // }
+        return $retval;
+    }
 
     // /**
     //  * @dataProvider provideIsGreaterThanDataset
@@ -629,6 +629,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
 
     //     $this->assertEquals($expectedResult, $actualResult);
     // }
+    //
 
     // public function provideIsGreaterThanDataset()
     // {
