@@ -21,7 +21,7 @@ Add this to your `composer.json` file:
 
 	{
 		"require": {
-			"ganbarodigital/php-version": "dev-develop"
+			"ganbarodigital/php-versions": "dev-develop"
 		}
 	}
 
