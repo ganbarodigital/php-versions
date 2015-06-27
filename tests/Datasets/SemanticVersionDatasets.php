@@ -194,7 +194,10 @@ class SemanticVersionDatasets
                 "1.0",
                 [
                     "major" => 1,
-                    "minor" => 0
+                    "minor" => 0,
+                    "patchLevel" => null,
+                    "preRelease" => null,
+                    "build" => null,
                 ]
             ],
             [
@@ -202,7 +205,9 @@ class SemanticVersionDatasets
                 [
                     "major" => 1,
                     "minor" => 0,
-                    "patchLevel" => 0
+                    "patchLevel" => 0,
+                    "preRelease" => null,
+                    "build" => null,
                 ]
             ],
             // this one is interesting because we don't provide the
@@ -212,7 +217,9 @@ class SemanticVersionDatasets
                 [
                     "major" => 1,
                     "minor" => 0,
-                    "preRelease" => "alpha"
+                    "patchLevel" => null,
+                    "preRelease" => "alpha",
+                    "build" => null,
                 ]
             ],
             // example taken from semver.org
@@ -222,7 +229,8 @@ class SemanticVersionDatasets
                     "major" => 1,
                     "minor" => 0,
                     "patchLevel" => 0,
-                    "preRelease" => "alpha"
+                    "preRelease" => "alpha",
+                    "build" => null,
                 ]
             ],
             // example taken from semver.org
@@ -232,7 +240,8 @@ class SemanticVersionDatasets
                     "major" => 1,
                     "minor" => 0,
                     "patchLevel" => 0,
-                    "preRelease" => "alpha.1"
+                    "preRelease" => "alpha.1",
+                    "build" => null,
                 ]
             ],
             // example taken from semver.org
@@ -242,7 +251,8 @@ class SemanticVersionDatasets
                     "major" => 1,
                     "minor" => 0,
                     "patchLevel" => 0,
-                    "preRelease" => "0.3.7"
+                    "preRelease" => "0.3.7",
+                    "build" => null,
                 ]
             ],
             // example taken from semver.org
@@ -252,7 +262,8 @@ class SemanticVersionDatasets
                     "major" => 1,
                     "minor" => 0,
                     "patchLevel" => 0,
-                    "preRelease" => "x.7.z.92"
+                    "preRelease" => "x.7.z.92",
+                    "build" => null,
                 ]
             ],
             // example taken from semver.org
@@ -273,6 +284,7 @@ class SemanticVersionDatasets
                     "major" => 1,
                     "minor" => 0,
                     "patchLevel" => 0,
+                    "preRelease" => null,
                     "build" => "20130313144700"
                 ]
             ],

@@ -121,8 +121,9 @@ class SemanticVersionParser
         $retval = [];
 
         foreach ($parts as $key => $type) {
-            // skip over optional parts
+            // missing / empty parts get set to null
             if (!isset($matches[$key]) || $matches[$key] == "") {
+                $retval[$key] = null;
                 continue;
             }
 
