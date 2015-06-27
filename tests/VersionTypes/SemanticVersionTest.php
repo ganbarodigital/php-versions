@@ -605,50 +605,49 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         return $retval;
     }
 
-    // /**
-    //  * @dataProvider provideIsGreaterThanDataset
-    //  *
-    //  * @covers Stuart\SemverLib\SemanticVersion::isGreaterThan
-    //  * @covers Stuart\SemverLib\SemanticVersion::getVersionComparitor
-    //  */
-    // public function testCanCheckForIsGreaterThan($a, $b, $expectedResult)
-    // {
-    //     // ----------------------------------------------------------------
-    //     // setup your test
+    /**
+     * @dataProvider provideIsGreaterThanDataset
+     *
+     * @coversNone
+     */
+    public function testCanCheckForIsGreaterThan($a, $b, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
 
-    //     $aVer = new SemanticVersion($a);
-    //     $bVer = new SemanticVersion($b);
+        $aVer = BuildSemanticVersion::fromString($a);
+        $bVer = BuildSemanticVersion::fromString($b);
 
-    //     // ----------------------------------------------------------------
-    //     // perform the change
+        // ----------------------------------------------------------------
+        // perform the change
 
-    //     $actualResult = $bVer->isGreaterThan($aVer);
+        $actualResult = Versions\Operators\GreaterThan::calculate($aVer, $bVer);
 
-    //     // ----------------------------------------------------------------
-    //     // test the results
+        // ----------------------------------------------------------------
+        // test the results
 
-    //     $this->assertEquals($expectedResult, $actualResult);
-    // }
-    //
+        $this->assertEquals($expectedResult, $actualResult);
+    }
 
-    // public function provideIsGreaterThanDataset()
-    // {
-    //     $retval = [];
-    //     foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
-    //         $dataset[] = true;
-    //         $retval[] = $dataset;
-    //     }
-    //     foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
-    //         $dataset[] = false;
-    //         $retval[] = $dataset;
-    //     }
-    //     foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
-    //         $dataset[] = false;
-    //         $retval[] = $dataset;
-    //     }
 
-    //     return $retval;
-    // }
+    public function provideIsGreaterThanDataset()
+    {
+        $retval = [];
+        foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
+            $dataset[] = false;
+            $retval[] = $dataset;
+        }
+        foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+            $dataset[] = false;
+            $retval[] = $dataset;
+        }
+        foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
+            $dataset[] = true;
+            $retval[] = $dataset;
+        }
+
+        return $retval;
+    }
 
     // /**
     //  * @dataProvider provideIsGreaterThanOrEqualToDataset
