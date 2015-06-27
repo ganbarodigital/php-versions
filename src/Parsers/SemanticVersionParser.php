@@ -157,4 +157,24 @@ class SemanticVersionParser
         // all done
         return $retval;
     }
+
+    /**
+     * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into an
+     * array of version parts
+     *
+     * @param  string $versionString
+     *         the string to parse
+     *
+     * @return array
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @throws E4xx_NotAVersionString
+     *         if we're asked to parse something that isn't a string
+     */
+    public function __invoke($versionString)
+    {
+        return self::fromString($versionString);
+    }
 }

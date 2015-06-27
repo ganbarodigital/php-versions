@@ -57,6 +57,31 @@ class SemanticVersionParserTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideVersionStrings
      *
+     * @covers ::__invoke
+     * @covers ::fromString
+     * @covers ::cleanupMatches
+     */
+    public function testCanUseAsAnObject($versionString, $expectedBreakdown)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $parser = new SemanticVersionParser();
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualBreakdown = $parser($versionString);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedBreakdown, $actualBreakdown);
+    }
+
+    /**
+     * @dataProvider provideVersionStrings
+     *
      * @covers ::fromString
      * @covers ::cleanupMatches
      */
