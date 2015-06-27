@@ -43,7 +43,6 @@
 
 namespace GanbaroDigital\Versions\VersionTypes;
 
-use GanbaroDigital\Versions\Internal\Helpers\EnsureSemanticVersion;
 use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 
 /**
@@ -51,9 +50,6 @@ use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
  */
 class SemanticVersion implements VersionNumber
 {
-    // helper for converting version strings to an object
-    use EnsureSemanticVersion;
-
     /**
      * the 'X' in an X.Y.Z[-<preRelease>[+R]] version number
      *
