@@ -54,13 +54,17 @@ class Compatible extends BaseOperator
      * is $a compatible with $b, according to the rules of the
      * ^ operator?
      *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
      * @param  VersionNumber|string $b
+     *         the RHS of this calcuation
      * @return boolean
-     *         TRUE if $this is compatible with $b
+     *         TRUE if $a is compatible with $b
      *         FALSE otherwise
      */
     public static function calculate(VersionNumber $a, $b)
     {
+        // make sure $b is something we can work with
         $bObj = self::getComparibleObject($a, $b);
 
         // we turn this into two tests:

@@ -66,7 +66,7 @@ class CompareSemanticVersions
         $bVer = $b->__toArray();
 
         // compare major.minor.patchLevel first
-        $retval = self::compareXYZ($aVer, $bVer);
+        $retval = self::compareXyz($aVer, $bVer);
         if ($retval != BaseOperator::BOTH_ARE_EQUAL) {
             return $retval;
         }
@@ -99,7 +99,7 @@ class CompareSemanticVersions
      *          0 if both are equal
      *          1 if $aVer is larger
      */
-    public static function compareXYZ($aVer, $bVer)
+    public static function compareXyz($aVer, $bVer)
     {
         // compare each part in turn
         foreach (['major', 'minor', 'patchLevel'] as $key)

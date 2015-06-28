@@ -51,24 +51,28 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 class EqualTo extends BaseOperator
 {
     /**
+     * a list of which comparison results we do and do not like
+     * @var array
+     */
+    private static $resultsMap = [
+        self::A_IS_LESS      => false,
+        self::BOTH_ARE_EQUAL => true,
+        self::A_IS_GREATER   => false,
+    ];
+
+    /**
      * does $a equal $b?
      *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
      * @param  VersionNumber|string $b
+     *         the RHS of this calculation
      * @return boolean
-     *         TRUE if $this == $b
+     *         TRUE if $a == $b
      *         FALSE otherwise
      */
     public static function calculate(VersionNumber $a, $b)
     {
-        // turn $b into something we can use
-        $bVer = self::getComparibleObject($a, $b);
-
-        // are the two versions equal?
-        $res = self::compare($a, $bVer);
-        if ($res === self::BOTH_ARE_EQUAL) {
-            return true;
-        }
-
-        return false;
+        return parent::calculateWithMap($a, $b, self::$resultsMap);
     }
 }

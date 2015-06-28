@@ -48,24 +48,31 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class LessThan
+class LessThan extends BaseOperator
 {
+    /**
+     * a list of which comparison results we do and do not like
+     * @var array
+     */
+    private static $resultsMap = [
+        self::A_IS_LESS      => true,
+        self::BOTH_ARE_EQUAL => false,
+        self::A_IS_GREATER   => false,
+    ];
+
     /**
      * is $a < $b?
      *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
      * @param  VersionNumber|string $b
+     *         the RHS of this calculation
      * @return boolean
-     *         TRUE if $this < $b
+     *         TRUE if $a < $b
      *         FALSE otherwise
      */
     public static function calculate(VersionNumber $a, $b)
     {
-        // how do the two versions compare?
-        $res  = Comparison::calculate($a, $b);
-        if ($res == Comparison::A_IS_LESS) {
-            return true;
-        }
-
-        return false;
+        return parent::calculateWithMap($a, $b, self::$resultsMap);
     }
 }

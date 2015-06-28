@@ -94,9 +94,29 @@ class BaseOperator
      * @return int
      *         one of the self::* consts
      */
-    protected static function compare(VersionNumber $a, VersionNumber $b)
+    protected static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
         $className = self::getComparitorFor($a);
-        return call_user_func_array([$className, 'compare'], [$a, $b]);
+        $result = call_user_func_array([$className, 'compare'], [$a, $b]);
+        return $resultsMap[$result];
+    }
+
+    /**
+     * compare $a to $b
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @return boolean
+     */
+    public static function calculateWithMap(VersionNumber $a, $b, array $resultsMap)
+    {
+        // turn $b into something we can use
+        $bVer = self::getComparibleObject($a, $b);
+
+        // our results map
+        // are the two versions equal?
+        return self::compare($a, $bVer, $resultsMap);
     }
 }

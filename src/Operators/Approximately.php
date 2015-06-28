@@ -51,7 +51,7 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 class Approximately extends BaseOperator
 {
     /**
-     * is $this approximately equal to $b, according to the rules of the
+     * is $a approximately equal to $b, according to the rules of the
      * ~ operator?
      *
      * NOTES:
@@ -59,9 +59,12 @@ class Approximately extends BaseOperator
      * - you can only use the ~ operator to pin down which major / minor
      *   version to limit to, not the preRelease level
      *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
      * @param  VersionNumber|string $b
+     *         the RHS of this calcuation
      * @return boolean
-     *         TRUE if $this ~= $b
+     *         TRUE if $a ~= $b
      *         FALSE otherwise
      */
     public static function calculate(VersionNumber $a, $b)
@@ -70,8 +73,8 @@ class Approximately extends BaseOperator
 
         // we turn this into two tests:
         //
-        // $this has to be >= $b, and
-        // $this has to be < $c
+        // $a has to be >= $b, and
+        // $a has to be < $c
         //
         // where $c is $b's calculated upper bound for the proximity operator
         $res = GreaterThanOrEqualTo::calculate($a, $bObj);

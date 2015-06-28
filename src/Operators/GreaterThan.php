@@ -51,6 +51,16 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 class GreaterThan extends BaseOperator
 {
     /**
+     * a list of which comparison results we do and do not like
+     * @var array
+     */
+    private static $resultsMap = [
+        self::A_IS_LESS      => false,
+        self::BOTH_ARE_EQUAL => false,
+        self::A_IS_GREATER   => true,
+    ];
+
+   /**
      * is $a > $b?
      *
      * @param  VersionNumber $a
@@ -63,16 +73,7 @@ class GreaterThan extends BaseOperator
      */
     public static function calculate(VersionNumber $a, $b)
     {
-        // we need something we can use to compare
-        $bObj = self::getComparibleVersion($a, $b);
-
-        // how do the two versions compare?
-        $res = self::compare($a, $b);
-        if ($res === Comparison::A_IS_GREATER) {
-            return true;
-        }
-
-        return false;
+        return parent::calculateWithMap($a, $b, self::$resultsMap);
     }
 
 }
