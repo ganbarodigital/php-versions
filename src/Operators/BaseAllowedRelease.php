@@ -48,7 +48,7 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class Approximately extends BaseAllowedRelease
+class BaseAllowedRelease extends BaseOperator
 {
     /**
      * is $a approximately equal to $b, according to the rules of the
@@ -67,12 +67,25 @@ class Approximately extends BaseAllowedRelease
      *         TRUE if $a ~= $b
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    protected static function calculateAllowedRelease(VersionNumber $a, VersionNumber $b, VersionNumber $c)
     {
-        $bObj = self::getComparibleObject($a, $b);
+        // we turn this into two tests:
+        //
+        // $a has to be >= $b, and
+        // $a has to be < $c
+        $res = GreaterThanOrEqualTo::calculate($a, $b);
+        if (!$res) {
+            return false;
+        }
 
-        $c = $bObj->getApproximateUpperBoundary();
+        // is $c within our upper boundary?
+        $res = LessThan::calculate($a, $c);
+        if (!$res) {
+            return false;
+        }
 
-        return self::calculateAllowedRelease($a, $bObj, $c);
+        // finally, a special case
+        // avoid installing an unstable version of the upper boundary
+        return !PreReleaseOf::calculate($a, $c);
     }
 }

@@ -48,7 +48,7 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class Compatible extends BaseOperator
+class Compatible extends BaseAllowedRelease
 {
     /**
      * is $a compatible with $b, according to the rules of the
@@ -67,62 +67,10 @@ class Compatible extends BaseOperator
         // make sure $b is something we can work with
         $bObj = self::getComparibleObject($a, $b);
 
-        // we turn this into two tests:
-        //
-        // $a has to be >= $b, and
-        // $a has to be < $c
-        //
-        // where $c is $b's next stable major version
-        $res = GreaterThanOrEqualTo::calculate($a, $bObj);
-        if (!$res) {
-            return false;
-        }
-
-        // is $a less than $b's compatible upper boundary?
-        return self::getIsWithinCompatibleUpperBoundary($a, $bObj);
-    }
-
-    /**
-     * is $a within the compatible upper boundary of $b?
-     *
-     * @param  VersionNumber $a
-     *         LHS to examine
-     * @param  VersionNumber $b
-     *         RHS to examine
-     * @return boolean
-     */
-    private static function getIsWithinCompatibleUpperBoundary(VersionNumber $a, VersionNumber $b)
-    {
         // calculate the upper boundary
-        $c = $b->getCompatibleUpperBoundary();
+        $c = $bObj->getCompatibleUpperBoundary();
 
-        // is $b within our upper boundary?
-        $res = LessThan::calculate($a, $c);
-        if (!$res) {
-            return false;
-        }
-
-        // finally, a special case
-        // avoid installing an unstable version on the upper boundary
-        return !self::getIsUnstableNewRelease($a, $c);
-    }
-
-    /**
-     * is $a actually an unstable pre-release of $c?
-     *
-     * @param  VersionNumber $a
-     * @param  VersionNumber $c
-     * @return boolean
-     */
-    private static function getIsUnstableNewRelease(VersionNumber $a, VersionNumber $c)
-    {
-        // finally, a special case
-        // avoid installing an unstable version of the upper boundary
-        if ($c->getMajor() == $a->getMajor() && $a->getPreRelease() !== null) {
-            return true;
-        }
-
-        // if we get here, we're good
-        return false;
+        // is $a compatible with $b?
+        return self::calculateAllowedRelease($a, $bObj, $c);
     }
 }
