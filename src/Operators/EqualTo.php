@@ -48,10 +48,10 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class EqualTo
+class EqualTo extends BaseOperator
 {
     /**
-     * does $this equal $b?
+     * does $a equal $b?
      *
      * @param  VersionNumber|string $b
      * @return boolean
@@ -60,9 +60,12 @@ class EqualTo
      */
     public static function calculate(VersionNumber $a, $b)
     {
+        // turn $b into something we can use
+        $bVer = self::getComparibleObject($a, $b);
+
         // are the two versions equal?
-        $res = Comparison::calculate($a, $b);
-        if ($res === Comparison::BOTH_ARE_EQUAL) {
+        $res = self::compare($a, $bVer);
+        if ($res === self::BOTH_ARE_EQUAL) {
             return true;
         }
 
