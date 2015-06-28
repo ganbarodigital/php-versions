@@ -65,7 +65,6 @@ class EnsureCompatibleVersionNumber
 
         $className = __NAMESPACE__ . '\Ensure' . FilterNamespace::fromString(get_class($a));
         if (!class_exists($className)) {
-            var_dump($className);
             throw new E4xx_UnsupportedType(get_class($a));
         }
 
