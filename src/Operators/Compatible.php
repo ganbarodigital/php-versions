@@ -78,7 +78,13 @@ class Compatible extends BaseOperator
             return false;
         }
 
-        // calculate our upper boundary
+        // is $a less than $b's compatible upper boundary?
+        return self::getIsWithinCompatibleUpperBoundary($a, $b);
+    }
+
+    private static function getIsWithinCompatibleUpperBoundary($a, $b)
+    {
+        // calculate the upper boundary
         $cObj = $bObj->getCompatibleUpperBoundary();
 
         // is $b within our upper boundary?
