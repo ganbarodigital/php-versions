@@ -59,6 +59,7 @@ class ApproximatelyTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideIsApproximatelyEqualDataset
      *
      * @covers ::calculate
+     * @covers ::checkUpperBoundary
      */
     public function testCanCheckForIsApproximate($a, $b, $expectedResult)
     {

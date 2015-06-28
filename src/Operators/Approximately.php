@@ -82,25 +82,34 @@ class Approximately extends BaseOperator
             return false;
         }
 
+        // at this point, it all depends on whether we're underneath the
+        // upper boundary or not
+        return self::checkUpperBoundary($a, $bObj);
+    }
+
+    /**
+     * is $a underneath $b's approximate upper boundary?
+     *
+     * @param  VersionNumber $a
+     * @param  VersionNumber $b
+     * @return boolean
+     */
+    private static function checkUpperBoundary(VersionNumber $a, VersionNumber $b)
+    {
         // work out our upper boundary
         //
         // ~1.2.3 becomes <1.3.0
         // ~1.2   becomes <2.0.0
-        $cObj = $bObj->getApproximateUpperBoundary();
+        $c = $b->getApproximateUpperBoundary();
 
         // is $b within our upper boundary?
-        $res = LessThan::calculate($a, $cObj);
+        $res = LessThan::calculate($a, $c);
         if (!$res) {
             return false;
         }
 
         // finally, a special case
         // avoid installing an unstable version of the upper boundary
-        if ($cObj->getMajor() == $a->getMajor() && $cObj->getMinor() == $a->getMinor() && $a->getPreRelease() !== null) {
-            return false;
-        }
-
-        // if we get here, then we're good
-        return true;
+        return !PreReleaseOf::calculate($a, $c);
     }
 }
