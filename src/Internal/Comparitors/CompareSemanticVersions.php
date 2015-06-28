@@ -156,6 +156,24 @@ class CompareSemanticVersions
         $aParts = explode(".", $a);
         $bParts = explode(".", $b);
 
+        // compare the parts we have
+        if ($res = self::comparePreReleaseParts($aParts, $bParts) !== BaseOperator::BOTH_ARE_EQUAL) {
+            return $res;
+        }
+
+        // at this point, $a and $b are equal (so far)
+        //
+        // does $b have any more parts?
+        if (count($aParts) < count($bParts)) {
+            return BaseOperator::A_IS_LESS;
+        }
+
+        // at this point, we've exhausted all of the possibilities
+        return BaseOperator::BOTH_ARE_EQUAL;
+    }
+
+    protected static function comparePreReleaseParts($aParts, $bParts)
+    {
         // step-by-step comparison
         foreach ($aParts as $i => $aPart) {
             // if we've run out of parts, $a wins
@@ -173,12 +191,6 @@ class CompareSemanticVersions
             }
         }
 
-        // does $b have any more parts?
-        if (count($aParts) < count($bParts)) {
-            return BaseOperator::A_IS_LESS;
-        }
-
-        // at this point, we've exhausted all of the possibilities
         return BaseOperator::BOTH_ARE_EQUAL;
     }
 
