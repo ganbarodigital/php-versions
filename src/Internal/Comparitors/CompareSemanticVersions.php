@@ -154,20 +154,47 @@ class CompareSemanticVersions
     private static function hasPreReleaseToCompare($aVer, $bVer)
     {
         // are there any pre-release strings to compare?
-        if (!isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+        if (self::hasNoPreRelease($aVer, $bVer)) {
             return BaseOperator::BOTH_ARE_EQUAL;
         }
 
         // do we only have one pre-release string?
-        if (isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+        if (self::onlyAHasPreRelease($aVer, $bVer)) {
             return BaseOperator::A_IS_LESS;
         }
-        else if (!isset($aVer['preRelease']) && isset($bVer['preRelease'])) {
+        if (self::onlyBHasPreRelease($aVer, $bVer)) {
             return BaseOperator::A_IS_GREATER;
         }
 
         // we don't know
         return null;
+    }
+
+    private static function onlyAHasPreRelease($aVer, $bVer)
+    {
+        if (isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static function onlyBHasPreRelease($aVer, $bVer)
+    {
+        if (!isset($aVer['preRelease']) && isset($bVer['preRelease'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private static function hasNoPreRelease($aVer, $bVer)
+    {
+        if (!isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
