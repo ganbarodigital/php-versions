@@ -12,7 +12,7 @@ filter:
         - 'library/*'
         - 'tests/*'
         - 'oldsrc/*'
-	    - 'oldtests/*'
+        - 'oldtests/*'
 
 checks:
     php:
