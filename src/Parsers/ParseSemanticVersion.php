@@ -133,29 +133,37 @@ class ParseSemanticVersion
         $retval = [];
 
         foreach ($parts as $key => $type) {
-            // missing / empty parts get set to null
-            if (!isset($matches[$key]) || $matches[$key] == "") {
-                $retval[$key] = null;
-                continue;
-            }
-
-            // what do we need to do to this part?
-            switch ($type)
-            {
-                case self::PART_IS_NUMERIC:
-                    // force it to be numeric now
-                    $retval[$key] = strval($matches[$key]);
-                    break;
-
-                case self::PART_IS_STRING:
-                    // just copy it across
-                    $retval[$key] = $matches[$key];
-                    break;
-            }
+            $retval[$key] = self::cleanupMatch($matches, $key, $type);
         }
 
         // all done
         return $retval;
+    }
+
+    /**
+     * @param  array $matches
+     *         the regex result
+     * @param  string $key
+     *         which part of the version number are we looking at?
+     * @param  int $type
+     *         is this part a number or a string?
+     * @return the tidied up data to return
+     */
+    private static function cleanupMatch($matches, $key, $type)
+    {
+        // missing / empty parts get set to null
+        if (!isset($matches[$key]) || $matches[$key] == "") {
+            return null;
+        }
+
+        // what do we need to do to this part?
+        if ($type === self::PART_IS_NUMERIC) {
+            // force it to be numeric now
+            return strval($matches[$key]);
+        }
+
+        // just copy it across
+        return $matches[$key];
     }
 
     /**
