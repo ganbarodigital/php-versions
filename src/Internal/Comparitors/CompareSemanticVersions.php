@@ -68,26 +68,12 @@ class CompareSemanticVersions
 
         // compare major.minor.patchLevel first
         $retval = self::compareXyz($aVer, $bVer);
-        if ($retval != BaseOperator::BOTH_ARE_EQUAL) {
+        if ($retval !== BaseOperator::BOTH_ARE_EQUAL) {
             return $retval;
         }
 
-        // are there any pre-release strings to compare?
-        if (!isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
-            return $retval;
-        }
-
-        // do we only have one pre-release string?
-        if (isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
-            return BaseOperator::A_IS_LESS;
-        }
-        else if (!isset($aVer['preRelease']) && isset($bVer['preRelease'])) {
-            return BaseOperator::A_IS_GREATER;
-        }
-
-        // if we get here, we need to get into comparing the pre-release
-        // strings
-        return self::comparePreRelease($aVer['preRelease'], $bVer['preRelease']);
+        // it's up to the pre-release section(s) to help us out
+        return self::comparePreRelease($aVer, $bVer);
     }
 
     /**
@@ -100,7 +86,7 @@ class CompareSemanticVersions
      *          0 if both are equal
      *          1 if $aVer is larger
      */
-    public static function compareXyz($a, $b)
+    private static function compareXyz($a, $b)
     {
         // compare each part in turn
         foreach (['major', 'minor', 'patchLevel'] as $key) {
@@ -130,13 +116,40 @@ class CompareSemanticVersions
      * @return int
      *         the part of the version number required
      */
-    protected static function getVersionPart($ver, $key)
+    private static function getVersionPart($ver, $key)
     {
         if (isset($ver[$key])) {
             return $ver[$key];
         }
 
         return 0;
+    }
+
+    /**
+     * compare the pre-release section of two versions
+     *
+     * @param  array $aVer
+     * @param  array $bVer
+     * @return int
+     */
+    private static function comparePreRelease($aVer, $bVer)
+    {
+        // are there any pre-release strings to compare?
+        if (!isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+            return BaseOperator::BOTH_ARE_EQUAL;
+        }
+
+        // do we only have one pre-release string?
+        if (isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
+            return BaseOperator::A_IS_LESS;
+        }
+        else if (!isset($aVer['preRelease']) && isset($bVer['preRelease'])) {
+            return BaseOperator::A_IS_GREATER;
+        }
+
+        // if we get here, we need to get into comparing the pre-release
+        // strings
+        return self::comparePreReleaseSections($aVer['preRelease'], $bVer['preRelease']);
     }
 
     /**
@@ -149,7 +162,7 @@ class CompareSemanticVersions
      *          0 if both are the same
      *          1 if $a is larger
      */
-    public static function comparePreRelease($a, $b)
+    private static function comparePreReleaseSections($a, $b)
     {
         // according to semver.org, dots are the delimiters to the parts
         // of the pre-release strings
@@ -172,7 +185,16 @@ class CompareSemanticVersions
         return BaseOperator::BOTH_ARE_EQUAL;
     }
 
-    protected static function comparePreReleaseParts($aParts, $bParts)
+    /**
+     * compare the segments of the <pre-release> section
+     *
+     * @param  array $aParts
+     *         the <pre-release> part of LHS, split by '.'
+     * @param  array $bParts
+     *         the <pre-release> part of RHS, split by '.'
+     * @return int
+     */
+    private static function comparePreReleaseParts($aParts, $bParts)
     {
         // step-by-step comparison
         foreach ($aParts as $i => $aPart) {
