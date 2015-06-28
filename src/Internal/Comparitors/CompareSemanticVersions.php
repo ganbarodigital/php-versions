@@ -46,6 +46,7 @@ namespace GanbaroDigital\Versions\Internal\Comparitors;
 use GanbaroDigital\Versions\Operators\BaseOperator;
 use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
 use GanbaroDigital\Versions\Internal\Operators\CompareTwoNumbers;
+use GanbaroDigital\Versions\Internal\Operators\CompareTwoPreReleases;
 
 /**
  * Compares two versions
@@ -90,8 +91,8 @@ class CompareSemanticVersions
     {
         // compare each part in turn
         foreach (['major', 'minor', 'patchLevel'] as $key) {
-            $aN = self::getVersionPart($a, $key);
-            $bN = self::getVersionPart($b, $key);
+            $aN = self::getVersionPart($a, $key, 0);
+            $bN = self::getVersionPart($b, $key, 0);
 
             // compare the two parts
             $res = CompareTwoNumbers::calculate($aN, $bN);
@@ -113,16 +114,18 @@ class CompareSemanticVersions
      *         the version number as an array
      * @param  string $key
      *         the part of the version number we want
-     * @return int
+     * @param  mixed $default
+     *         the value to return if the part does not exist
+     * @return mixed
      *         the part of the version number required
      */
-    private static function getVersionPart($ver, $key)
+    private static function getVersionPart($ver, $key, $default)
     {
         if (isset($ver[$key])) {
             return $ver[$key];
         }
 
-        return 0;
+        return $default;
     }
 
     /**
@@ -134,186 +137,9 @@ class CompareSemanticVersions
      */
     private static function comparePreRelease($aVer, $bVer)
     {
-        $retval = self::hasPreReleaseToCompare($aVer, $bVer);
-        if ($retval !== null) {
-            return $retval;
-        }
+        $aPre = self::getVersionPart($aVer, 'preRelease', null);
+        $bPre = self::getVersionPart($bVer, 'preRelease', null);
 
-        // if we get here, we need to get into comparing the pre-release
-        // strings
-        return self::comparePreReleaseSections($aVer['preRelease'], $bVer['preRelease']);
-    }
-
-    /**
-     * do we have enough pre-release sections to be worth comparing?
-     *
-     * @param  array $aVer
-     * @param  array $bVer
-     * @return int|null
-     */
-    private static function hasPreReleaseToCompare($aVer, $bVer)
-    {
-        // are there any pre-release strings to compare?
-        if (self::hasNoPreRelease($aVer, $bVer)) {
-            return BaseOperator::BOTH_ARE_EQUAL;
-        }
-
-        // do we only have one pre-release string?
-        if (self::onlyAHasPreRelease($aVer, $bVer)) {
-            return BaseOperator::A_IS_LESS;
-        }
-        if (self::onlyBHasPreRelease($aVer, $bVer)) {
-            return BaseOperator::A_IS_GREATER;
-        }
-
-        // we don't know
-        return null;
-    }
-
-    private static function onlyAHasPreRelease($aVer, $bVer)
-    {
-        if (isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private static function onlyBHasPreRelease($aVer, $bVer)
-    {
-        if (!isset($aVer['preRelease']) && isset($bVer['preRelease'])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private static function hasNoPreRelease($aVer, $bVer)
-    {
-        if (!isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * compare two pre-release strings
-     *
-     * @param  string $a
-     * @param  string $b
-     * @return int
-     *         -1 if $a is smaller
-     *          0 if both are the same
-     *          1 if $a is larger
-     */
-    private static function comparePreReleaseSections($a, $b)
-    {
-        // according to semver.org, dots are the delimiters to the parts
-        // of the pre-release strings
-        $aParts = explode(".", $a);
-        $bParts = explode(".", $b);
-
-        // compare the parts we have
-        if ($res = self::comparePreReleaseParts($aParts, $bParts) !== BaseOperator::BOTH_ARE_EQUAL) {
-            return $res;
-        }
-
-        // at this point, $a and $b are equal (so far)
-        //
-        // does $b have any more parts?
-        if (count($aParts) < count($bParts)) {
-            return BaseOperator::A_IS_LESS;
-        }
-
-        // at this point, we've exhausted all of the possibilities
-        return BaseOperator::BOTH_ARE_EQUAL;
-    }
-
-    /**
-     * compare the segments of the <pre-release> section
-     *
-     * @param  array $aParts
-     *         the <pre-release> part of LHS, split by '.'
-     * @param  array $bParts
-     *         the <pre-release> part of RHS, split by '.'
-     * @return int
-     */
-    private static function comparePreReleaseParts($aParts, $bParts)
-    {
-        // step-by-step comparison
-        foreach ($aParts as $i => $aPart) {
-            // if we've run out of parts, $a wins
-            if (!isset($bParts[$i])) {
-                return BaseOperator::A_IS_GREATER;
-            }
-
-            // shorthand
-            $bPart = $bParts[$i];
-
-            // what can we learn about them?
-            $res = self::comparePreReleasePart($aPart, $bPart);
-            if ($res !== BaseOperator::BOTH_ARE_EQUAL) {
-                return $res;
-            }
-        }
-
-        return BaseOperator::BOTH_ARE_EQUAL;
-    }
-
-    /**
-     * compare A and B part of the preRelease string
-     *
-     * @param  string|int $aPart
-     * @param  string|int $bPart
-     * @return int
-     */
-    protected static function comparePreReleasePart($aPart, $bPart)
-    {
-        // what are we looking at?
-        $aPartIsNumeric = ctype_digit($aPart);
-        $bPartIsNumeric = ctype_digit($bPart);
-
-        // make sense of it
-        if ($aPartIsNumeric) {
-            if (!$bPartIsNumeric) {
-                // $bPart is a string
-                //
-                // strings always win
-                return BaseOperator::A_IS_LESS;
-            }
-
-            // at this point, we have two numbers
-            $aInt = strval($aPart);
-            $bInt = strval($bPart);
-
-            if ($aInt < $bInt) {
-                return BaseOperator::A_IS_LESS;
-            }
-            else if ($aInt > $bInt) {
-                return BaseOperator::A_IS_GREATER;
-            }
-        }
-        else if ($bPartIsNumeric) {
-            // $aPart is a string
-            //
-            // strings always win
-            return BaseOperator::A_IS_GREATER;
-        }
-        else {
-            // two strings to compare
-            //
-            // unfortunately, strcmp() doesn't return -1 / 0 / 1
-            $res = strcmp($aPart, $bPart);
-            if ($res < 0) {
-                return BaseOperator::A_IS_LESS;
-            }
-            else if ($res > 0) {
-                return BaseOperator::A_IS_GREATER;
-            }
-        }
-
-        // if we get here, we cannot tell them apart
-        return BaseOperator::BOTH_ARE_EQUAL;
+        return CompareTwoPreReleases::calculate($aPre, $bPre);
     }
 }
