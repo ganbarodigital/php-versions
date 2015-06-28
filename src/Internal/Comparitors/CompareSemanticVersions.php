@@ -93,8 +93,8 @@ class CompareSemanticVersions
     /**
      * compare the X.Y.Z parts of two version numbers
      *
-     * @param  array $aVer
-     * @param  array $bVer
+     * @param  array $a
+     * @param  array $b
      * @return int
      *         -1 if $aVer is smaller
      *          0 if both are equal
