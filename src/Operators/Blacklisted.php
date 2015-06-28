@@ -46,29 +46,8 @@ namespace GanbaroDigital\Versions\Operators;
 use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 
 /**
- * Represents a version number
+ * Calculate if $a is blacklisted against $b
  */
-class Blacklisted extends BaseOperator
+class Blacklisted extends EqualTo
 {
-    /**
-     * should we avoid $b, according to the rules of the ! operator?
-     *
-     * @param  VersionNumber|string $b
-     * @return boolean
-     *         FALSE if $b is a version that $this should avoid
-     *         TRUE otherwise
-     */
-    public static function calculate(VersionNumber $a, $b)
-    {
-        $bObj = self::getComparibleObject($a, $b);
-
-        // are the two versions equal?
-        $res  = self::compare($a, $bObj);
-        if ($res === self::BOTH_ARE_EQUAL) {
-            // yes they are - that is a bad thing
-            return false;
-        }
-
-        return true;
-    }
 }
