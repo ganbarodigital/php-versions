@@ -70,7 +70,7 @@ class PreReleaseOf extends BaseOperator
         if (!$a->hasPreRelease()) {
             return false;
         }
-        if (!self::checkAreSameVersion($a, $b)) {
+        if (!self::checkAreSameVersion($a, $bObj)) {
             return false;
         }
 
@@ -84,7 +84,7 @@ class PreReleaseOf extends BaseOperator
      * @param  VersionNumber $b
      * @return boolean
      */
-    private static function checkAreSameVersion($a, $b)
+    private static function checkAreSameVersion(VersionNumber $a, VersionNumber $b)
     {
         if ($a->getMajor() != $b->getMajor()) {
             return false;
