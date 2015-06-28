@@ -96,7 +96,7 @@ class SemanticVersion implements VersionNumber
      *        the 'Z' in an X.Y.Z[-<preRelease>[+R]] version number
      * @param string|null $preRelease
      *        the '<preRelease>' in an X.Y.Z[-<preRelease>[+R]] version number
-     * @param int|null $build
+     * @param string|null $build
      *        the 'R' in an X.Y.Z[-<preRelease>[+R]] version number
      */
     public function __construct($major, $minor, $patchLevel = null, $preRelease = null, $build = null)
