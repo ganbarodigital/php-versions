@@ -68,10 +68,27 @@ class CompareTwoPreReleases
             return BaseOperator::BOTH_ARE_EQUAL;
         }
 
+        // we might only have one pre-release part
         if (($res = self::calculatePreReleaseDifference($a, $b)) !== BaseOperator::BOTH_ARE_EQUAL) {
             return $res;
         }
 
+        // we can't get out of it, we need to do the deep compare
+        return self::comparePreReleases($a, $b);
+    }
+
+    /**
+     * compare two pre-release strings
+     *
+     * @param  string $a
+     * @param  string $b
+     * @return int
+     *         -1 if $a is smaller
+     *          0 if both are the same
+     *          1 if $a is larger
+     */
+    private static function comparePreReleases($a, $b)
+    {
         // according to semver.org, dots are the delimiters to the parts
         // of the pre-release strings
         $aParts = explode(".", $a);
