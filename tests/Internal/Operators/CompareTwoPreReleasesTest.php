@@ -55,6 +55,7 @@ class CompareTwoPreReleasesTest extends PHPUnit_Framework_TestCase
      * @covers ::calculate
      * @covers ::hasPreReleasesToCompare
      * @covers ::calculatePreReleaseDifference
+     * @covers ::comparePreReleases
      * @covers ::comparePreReleaseParts
      * @dataProvider providePreReleases
      */

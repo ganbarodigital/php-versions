@@ -53,6 +53,7 @@ class CompareTwoPreReleasePartsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::calculate
+     * @covers ::calculatePartDifference
      * @covers ::compareTwoNumbers
      * @covers ::compareTwoStrings
      * @dataProvider providePreReleaseParts
