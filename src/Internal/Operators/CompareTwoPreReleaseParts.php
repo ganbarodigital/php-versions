@@ -69,28 +69,37 @@ class CompareTwoPreReleaseParts
         $aPartIsNumeric = ctype_digit($aPart);
         $bPartIsNumeric = ctype_digit($bPart);
 
-        // make sense of it
-        if ($aPartIsNumeric) {
-            if (!$bPartIsNumeric) {
-                // $bPart is a string
-                //
-                // strings always win
-                return BaseOperator::A_IS_LESS;
-            }
-
-            // at this point, we have two numbers
-            return self::compareTwoNumbers($aPart, $bPart);
-        }
-        else if ($bPartIsNumeric) {
-            // $aPart is a string
-            //
-            // strings always win
-            return BaseOperator::A_IS_GREATER;
-        }
-        else {
+        if (!$aPartIsNumeric && !$bPartIsNumeric) {
             // two strings to compare
             return self::compareTwoStrings($aPart, $bPart);
         }
+
+        if (($retval = self::calculatePartDifference($aPartIsNumeric, $bPartIsNumeric)) !== BaseOperator::BOTH_ARE_EQUAL) {
+            return $retval;
+        }
+
+        // at this point, we have two numbers
+        return self::compareTwoNumbers($aPart, $bPart);
+    }
+
+    /**
+     * calculate score of mix of strings and numbers
+     *
+     * @param  boolean $aPartIsNumeric
+     * @param  boolean $bPartIsNumeric
+     * @return int
+     */
+    private static function calculatePartDifference($aPartIsNumeric, $bPartIsNumeric)
+    {
+        $retval = 0;
+        if ($aPartIsNumeric) {
+            $retval -= 1;
+        }
+        if ($bPartIsNumeric) {
+            $retval += 1;
+        }
+
+        return $retval;
     }
 
     /**
