@@ -45,6 +45,7 @@ namespace GanbaroDigital\Versions\Internal\Comparitors;
 
 use GanbaroDigital\Versions\Operators\BaseOperator;
 use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
+use GanbaroDigital\Versions\Internal\Operators\CompareTwoNumbers;
 
 /**
  * Compares two versions
@@ -109,7 +110,7 @@ class CompareSemanticVersions
             $bN = isset($bVer[$key]) ? $bVer[$key] : 0;
 
             // compare the two parts
-            $res = self::compareN($aN, $bN);
+            $res = CompareTwoNumbers::calculate($aN, $bN);
 
             // are they different?
             if ($res !== BaseOperator::BOTH_ARE_EQUAL) {
@@ -118,29 +119,6 @@ class CompareSemanticVersions
         }
 
         // if we get here, then both $a and $b have the same X.Y.Z
-        return BaseOperator::BOTH_ARE_EQUAL;
-    }
-
-    /**
-     * compare two numbers
-     *
-     * @param  int $aN
-     * @param  int $bN
-     * @return int
-     *         self::A_IS_LESS if $aN < $bN
-     *         self::A_IS_GREATER if $aN > $bN
-     *         self::BOTH_ARE_EQUAL if $aN == $bN
-     */
-    protected static function compareN($aN, $bN)
-    {
-        // compare two version number parts
-        if ($aN < $bN) {
-            return BaseOperator::A_IS_LESS;
-        }
-        if ($aN > $bN) {
-            return BaseOperator::A_IS_GREATER;
-        }
-
         return BaseOperator::BOTH_ARE_EQUAL;
     }
 
