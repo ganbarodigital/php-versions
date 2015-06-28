@@ -44,7 +44,6 @@
 namespace GanbaroDigital\Versions\Internal\Operators;
 
 use GanbaroDigital\Versions\Operators\BaseOperator;
-use GanbaroDigital\Versions\Internal\Operators\CompareTwoNumbers;
 
 /**
  * Compares two versions
@@ -169,68 +168,12 @@ class CompareTwoPreReleases
             $bPart = $bParts[$i];
 
             // what can we learn about them?
-            $res = self::comparePreReleasePart($aPart, $bPart);
+            $res = CompareTwoPreReleaseParts::calculate($aPart, $bPart);
             if ($res !== BaseOperator::BOTH_ARE_EQUAL) {
                 return $res;
             }
         }
 
-        return BaseOperator::BOTH_ARE_EQUAL;
-    }
-
-    /**
-     * compare A and B part of the preRelease string
-     *
-     * @param  string|int $aPart
-     * @param  string|int $bPart
-     * @return int
-     */
-    protected static function comparePreReleasePart($aPart, $bPart)
-    {
-        // what are we looking at?
-        $aPartIsNumeric = ctype_digit($aPart);
-        $bPartIsNumeric = ctype_digit($bPart);
-
-        // make sense of it
-        if ($aPartIsNumeric) {
-            if (!$bPartIsNumeric) {
-                // $bPart is a string
-                //
-                // strings always win
-                return BaseOperator::A_IS_LESS;
-            }
-
-            // at this point, we have two numbers
-            $aInt = strval($aPart);
-            $bInt = strval($bPart);
-
-            if ($aInt < $bInt) {
-                return BaseOperator::A_IS_LESS;
-            }
-            else if ($aInt > $bInt) {
-                return BaseOperator::A_IS_GREATER;
-            }
-        }
-        else if ($bPartIsNumeric) {
-            // $aPart is a string
-            //
-            // strings always win
-            return BaseOperator::A_IS_GREATER;
-        }
-        else {
-            // two strings to compare
-            //
-            // unfortunately, strcmp() doesn't return -1 / 0 / 1
-            $res = strcmp($aPart, $bPart);
-            if ($res < 0) {
-                return BaseOperator::A_IS_LESS;
-            }
-            else if ($res > 0) {
-                return BaseOperator::A_IS_GREATER;
-            }
-        }
-
-        // if we get here, we cannot tell them apart
         return BaseOperator::BOTH_ARE_EQUAL;
     }
 }

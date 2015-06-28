@@ -43,54 +43,85 @@
 
 namespace GanbaroDigital\Versions\Internal\Operators;
 
-use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Operators\BaseOperator;
+use GanbaroDigital\Versions\Internal\Operators\CompareTwoNumbers;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\Internal\Operators\CompareTwoPreReleases
+ * Compares two versions
  */
-class CompareTwoPreReleasesTest extends PHPUnit_Framework_TestCase
+class CompareTwoPreReleaseParts
 {
     /**
-     * @covers ::calculate
-     * @covers ::hasPreReleasesToCompare
-     * @covers ::calculatePreReleaseDifference
-     * @covers ::comparePreReleaseParts
-     * @dataProvider providePreReleases
+     * compare a single part of a pre-release string
+     *
+     * each one of these can be:
+     *
+     * - a number (a string that's a number)
+     * - a string (a string that isn't a number)
+     *
+     * @param  string $aPart
+     * @param  string $bPart
+     * @return int
      */
-    public function testCanComparePreReleases($a, $b, $expectedResult)
+    public static function calculate($aPart, $bPart)
     {
-        // ----------------------------------------------------------------
-        // setup your test
+        // what are we looking at?
+        $aPartIsNumeric = ctype_digit($aPart);
+        $bPartIsNumeric = ctype_digit($bPart);
 
-        // ----------------------------------------------------------------
-        // perform the change
+        // make sense of it
+        if ($aPartIsNumeric) {
+            if (!$bPartIsNumeric) {
+                // $bPart is a string
+                //
+                // strings always win
+                return BaseOperator::A_IS_LESS;
+            }
 
-        $actualResult = CompareTwoPreReleases::calculate($a, $b);
+            // at this point, we have two numbers
+            return self::compareTwoNumbers($aPart, $bPart);
+        }
+        else if ($bPartIsNumeric) {
+            // $aPart is a string
+            //
+            // strings always win
+            return BaseOperator::A_IS_GREATER;
+        }
+        else {
+            // two strings to compare
+            return self::compareTwoStrings($aPart, $bPart);
+        }
 
-        // ----------------------------------------------------------------
-        // test the results
-
-        $this->assertEquals($expectedResult, $actualResult);
+        // if we get here, we cannot tell them apart
+        return BaseOperator::BOTH_ARE_EQUAL;
     }
 
-    public function providePreReleases()
+    private static function compareTwoNumbers($aPart, $bPart)
     {
-        return [
-            [ null, null,    BaseOperator::BOTH_ARE_EQUAL ],
-            [ null, 'alpha', BaseOperator::A_IS_GREATER ],
-            [ 'alpha', null, BaseOperator::A_IS_LESS ],
-            [ 'alpha', 'bravo', BaseOperator::A_IS_LESS ],
-            [ 'bravo', 'alpha', BaseOperator::A_IS_GREATER ],
-            [ 'alpha.1', 'alpha.1.1', BaseOperator::A_IS_LESS ],
-            [ 'alpha.1.1', 'alpha.1', BaseOperator::A_IS_GREATER ],
-            [ 'alpha.1.1', 'alpha.1.1', BaseOperator::BOTH_ARE_EQUAL ],
-            [ 'alpha', '123', BaseOperator::A_IS_GREATER ],
-            [ '123', 'alpha', BaseOperator::A_IS_LESS ],
-            [ '123', '123', BaseOperator::BOTH_ARE_EQUAL ],
-            [ '123', '1234', BaseOperator::A_IS_LESS ],
-            [ '1234', '123', BaseOperator::A_IS_GREATER ],
-        ];
+        $aInt = strval($aPart);
+        $bInt = strval($bPart);
+
+        if ($aInt < $bInt) {
+            return BaseOperator::A_IS_LESS;
+        }
+        else if ($aInt > $bInt) {
+            return BaseOperator::A_IS_GREATER;
+        }
+
+        return BaseOperator::BOTH_ARE_EQUAL;
     }
 
+    private static function compareTwoStrings($aPart, $bPart)
+    {
+        // unfortunately, strcmp() doesn't return -1 / 0 / 1
+        $res = strcmp($aPart, $bPart);
+        if ($res < 0) {
+            return BaseOperator::A_IS_LESS;
+        }
+        else if ($res > 0) {
+            return BaseOperator::A_IS_GREATER;
+        }
+
+        return BaseOperator::BOTH_ARE_EQUAL;
+    }
 }
