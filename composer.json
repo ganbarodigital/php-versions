@@ -6,9 +6,9 @@
     "authors": [
         { "name": "Stuart Herbert", "email": "stuart@stuartherbert.com" }
     ],
-
     "require": {
         "phix/contractlib": "^2.1",
+        "ganbarodigital/php-data-containers": "^2.0",
 		"ganbarodigital/php-exceptions": "^1.0",
 		"ganbarodigital/php-reflection": "^2.1"
     },

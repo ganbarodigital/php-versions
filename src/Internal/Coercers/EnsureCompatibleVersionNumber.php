@@ -50,6 +50,7 @@ use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
 use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 
+use GanbaroDigital\DataContainers\Caches\StaticDataCache;
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 
 /**
@@ -57,6 +58,9 @@ use GanbaroDigital\Reflection\Filters\FilterNamespace;
  */
 class EnsureCompatibleVersionNumber
 {
+    // let's try and speed things up a bit
+    use StaticDataCache;
+
     /**
      * make sure that $a and $b are types that can be used together in
      * any of our operators
@@ -73,17 +77,38 @@ class EnsureCompatibleVersionNumber
      */
     public static function fromMixed(VersionNumber $a, $b)
     {
-        if (!is_object($a)) {
-            throw new E4xx_NotAVersionNumber($a);
+        // what is the name of the coercer that we need to use?
+        $className = __NAMESPACE__ . '\Ensure' . FilterNamespace::fromString(get_class($a));
+
+        // optimisation - have we seen this version number combination before?
+        $cacheKey = self::getCacheKey($className, $b);
+        if ($retval = self::getFromCache($cacheKey)) {
+            return $retval;
         }
 
-        $className = __NAMESPACE__ . '\Ensure' . FilterNamespace::fromString(get_class($a));
+        // if we get here, we're looking at a new pairing
         if (!class_exists($className)) {
             throw new E4xx_UnsupportedType(get_class($a));
         }
 
         $coercer = new $className();
-        return $coercer($b);
+        $retval = $coercer($b);
+        self::setInCache($cacheKey, $retval);
+        return $retval;
+    }
+
+    /**
+     * create a cache key from our two version numbers
+     *
+     * @param  string $className
+     *         the coercer used on $b
+     * @param  mixed $b
+     *         the version number that (might) need modifying
+     * @return string
+     */
+    private static function getCacheKey($className, $b)
+    {
+        return $className . '::' . (string)$b;
     }
 
     /**
