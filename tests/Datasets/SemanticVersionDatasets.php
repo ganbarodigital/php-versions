@@ -86,34 +86,14 @@ class SemanticVersionDatasets
     }
 
     /**
-     * $b is always greater than $a
+     * $a is always greater than $b
      *
      * @return array
      */
     static public function getAlwaysGreaterThanDataset()
     {
         return [
-            [ "1.0", "1.0.1" ],
-            [ "1.0.0", "1.0.1" ],
-            [ "1.0.1", "1.0.2" ],
-            [ "1.1", "1.1.1" ],
-            [ "1.1.0", "1.1.1" ],
-            [ "1.1.1", "1.1.2" ],
-            [ "1.0-alpha", "1.0.0" ],
-            [ "1.0+R4", "1.0.1+R4" ],
-            [ "1.0+R5", "1.0.1+R4" ],
-        ];
-    }
-
-    /**
-     * $b is always less than $a
-     *
-     * @return array
-     */
-    static public function getAlwaysLessThanDataset()
-    {
-        return [
-            [ "1.0.1", "1.0" ],
+            [ "1.0.1", "1.0"  ],
             [ "1.0.1", "1.0.0" ],
             [ "1.0.2", "1.0.1" ],
             [ "1.1.1", "1.1" ],
@@ -126,26 +106,46 @@ class SemanticVersionDatasets
     }
 
     /**
-     * $b is always approximately equal to $a
+     * $a is always less than $b
+     *
+     * @return array
+     */
+    static public function getAlwaysLessThanDataset()
+    {
+        return [
+            [ "1.0",       "1.0.1"    ],
+            [ "1.0.0",     "1.0.1"    ],
+            [ "1.0.1",     "1.0.2"    ],
+            [ "1.1",       "1.1.1"    ],
+            [ "1.1.0",     "1.1.1"    ],
+            [ "1.1.1",     "1.1.2"    ],
+            [ "1.0-alpha", "1.0.0"    ],
+            [ "1.0+R4",    "1.0.1+R4" ],
+            [ "1.0+R5",    "1.0.1+R4" ],
+        ];
+    }
+
+    /**
+     * $a is always approximately equal to $b
      *
      * @return array
      */
     static public function getAlwaysApproximatelyEqualDataset()
     {
         return [
-            [ "1.0", "1.0" ],
-            [ "1.0", "1.0.0" ],
-            [ "1.0", "1.0.1" ],
+            [ "1.0", "1.0"  ],
             [ "1.0.0", "1.0" ],
+            [ "1.0.1", "1.0" ],
+            [ "1.0", "1.0.0" ],
             [ "1.0.0", "1.0.0" ],
-            [ "1.0.0", "1.0.1" ],
-            [ "1.0", "1.1" ],
-            [ "1.0-alpha1", "1.1" ],
+            [ "1.0.1", "1.0.0" ],
+            [ "1.1", "1.0" ],
+            [ "1.1", "1.0-alpha1" ],
         ];
     }
 
     /**
-     * $b is never approximately equal to $a
+     * $a is never approximately equal to $b
      *
      * BUT they may match other operators, so beware how you combine them!
      *
@@ -154,20 +154,20 @@ class SemanticVersionDatasets
     static public function getNeverApproximatelyEqualDataset()
     {
         return [
-            [ "1.0", "2.0" ],
-            [ "1.0", "2.0.0" ],
-            [ "1.0", "2.0.1" ],
-            [ "1.0.0", "2.0" ],
-            [ "1.0.0", "2.0.0" ],
-            [ "1.0.0", "2.0.1" ],
-            [ "1.1.0", "1.2.0" ],
-            [ "1.0", "2.1" ],
-            [ "1.0", "2.0-alpha-1" ],
+            [ "2.0", "1.0" ],
+            [ "2.0", "1.0.0" ],
+            [ "2.0.1", "1.0" ],
+            [ "2.0", "1.0.0" ],
+            [ "2.0.0", "1.0.0" ],
+            [ "2.0.1", "1.0.0" ],
+            [ "1.2.0", "1.1.0" ],
+            [ "2.1", "1.0" ],
+            [ "2.0-alpha-1", "1.0" ],
         ];
     }
 
     /**
-     * $b is never compatible with $a
+     * $a is never compatible with $b
      *
      * BUT they may match other operators, so beware how you combine them!
      *
@@ -176,14 +176,14 @@ class SemanticVersionDatasets
     static public function getNeverCompatibleDataset()
     {
         return [
-            [ "1.0", "2.0" ],
-            [ "1.0", "2.0.0" ],
-            [ "1.0", "2.0.1" ],
-            [ "1.0.0", "2.0" ],
-            [ "1.0.0", "2.0.0" ],
-            [ "1.0.0", "2.0.1" ],
-            [ "1.0", "2.1" ],
-            [ "1.0", "2.0-alpha-1" ],
+            [ "2.0", "1.0" ],
+            [ "2.0.0", "1.0" ],
+            [ "2.0.1", "1.0" ],
+            [ "2.0", "1.0.0" ],
+            [ "2.0.0", "1.0.0" ],
+            [ "2.0.1", "1.0.0" ],
+            [ "2.1", "1.0" ],
+            [ "2.0-alpha-1", "1.0" ],
         ];
     }
 
