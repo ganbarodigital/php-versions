@@ -103,8 +103,7 @@ class CompareSemanticVersions
     public static function compareXyz($a, $b)
     {
         // compare each part in turn
-        foreach (['major', 'minor', 'patchLevel'] as $key)
-        {
+        foreach (['major', 'minor', 'patchLevel'] as $key) {
             $aN = self::getVersionPart($a, $key);
             $bN = self::getVersionPart($b, $key);
 
@@ -158,8 +157,7 @@ class CompareSemanticVersions
         $bParts = explode(".", $b);
 
         // step-by-step comparison
-        foreach ($aParts as $i => $aPart)
-        {
+        foreach ($aParts as $i => $aPart) {
             // if we've run out of parts, $a wins
             if (!isset($bParts[$i])) {
                 return BaseOperator::A_IS_GREATER;
