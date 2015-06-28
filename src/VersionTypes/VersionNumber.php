@@ -168,5 +168,5 @@ interface VersionNumber
      *
      * @return array
      */
-    public function __toArray();
+    public function toArray();
 }

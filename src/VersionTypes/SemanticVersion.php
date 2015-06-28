@@ -322,7 +322,7 @@ class SemanticVersion implements VersionNumber
      *
      * @return array
      */
-    public function __toArray()
+    public function toArray()
     {
         // every version number has these
         $retval = [

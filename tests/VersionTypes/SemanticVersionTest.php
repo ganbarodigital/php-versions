@@ -539,7 +539,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::__toArray()
+     * @covers ::toArray()
      */
     public function testCanTurnIntoArray()
     {
@@ -558,7 +558,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualVersion = $obj->__toArray();
+        $actualVersion = $obj->toArray();
 
         // ----------------------------------------------------------------
         // test the results

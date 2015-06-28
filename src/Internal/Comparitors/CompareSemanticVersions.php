@@ -62,8 +62,8 @@ class CompareSemanticVersions
     public static function compare(SemanticVersion $a, SemanticVersion $b)
     {
         // save us some processing time
-        $aVer = $a->__toArray();
-        $bVer = $b->__toArray();
+        $aVer = $a->toArray();
+        $bVer = $b->toArray();
 
         // compare major.minor.patchLevel first
         $retval = self::compareXyz($aVer, $bVer);
