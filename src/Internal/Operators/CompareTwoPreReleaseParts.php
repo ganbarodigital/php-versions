@@ -93,6 +93,13 @@ class CompareTwoPreReleaseParts
         }
     }
 
+    /**
+     * compare two numbers
+     *
+     * @param  string $aPart
+     * @param  string $bPart
+     * @return int
+     */
     private static function compareTwoNumbers($aPart, $bPart)
     {
         $aInt = strval($aPart);
@@ -108,6 +115,13 @@ class CompareTwoPreReleaseParts
         return BaseOperator::BOTH_ARE_EQUAL;
     }
 
+    /**
+     * compare two strings
+     *
+     * @param  string $aPart
+     * @param  string $bPart
+     * @return int
+     */
     private static function compareTwoStrings($aPart, $bPart)
     {
         // unfortunately, strcmp() doesn't return -1 / 0 / 1
