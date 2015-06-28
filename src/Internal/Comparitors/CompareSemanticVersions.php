@@ -102,15 +102,11 @@ class CompareSemanticVersions
      */
     public static function compareXyz($a, $b)
     {
-        // make sure we have a part to compare
-        $aVer = self::fillInTheBlanks($a);
-        $bVer = self::fillInTheBlanks($b);
-
         // compare each part in turn
         foreach (['major', 'minor', 'patchLevel'] as $key)
         {
-            $aN = $aVer[$key];
-            $bN = $bVer[$key];
+            $aN = self::getVersionPart($a, $key);
+            $bN = self::getVersionPart($b, $key);
 
             // compare the two parts
             $res = CompareTwoNumbers::calculate($aN, $bN);
@@ -128,25 +124,20 @@ class CompareSemanticVersions
     /**
      * fill in any missing fields in a version number
      *
-     * we fill in any missing:
-     *
-     * - major
-     * - minor
-     * - patchLevel
-     *
      * @param  array $ver
      *         the version number as an array
-     * @return array
-     *         the version number array, with blanks filled in
+     * @param  string $key
+     *         the part of the version number we want
+     * @return int
+     *         the part of the version number required
      */
-    protected static function fillInTheBlanks($ver)
+    protected static function getVersionPart($ver, $key)
     {
-        foreach(['major', 'minor', 'patchLevel'] as $key)
-        {
-            $ver[$key] = isset($ver[$key]) ? : 0;
+        if (isset($ver[$key])) {
+            return $ver[$key];
         }
 
-        return $ver;
+        return 0;
     }
 
     /**
