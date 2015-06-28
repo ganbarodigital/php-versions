@@ -134,6 +134,25 @@ class CompareSemanticVersions
      */
     private static function comparePreRelease($aVer, $bVer)
     {
+        $retval = self::hasPreReleaseToCompare($aVer, $bVer);
+        if ($retval !== null) {
+            return $retval;
+        }
+
+        // if we get here, we need to get into comparing the pre-release
+        // strings
+        return self::comparePreReleaseSections($aVer['preRelease'], $bVer['preRelease']);
+    }
+
+    /**
+     * do we have enough pre-release sections to be worth comparing?
+     *
+     * @param  array $aVer
+     * @param  array $bVer
+     * @return int|null
+     */
+    private static function hasPreReleaseToCompare($aVer, $bVer)
+    {
         // are there any pre-release strings to compare?
         if (!isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
             return BaseOperator::BOTH_ARE_EQUAL;
@@ -147,9 +166,8 @@ class CompareSemanticVersions
             return BaseOperator::A_IS_GREATER;
         }
 
-        // if we get here, we need to get into comparing the pre-release
-        // strings
-        return self::comparePreReleaseSections($aVer['preRelease'], $bVer['preRelease']);
+        // we don't know
+        return null;
     }
 
     /**
