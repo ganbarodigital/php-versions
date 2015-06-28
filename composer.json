@@ -1,0 +1,23 @@
+{
+    "name": "ganbarodigital/php-versions",
+    "type": "library",
+    "description": "Semantic versioning library for PHP",
+    "license": "BSD-3-Clause",
+    "authors": [
+        { "name": "Stuart Herbert", "email": "stuart@stuartherbert.com" }
+    ],
+    "require": {
+        "phix/contractlib": "^2.1",
+        "ganbarodigital/php-data-containers": "^2.0",
+		"ganbarodigital/php-exceptions": "^1.0",
+		"ganbarodigital/php-reflection": "^2.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "GanbaroDigital\\Versions\\": "src"
+        }
+    }
+}
