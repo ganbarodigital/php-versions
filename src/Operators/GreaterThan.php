@@ -73,7 +73,7 @@ class GreaterThan extends BaseOperator
      */
     public static function calculate(VersionNumber $a, $b)
     {
-        return parent::calculateWithMap($a, $b, self::$resultsMap);
+        return self::calculateWithMap($a, $b, self::$resultsMap);
     }
 
 }

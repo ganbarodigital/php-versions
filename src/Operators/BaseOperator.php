@@ -67,6 +67,14 @@ class BaseOperator
      */
     const A_IS_GREATER = 1;
 
+    /**
+     * which class should we use to compare $a against another version number?
+     *
+     * @param  VersionNumber $a
+     *         the type of version number we want to compare something
+     *         against
+     * @return string
+     */
     private static function getComparitorFor(VersionNumber $a)
     {
         // make sure $a is supported
@@ -80,6 +88,18 @@ class BaseOperator
         return $className;
     }
 
+    /**
+     * (possibly) convert $b into something that can be used in operators
+     * with $a
+     *
+     * @param  VersionNumber $a
+     *         the LHS from our operator
+     * @param  VersionNumber|string $b
+     *         the RHS from our operator
+     * @return VersionNumber
+     *         something with the same value as $b, and a type compatible
+     *         with $a
+     */
     protected static function getComparibleObject(VersionNumber $a, $b)
     {
         // make sure $b is supported
@@ -91,10 +111,9 @@ class BaseOperator
      *
      * @param  mixed $a
      * @param  mixed $b
-     * @return int
-     *         one of the self::* consts
+     * @return boolean
      */
-    protected static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
+    private static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
         $className = self::getComparitorFor($a);
         $result = call_user_func_array([$className, 'compare'], [$a, $b]);
@@ -110,7 +129,7 @@ class BaseOperator
      *         the RHS of this calculation
      * @return boolean
      */
-    public static function calculateWithMap(VersionNumber $a, $b, array $resultsMap)
+    protected static function calculateWithMap(VersionNumber $a, $b, array $resultsMap)
     {
         // turn $b into something we can use
         $bVer = self::getComparibleObject($a, $b);
