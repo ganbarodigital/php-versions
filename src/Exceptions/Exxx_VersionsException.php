@@ -50,6 +50,14 @@ class Exxx_VersionsException extends RuntimeException
 {
 	use ExceptionMessageData;
 
+	/**
+	 * @param int $code
+	 *        the error code to set in the exception. should be a HTTP status code
+	 * @param string $message
+	 *        the error message to set in the exception
+	 * @param array $messageData
+	 *        the data used to construct the error message
+	 */
 	public function __construct($code, $message, $messageData = array())
 	{
 		parent::__construct($message, $code);

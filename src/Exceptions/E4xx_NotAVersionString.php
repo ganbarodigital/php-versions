@@ -45,6 +45,10 @@ namespace GanbaroDigital\Versions\Exceptions;
 
 class E4xx_NotAVersionString extends E4xx_VersionsException
 {
+    /**
+     * @param mixed $input
+     *        the data that is not a string
+     */
     public function __construct($input)
     {
         parent::__construct(400, "Data of type '" . gettype($input) . "' is not a version string");

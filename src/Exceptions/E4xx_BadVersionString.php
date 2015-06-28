@@ -45,10 +45,14 @@ namespace GanbaroDigital\Versions\Exceptions;
 
 class E4xx_BadVersionString extends E4xx_VersionsException
 {
+    /**
+     * @param string $versionString
+     *        the version number that we could not parse
+     */
     public function __construct($versionString)
     {
-    	$msgData = [ 'versionString' => $versionString ];
-    	$msg = "Cannot parse version '{$versionString}'";
+        $msgData = [ 'versionString' => $versionString ];
+        $msg = "Cannot parse version '{$versionString}'";
         parent::__construct(400, $msg, $msgData);
     }
 }

@@ -43,15 +43,23 @@
 
 namespace GanbaroDigital\Versions\Exceptions;
 
+use GanbaroDigital\Versions\VersionTypes\VersionNumber;
+
 class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
 {
-    public function __construct($versionNumber, $supportedTypes)
+    /**
+     * @param VersionNumber $versionNumber
+     *        the unsupported type of version number
+     * @param array $supportedTypes
+     *        a list of version number types that are supported
+     */
+    public function __construct(VersionNumber $versionNumber, $supportedTypes)
     {
-    	$msgData = [
-    		'versionNumber' => $versionNumber,
-    		'supportedTypes' => $supportedTypes,
-    	];
-    	$msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
+        $msgData = [
+            'versionNumber' => $versionNumber,
+            'supportedTypes' => $supportedTypes,
+        ];
+        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
         parent::__construct(400, $msg, $msgData);
     }
 }

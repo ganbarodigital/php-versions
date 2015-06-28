@@ -53,11 +53,25 @@ use GanbaroDigital\Versions\VersionTypes\VersionNumber;
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 
 /**
- * Helper to make sure $b comes something compatible with $a
+ * Helper to make sure $b becomes something compatible with $a
  */
 class EnsureCompatibleVersionNumber
 {
-    public static function fromMixed($a, $b)
+    /**
+     * make sure that $a and $b are types that can be used together in
+     * any of our operators
+     *
+     * $b will be transformed (if necessary) to a type that is compatible
+     * with $a
+     *
+     * @param  VersionNumber $a
+     *         a version number
+     * @param  VersionNumber|string $b
+     *         a second version number
+     * @return VersionNumber
+     *         a version number with the value of $b, compatible with $a
+     */
+    public static function fromMixed(VersionNumber $a, $b)
     {
         if (!is_object($a)) {
             throw new E4xx_NotAVersionNumber($a);
@@ -72,6 +86,20 @@ class EnsureCompatibleVersionNumber
         return $coercer($b);
     }
 
+    /**
+     * make sure that $a and $b are types that can be used together in
+     * any of our operators
+     *
+     * $b will be transformed (if necessary) to a type that is compatible
+     * with $a
+     *
+     * @param  VersionNumber $a
+     *         a version number
+     * @param  VersionNumber|string $b
+     *         a second version number
+     * @return VersionNumber
+     *         a version number with the value of $b, compatible with $a
+     */
     public function __invoke($a, $b)
     {
         return self::fromMixed($a, $b);

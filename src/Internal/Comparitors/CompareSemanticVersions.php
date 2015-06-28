@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\Internal\Comparitors;
 
-use GanbaroDigital\Versions\Operators\Comparison;
+use GanbaroDigital\Versions\Operators\BaseOperator;
 use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
 
 /**
@@ -67,7 +67,7 @@ class CompareSemanticVersions
 
         // compare major.minor.patchLevel first
         $retval = self::compareXYZ($aVer, $bVer);
-        if ($retval != Comparison::BOTH_ARE_EQUAL) {
+        if ($retval != BaseOperator::BOTH_ARE_EQUAL) {
             return $retval;
         }
 
@@ -78,10 +78,10 @@ class CompareSemanticVersions
 
         // do we only have one pre-release string?
         if (isset($aVer['preRelease']) && !isset($bVer['preRelease'])) {
-            return Comparison::A_IS_LESS;
+            return BaseOperator::A_IS_LESS;
         }
         else if (!isset($aVer['preRelease']) && isset($bVer['preRelease'])) {
-            return Comparison::A_IS_GREATER;
+            return BaseOperator::A_IS_GREATER;
         }
 
         // if we get here, we need to get into comparing the pre-release
@@ -112,13 +112,13 @@ class CompareSemanticVersions
             $res = self::compareN($aN, $bN);
 
             // are they different?
-            if ($res !== Comparison::BOTH_ARE_EQUAL) {
+            if ($res !== BaseOperator::BOTH_ARE_EQUAL) {
                 return $res;
             }
         }
 
         // if we get here, then both $a and $b have the same X.Y.Z
-        return Comparison::BOTH_ARE_EQUAL;
+        return BaseOperator::BOTH_ARE_EQUAL;
     }
 
     /**
@@ -135,13 +135,13 @@ class CompareSemanticVersions
     {
         // compare two version number parts
         if ($aN < $bN) {
-            return Comparison::A_IS_LESS;
+            return BaseOperator::A_IS_LESS;
         }
         if ($aN > $bN) {
-            return Comparison::A_IS_GREATER;
+            return BaseOperator::A_IS_GREATER;
         }
 
-        return Comparison::BOTH_ARE_EQUAL;
+        return BaseOperator::BOTH_ARE_EQUAL;
     }
 
     /**
@@ -166,7 +166,7 @@ class CompareSemanticVersions
         {
             // if we've run out of parts, $a wins
             if (!isset($bParts[$i])) {
-                return Comparison::A_IS_GREATER;
+                return BaseOperator::A_IS_GREATER;
             }
 
             // shorthand
@@ -174,18 +174,18 @@ class CompareSemanticVersions
 
             // what can we learn about them?
             $res = self::comparePreReleasePart($aPart, $bPart);
-            if ($res !== Comparison::BOTH_ARE_EQUAL) {
+            if ($res !== BaseOperator::BOTH_ARE_EQUAL) {
                 return $res;
             }
         }
 
         // does $b have any more parts?
         if (count($aParts) < count($bParts)) {
-            return Comparison::A_IS_LESS;
+            return BaseOperator::A_IS_LESS;
         }
 
         // at this point, we've exhausted all of the possibilities
-        return Comparison::BOTH_ARE_EQUAL;
+        return BaseOperator::BOTH_ARE_EQUAL;
     }
 
     /**
@@ -207,7 +207,7 @@ class CompareSemanticVersions
                 // $bPart is a string
                 //
                 // strings always win
-                return Comparison::A_IS_LESS;
+                return BaseOperator::A_IS_LESS;
             }
 
             // at this point, we have two numbers
@@ -215,17 +215,17 @@ class CompareSemanticVersions
             $bInt = strval($bPart);
 
             if ($aInt < $bInt) {
-                return Comparison::A_IS_LESS;
+                return BaseOperator::A_IS_LESS;
             }
             else if ($aInt > $bInt) {
-                return Comparison::A_IS_GREATER;
+                return BaseOperator::A_IS_GREATER;
             }
         }
         else if ($bPartIsNumeric) {
             // $aPart is a string
             //
             // strings always win
-            return Comparison::A_IS_GREATER;
+            return BaseOperator::A_IS_GREATER;
         }
         else {
             // two strings to compare
@@ -233,14 +233,14 @@ class CompareSemanticVersions
             // unfortunately, strcmp() doesn't return -1 / 0 / 1
             $res = strcmp($aPart, $bPart);
             if ($res < 0) {
-                return Comparison::A_IS_LESS;
+                return BaseOperator::A_IS_LESS;
             }
             else if ($res > 0) {
-                return Comparison::A_IS_GREATER;
+                return BaseOperator::A_IS_GREATER;
             }
         }
 
         // if we get here, we cannot tell them apart
-        return Comparison::BOTH_ARE_EQUAL;
+        return BaseOperator::BOTH_ARE_EQUAL;
     }
 }
