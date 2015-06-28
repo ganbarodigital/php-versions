@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\Internal\Coercers;
 
-use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionNumber;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedVersionNumber;
 use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
@@ -95,7 +95,7 @@ class EnsureSemanticVersion
     {
         // deal with any other surprises
         if (!is_string($input)) {
-            throw new E4xx_NotAVersionNumber($input);
+            throw new E4xx_UnsupportedType(gettype($input));
         }
 
         // convert and return
