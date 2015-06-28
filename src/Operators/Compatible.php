@@ -79,27 +79,50 @@ class Compatible extends BaseOperator
         }
 
         // is $a less than $b's compatible upper boundary?
-        return self::getIsWithinCompatibleUpperBoundary($a, $b);
+        return self::getIsWithinCompatibleUpperBoundary($a, $bObj);
     }
 
-    private static function getIsWithinCompatibleUpperBoundary($a, $b)
+    /**
+     * is $a within the compatible upper boundary of $b?
+     *
+     * @param  VersionNumber $a
+     *         LHS to examine
+     * @param  VersionNumber $b
+     *         RHS to examine
+     * @return boolean
+     */
+    private static function getIsWithinCompatibleUpperBoundary(VersionNumber $a, VersionNumber $b)
     {
         // calculate the upper boundary
-        $cObj = $bObj->getCompatibleUpperBoundary();
+        $c = $b->getCompatibleUpperBoundary();
 
         // is $b within our upper boundary?
-        $res = LessThan::calculate($a, $cObj);
+        $res = LessThan::calculate($a, $c);
         if (!$res) {
             return false;
         }
 
         // finally, a special case
+        // avoid installing an unstable version on the upper boundary
+        return !self::getIsUnstableNewRelease($a, $c);
+    }
+
+    /**
+     * is $a actually an unstable pre-release of $c?
+     *
+     * @param  VersionNumber $a
+     * @param  VersionNumber $c
+     * @return boolean
+     */
+    private static function getIsUnstableNewRelease(VersionNumber $a, VersionNumber $c)
+    {
+        // finally, a special case
         // avoid installing an unstable version of the upper boundary
-        if ($cObj->getMajor() == $a->getMajor() && $a->getPreRelease() !== null) {
-            return false;
+        if ($c->getMajor() == $a->getMajor() && $a->getPreRelease() !== null) {
+            return true;
         }
 
         // if we get here, we're good
-        return true;
+        return false;
     }
 }
