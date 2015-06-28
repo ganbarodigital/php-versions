@@ -83,15 +83,15 @@ class BlacklistedTest extends PHPUnit_Framework_TestCase
     {
         $retval = [];
         foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
-            $dataset[] = false;
+            $dataset[] = true;
             $retval[] = $dataset;
         }
         foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
-            $dataset[] = true;
+            $dataset[] = false;
             $retval[] = $dataset;
         }
         foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
-            $dataset[] = true;
+            $dataset[] = false;
             $retval[] = $dataset;
         }
 
