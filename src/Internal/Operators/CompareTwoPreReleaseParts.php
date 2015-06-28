@@ -91,9 +91,6 @@ class CompareTwoPreReleaseParts
             // two strings to compare
             return self::compareTwoStrings($aPart, $bPart);
         }
-
-        // if we get here, we cannot tell them apart
-        return BaseOperator::BOTH_ARE_EQUAL;
     }
 
     private static function compareTwoNumbers($aPart, $bPart)
