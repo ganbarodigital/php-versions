@@ -10,7 +10,7 @@
         "phix/contractlib": "^2.1",
         "ganbarodigital/php-data-containers": "^2.0",
 		"ganbarodigital/php-exceptions": "^1.0",
-		"ganbarodigital/php-reflection": "^2.1"
+		"ganbarodigital/php-reflection": "^2.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^4.7"
