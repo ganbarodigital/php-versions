@@ -45,7 +45,7 @@ namespace GanbaroDigital\Versions\Operators;
 
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 use GanbaroDigital\Versions\Internal\Coercers\EnsureCompatibleVersionNumber;
-use GanbaroDigital\Versions\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\VersionNumber;
 
 /**
  * Base class for our operators

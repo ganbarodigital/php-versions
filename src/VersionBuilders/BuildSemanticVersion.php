@@ -44,7 +44,7 @@
 namespace GanbaroDigital\Versions\VersionBuilders;
 
 use GanbaroDigital\Versions\Parsers\ParseSemanticVersion;
-use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\SemanticVersion;
 
 class BuildSemanticVersion
 {

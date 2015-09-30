@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\Exceptions;
 
-use GanbaroDigital\Versions\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\VersionNumber;
 
 class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
 {

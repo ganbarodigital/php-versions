@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\Operators;
 
-use GanbaroDigital\Versions\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\VersionNumber;
 
 /**
  * Represents a version number

@@ -46,8 +46,8 @@ namespace GanbaroDigital\Versions\Internal\Coercers;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedVersionNumber;
 use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
-use GanbaroDigital\Versions\VersionTypes\SemanticVersion;
-use GanbaroDigital\Versions\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\SemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\VersionNumber;
 
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 use GanbaroDigital\Reflection\ValueBuilders\AllMatchingTypesList;

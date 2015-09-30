@@ -34,14 +34,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/VersionTypes
+ * @package   Versions/VersionNumbers
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionTypes;
+namespace GanbaroDigital\Versions\VersionNumbers;
 
 require_once(__DIR__ . '/../Datasets/SemanticVersionDatasets.php');
 
