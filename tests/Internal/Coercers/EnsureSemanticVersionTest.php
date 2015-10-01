@@ -78,16 +78,17 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $expectedResult = BuildSemanticVersion::fromString('1.0.0');
+        $expectedResult = BuildSemanticVersion::from('1.0.0');
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = EnsureSemanticVersion::fromSemanticVersion($expectedResult);
+        $actualResult = EnsureSemanticVersion::from($expectedResult);
 
         // ----------------------------------------------------------------
         // test the results
 
+        $this->assertEquals($expectedResult, $actualResult);
         $this->assertSame($expectedResult, $actualResult);
     }
 
@@ -99,12 +100,12 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $expectedResult = BuildSemanticVersion::fromString('1.0.0');
+        $expectedResult = BuildSemanticVersion::from('1.0.0');
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = EnsureSemanticVersion::fromString('1.0.0');
+        $actualResult = EnsureSemanticVersion::from('1.0.0');
 
         // ----------------------------------------------------------------
         // test the results
@@ -125,7 +126,7 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        EnsureSemanticVersion::fromString($data);
+        EnsureSemanticVersion::from($data);
 
     }
 
@@ -154,7 +155,7 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = EnsureSemanticVersion::fromMixed($data);
+        $actualResult = EnsureSemanticVersion::from($data);
 
         // ----------------------------------------------------------------
         // test the results
@@ -165,8 +166,8 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
     public function provideValidVersionsForDispatch()
     {
         return [
-            [ "1.0", BuildSemanticVersion::fromString("1.0") ],
-            [ BuildSemanticVersion::fromString("2.0"), BuildSemanticVersion::fromString("2.0") ],
+            [ "1.0", BuildSemanticVersion::from("1.0") ],
+            [ BuildSemanticVersion::from("2.0"), BuildSemanticVersion::from("2.0") ],
         ];
     }
 

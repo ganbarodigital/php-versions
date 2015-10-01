@@ -50,7 +50,8 @@ use GanbaroDigital\Versions\VersionNumbers\SemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\VersionNumber;
 
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
-use GanbaroDigital\Reflection\ValueBuilders\AllMatchingTypesList;
+use GanbaroDigital\Reflection\ValueBuilders\LookupMethodByType;
+use GanbaroDigital\Reflection\ValueBuilders\SimpleType;
 
 /**
  * Convert version numbers in other forms into SemanticVersion objects,
@@ -58,6 +59,45 @@ use GanbaroDigital\Reflection\ValueBuilders\AllMatchingTypesList;
  */
 class EnsureSemanticVersion
 {
+    use LookupMethodByType;
+
+    /**
+     * make sure we have a semantic version for the caller to use
+     *
+     * @param  mixed $input
+     *         the type to coerce
+     * @return SemanticVersion
+     */
+    public function __invoke($input)
+    {
+        return self::from($input);
+    }
+
+    /**
+     * make sure we have a semantic version for the caller to use
+     *
+     * @param  mixed $input
+     *         the type to coerce
+     * @return SemanticVersion
+     */
+    public static function from($input)
+    {
+        // what type do we have?
+        $method = self::lookupMethodFor($input, self::$dispatchTable);
+        return self::$method($input);
+    }
+
+    /**
+     * called by self::from when $input is an unsupported data type
+     *
+     * @param  mixed $input
+     * @return void
+     */
+    protected function nothingMatchesTheInputType($input)
+    {
+        throw new E4xx_UnsupportedType(SimpleType::from($input));
+    }
+
     /**
      * make sure we have a semantic version for the caller to use
      *
@@ -65,7 +105,7 @@ class EnsureSemanticVersion
      *         the type to coerce
      * @return SemanticVersion
      */
-    public static function fromSemanticVersion(SemanticVersion $input)
+    private static function fromSemanticVersion(SemanticVersion $input)
     {
         // we do not need to do anything at all
         return $input;
@@ -78,7 +118,7 @@ class EnsureSemanticVersion
      *         the type to coerce
      * @return SemanticVersion
      */
-    public static function fromVersionNumber(VersionNumber $input)
+    private static function fromVersionNumber(VersionNumber $input)
     {
         // we just don't accept these
         throw new E4xx_UnsupportedVersionNumber($input, SemanticVersion::class);
@@ -91,54 +131,15 @@ class EnsureSemanticVersion
      *         the version number that we may need to convert
      * @return SemanticVersion
      */
-    public static function fromString($input)
+    private static function fromString($input)
     {
-        // deal with any other surprises
-        if (!is_string($input)) {
-            throw new E4xx_UnsupportedType(gettype($input));
-        }
-
         // convert and return
-        return BuildSemanticVersion::fromString($input);
+        return BuildSemanticVersion::from($input);
     }
 
-    /**
-     * make sure we have a semantic version for the caller to use
-     *
-     * @param  mixed $input
-     *         the type to coerce
-     * @return SemanticVersion
-     */
-    public static function fromMixed($input)
-    {
-        // what type do we have?
-        $types = AllMatchingTypesList::fromMixed($input);
-
-        // try and dispatch it
-        foreach ($types as $type) {
-            $method = 'from' . FilterNamespace::fromString($type);
-            if (method_exists(self::class, $method)) {
-                return call_user_func_array([self::class, $method], [$input]);
-            }
-        }
-
-        // if we get here, then we do not support the type
-        if (is_object($input)) {
-            throw new E4xx_UnsupportedType(get_class($input));
-        }
-        throw new E4xx_UnsupportedType(gettype($input));
-    }
-
-    /**
-     * make sure we have a semantic version for the caller to use
-     *
-     * @param  mixed $input
-     *         the type to coerce
-     * @return SemanticVersion
-     */
-    public function __invoke($input)
-    {
-        return self::fromMixed($input);
-    }
-
+    private static $dispatchTable = [
+        SemanticVersion::class => 'fromSemanticVersion',
+        'String' => 'fromString',
+        VersionNumber::class => 'fromVersionNumber',
+    ];
 }
