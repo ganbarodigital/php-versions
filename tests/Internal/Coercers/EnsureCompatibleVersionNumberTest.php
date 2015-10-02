@@ -85,7 +85,7 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = EnsureCompatibleVersionNumber::fromMixed($expectedResult, $data);
+        $actualResult = EnsureCompatibleVersionNumber::from($expectedResult, $data);
 
         // ----------------------------------------------------------------
         // test the results
@@ -97,7 +97,7 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
     public function provideVersionNumbers()
     {
         return [
-            [ "1.0", BuildSemanticVersion::fromString("1.0") ]
+            [ "1.0", BuildSemanticVersion::from("1.0") ]
         ];
     }
 }

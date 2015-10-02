@@ -75,7 +75,7 @@ class EnsureCompatibleVersionNumber
      * @return VersionNumber
      *         a version number with the value of $b, compatible with $a
      */
-    public static function fromMixed(VersionNumber $a, $b)
+    public static function from(VersionNumber $a, $b)
     {
         // what is the name of the coercer that we need to use?
         $className = __NAMESPACE__ . '\Ensure' . FilterNamespace::fromString(get_class($a));
