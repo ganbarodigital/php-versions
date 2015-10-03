@@ -252,7 +252,7 @@ class SemanticVersion implements VersionNumber
         }
 
         // our return value
-        $retval = BuildSemanticVersion::fromString($upperBound);
+        $retval = BuildSemanticVersion::from($upperBound);
 
         // all done
         return $retval;
@@ -275,7 +275,7 @@ class SemanticVersion implements VersionNumber
         $upperBound = ($this->getMajor() + 1) . '.0';
 
         // our return value
-        $retval = BuildSemanticVersion::fromString($upperBound);
+        $retval = BuildSemanticVersion::from($upperBound);
 
         // all done
         return $retval;

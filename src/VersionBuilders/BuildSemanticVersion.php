@@ -48,10 +48,31 @@ use GanbaroDigital\Versions\VersionNumbers\SemanticVersion;
 
 class BuildSemanticVersion
 {
-    public static function fromString($versionString)
+    /**
+     * create a SemanticVersion from a string
+     *
+     * @param  string $versionString
+     *         the string to parse
+     * @return SemanticVersion
+     *         the version number as an object
+     */
+    public function __invoke($versionString)
     {
-        $parts = ParseSemanticVersion::fromString($versionString);
+        return self::from($versionString);
+    }
 
+    /**
+     * create a SemanticVersion from a string
+     *
+     * @param  string $versionString
+     *         the string to parse
+     * @return SemanticVersion
+     *         the version number as an object
+     */
+    public static function from($versionString)
+    {
+        // build it
+        $parts = ParseSemanticVersion::from($versionString);
         $retval = new SemanticVersion(
             $parts['major'],
             $parts['minor'],
@@ -60,6 +81,7 @@ class BuildSemanticVersion
             $parts['build']
         );
 
+        // ship it
         return $retval;
     }
 }
