@@ -46,7 +46,7 @@ namespace GanbaroDigital\Versions\VersionNumbers;
 use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 
 /**
- * Represents a version number
+ * Represents a semantic version number, as defined by semver.org.
  */
 class SemanticVersion implements VersionNumber
 {

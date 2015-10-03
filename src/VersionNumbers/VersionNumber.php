@@ -44,7 +44,7 @@
 namespace GanbaroDigital\Versions\VersionNumbers;
 
 /**
- * Represents a version number
+ * Represents any version number supported by this library
  */
 interface VersionNumber
 {
