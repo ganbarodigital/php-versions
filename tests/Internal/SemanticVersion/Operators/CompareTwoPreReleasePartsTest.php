@@ -41,13 +41,13 @@
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Internal\Operators;
+namespace GanbaroDigital\Versions\Internal\SemanticVersion\Operators;
 
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Operators\BaseOperator;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\Internal\Operators\CompareTwoPreReleaseParts
+ * @coversDefaultClass GanbaroDigital\Versions\Internal\SemanticVersion\Operators\CompareTwoPreReleaseParts
  */
 class CompareTwoPreReleasePartsTest extends PHPUnit_Framework_TestCase
 {

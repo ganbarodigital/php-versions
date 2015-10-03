@@ -46,7 +46,7 @@ namespace GanbaroDigital\Versions\Internal\Comparitors;
 use GanbaroDigital\Versions\Operators\BaseOperator;
 use GanbaroDigital\Versions\VersionNumbers\SemanticVersion;
 use GanbaroDigital\Versions\Internal\Operators\CompareTwoNumbers;
-use GanbaroDigital\Versions\Internal\Operators\CompareTwoPreReleases;
+use GanbaroDigital\Versions\Internal\SemanticVersion\Operators\CompareTwoPreReleases;
 
 /**
  * Compares two versions

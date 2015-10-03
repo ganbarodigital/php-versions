@@ -41,7 +41,7 @@
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Internal\Operators;
+namespace GanbaroDigital\Versions\Internal\SemanticVersion\Operators;
 
 use GanbaroDigital\Versions\Operators\BaseOperator;
 
