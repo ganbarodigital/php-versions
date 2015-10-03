@@ -43,6 +43,7 @@
 
 namespace GanbaroDigital\Versions\Parsers;
 
+use GanbaroDigital\Reflection\Requirements\RequireStringy;
 use GanbaroDigital\Versions\Exceptions\E4xx_BadVersionString;
 use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionString;
 
@@ -72,12 +73,30 @@ class ParseSemanticVersion
      * @throws E4xx_NotAVersionString
      *         if we're asked to parse something that isn't a string
      */
-    public static function fromString($versionString)
+    public function __invoke($versionString)
+    {
+        return self::from($versionString);
+    }
+
+    /**
+     * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into an
+     * array of version parts
+     *
+     * @param  string $versionString
+     *         the string to parse
+     *
+     * @return array
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @throws E4xx_NotAVersionString
+     *         if we're asked to parse something that isn't a string
+     */
+    public static function from($versionString)
     {
         // do we have something we can safely attempt to parse?
-        if (!is_string($versionString)) {
-            throw new E4xx_NotAVersionString($versionString);
-        }
+        RequireStringy::check($versionString, E4xx_NotAVersionString::class);
 
         $matches = [];
         if (preg_match(self::getRegex(), $versionString, $matches)) {
@@ -164,25 +183,5 @@ class ParseSemanticVersion
 
         // just copy it across
         return $matches[$key];
-    }
-
-    /**
-     * convert a string in the form 'X.Y[.Z][-<preRelease>][+R]' into an
-     * array of version parts
-     *
-     * @param  string $versionString
-     *         the string to parse
-     *
-     * @return array
-     *
-     * @throws E4xx_BadVersionString
-     *         if we cannot parse $versionString
-     *
-     * @throws E4xx_NotAVersionString
-     *         if we're asked to parse something that isn't a string
-     */
-    public function __invoke($versionString)
-    {
-        return self::fromString($versionString);
     }
 }
