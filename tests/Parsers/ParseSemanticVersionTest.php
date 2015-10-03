@@ -58,7 +58,7 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideVersionStrings
      *
      * @covers ::__invoke
-     * @covers ::fromString
+     * @covers ::from
      * @covers ::cleanupMatches
      */
     public function testCanUseAsAnObject($versionString, $expectedBreakdown)
@@ -82,7 +82,7 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideVersionStrings
      *
-     * @covers ::fromString
+     * @covers ::from
      * @covers ::cleanupMatches
      */
     public function testCanParseVersionStrings($versionString, $expectedBreakdown)
@@ -93,7 +93,7 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualBreakdown = ParseSemanticVersion::fromString($versionString);
+        $actualBreakdown = ParseSemanticVersion::from($versionString);
 
         // ----------------------------------------------------------------
         // test the results
@@ -109,7 +109,7 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideBadVersionStrings
      *
-     * @covers ::fromString
+     * @covers ::from
      *
      * @expectedException GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionString
      */
@@ -121,7 +121,7 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        ParseSemanticVersion::fromString($versionString);
+        ParseSemanticVersion::from($versionString);
     }
 
     public function provideBadVersionStrings()
@@ -132,7 +132,7 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider provideBadVersionNumbers
      *
-     * @covers ::fromString
+     * @covers ::from
      *
      * @expectedException GanbaroDigital\Versions\Exceptions\E4xx_BadVersionString
      */
@@ -144,7 +144,7 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        ParseSemanticVersion::fromString($versionString);
+        ParseSemanticVersion::from($versionString);
     }
 
     public function provideBadVersionNumbers()

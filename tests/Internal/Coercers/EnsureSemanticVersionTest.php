@@ -144,7 +144,7 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::fromMixed
+     * @covers ::from
      * @dataProvider provideValidVersionsForDispatch
      */
     public function testSupportsStaticDispatch($data, $expectedResult)

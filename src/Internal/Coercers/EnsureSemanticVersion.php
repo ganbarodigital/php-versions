@@ -93,7 +93,7 @@ class EnsureSemanticVersion
      * @param  mixed $input
      * @return void
      */
-    protected function nothingMatchesTheInputType($input)
+    protected static function nothingMatchesTheInputType($input)
     {
         throw new E4xx_UnsupportedType(SimpleType::from($input));
     }

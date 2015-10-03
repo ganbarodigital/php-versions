@@ -103,7 +103,7 @@ class BaseOperator
     protected static function getComparibleObject(VersionNumber $a, $b)
     {
         // make sure $b is supported
-        return EnsureCompatibleVersionNumber::fromMixed($a, $b);
+        return EnsureCompatibleVersionNumber::from($a, $b);
     }
 
     /**

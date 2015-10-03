@@ -74,7 +74,7 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::fromMixed
+     * @covers ::from
      * @dataProvider provideVersionNumbers
      */
     public function testConvertsStringToCompatibleVersion($data, $expectedResult)

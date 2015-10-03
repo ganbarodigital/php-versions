@@ -63,10 +63,10 @@ class CompareTwoNumbers extends BaseOperator
     public static function calculate($a, $b)
     {
         // compare two version number parts
-        if ($a < $b) {
+        if ((int)$a < (int)$b) {
             return self::A_IS_LESS;
         }
-        if ($a > $b) {
+        if ((int)$a > (int)$b) {
             return self::A_IS_GREATER;
         }
 

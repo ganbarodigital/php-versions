@@ -64,8 +64,8 @@ class LessThanTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $aVer = BuildSemanticVersion::fromString($a);
-        $bVer = BuildSemanticVersion::fromString($b);
+        $aVer = BuildSemanticVersion::from($a);
+        $bVer = BuildSemanticVersion::from($b);
 
         // ----------------------------------------------------------------
         // perform the change

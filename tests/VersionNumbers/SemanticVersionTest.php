@@ -51,7 +51,7 @@ use GanbaroDigital\Versions\VersionBuilders\BuildSemanticVersion;
 use GanbaroDigital\Versions;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionTypes\SemanticVersion
+ * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\SemanticVersion
  */
 class SemanticVersionTest extends PHPUnit_Framework_TestCase
 {
