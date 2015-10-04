@@ -328,6 +328,9 @@ class SemanticVersion implements VersionNumber
         $retval = [
             'major' => $this->major,
             'minor' => $this->minor,
+            'patchLevel' => null,
+            'preRelease' => null,
+            'build' => null
         ];
 
         // these are all optional

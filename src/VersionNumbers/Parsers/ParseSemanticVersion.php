@@ -46,8 +46,9 @@ namespace GanbaroDigital\Versions\VersionNumbers\Parsers;
 use GanbaroDigital\Reflection\Requirements\RequireStringy;
 use GanbaroDigital\Versions\Exceptions\E4xx_BadVersionString;
 use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionString;
+use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
 
-class ParseSemanticVersion
+class ParseSemanticVersion implements VersionParser
 {
     const REGEX_MAJOR = "0|[1-9]\d*";
     const REGEX_MINOR = "0|[1-9]\d*";
@@ -65,7 +66,7 @@ class ParseSemanticVersion
      * @param  string $versionString
      *         the string to parse
      *
-     * @return array
+     * @return VersionNumber
      *
      * @throws E4xx_BadVersionString
      *         if we cannot parse $versionString
@@ -85,7 +86,7 @@ class ParseSemanticVersion
      * @param  string $versionString
      *         the string to parse
      *
-     * @return array
+     * @return VersionNumber
      *
      * @throws E4xx_BadVersionString
      *         if we cannot parse $versionString
@@ -99,14 +100,22 @@ class ParseSemanticVersion
         RequireStringy::check($versionString, E4xx_NotAVersionString::class);
 
         $matches = [];
-        if (preg_match(self::getRegex(), $versionString, $matches)) {
-            // we need to sanitise the regex result before returning
-            // our return value
-            return self::cleanupMatches($matches);
+        if (!preg_match(self::getRegex(), $versionString, $matches)) {
+            // if we get here, then nothing matched
+            throw new E4xx_BadVersionString($versionString);
         }
 
-        // if we get here, then nothing matched
-        throw new E4xx_BadVersionString($versionString);
+        // we need to sanitise the regex result before returning
+        // our return value
+        $parts = self::cleanupMatches($matches);
+
+        return new SemanticVersion(
+            $parts['major'],
+            $parts['minor'],
+            $parts['patchLevel'],
+            $parts['preRelease'],
+            $parts['build']
+        );
     }
 
     public static function getRegex()

@@ -72,16 +72,6 @@ class BuildSemanticVersion
     public static function from($versionString)
     {
         // build it
-        $parts = ParseSemanticVersion::from($versionString);
-        $retval = new SemanticVersion(
-            $parts['major'],
-            $parts['minor'],
-            $parts['patchLevel'],
-            $parts['preRelease'],
-            $parts['build']
-        );
-
-        // ship it
-        return $retval;
+        return ParseSemanticVersion::from($versionString);
     }
 }

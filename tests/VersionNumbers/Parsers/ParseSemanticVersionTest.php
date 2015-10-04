@@ -71,7 +71,8 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualBreakdown = $parser($versionString);
+        $actualVersion = $parser($versionString);
+        $actualBreakdown = $actualVersion->toArray();
 
         // ----------------------------------------------------------------
         // test the results
@@ -93,7 +94,8 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualBreakdown = ParseSemanticVersion::from($versionString);
+        $actualResult = ParseSemanticVersion::from($versionString);
+        $actualBreakdown = $actualResult->toArray();
 
         // ----------------------------------------------------------------
         // test the results
