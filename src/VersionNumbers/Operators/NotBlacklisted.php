@@ -48,6 +48,21 @@ use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 /**
  * Calculate if $a is blacklisted against $b
  */
-class Blacklisted extends EqualTo
+class NotBlacklisted implements Operator
 {
+    /**
+     * does $a not equal $b?
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @return boolean
+     *         TRUE if $a == $b
+     *         FALSE otherwise
+     */
+    public static function calculate(VersionNumber $a, $b)
+    {
+        return !EqualTo::calculate($a, $b);
+    }
 }

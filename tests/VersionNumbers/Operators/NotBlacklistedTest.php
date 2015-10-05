@@ -50,9 +50,9 @@ use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
 use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\Blacklisted
+ * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\NotBlacklisted
  */
-class BlacklistedTest extends PHPUnit_Framework_TestCase
+class NotBlacklistedTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider provideIsNotBlacklistedDataset
@@ -70,7 +70,7 @@ class BlacklistedTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = Blacklisted::calculate($aVer, $bVer);
+        $actualResult = NotBlacklisted::calculate($aVer, $bVer);
 
         // ----------------------------------------------------------------
         // test the results
@@ -82,15 +82,15 @@ class BlacklistedTest extends PHPUnit_Framework_TestCase
     {
         $retval = [];
         foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
-            $dataset[] = true;
+            $dataset[] = false;
             $retval[] = $dataset;
         }
         foreach (SemanticVersionDatasets::getAlwaysLessThanDataset() as $dataset) {
-            $dataset[] = false;
+            $dataset[] = true;
             $retval[] = $dataset;
         }
         foreach (SemanticVersionDatasets::getAlwaysGreaterThanDataset() as $dataset) {
-            $dataset[] = false;
+            $dataset[] = true;
             $retval[] = $dataset;
         }
 
