@@ -48,7 +48,7 @@ use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class PreReleaseOf extends BaseOperator
+class PreReleaseOf extends BaseOperator implements Operator
 {
     /**
      * is $a a pre-release of $b?

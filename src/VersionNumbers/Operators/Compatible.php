@@ -48,7 +48,7 @@ use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class Compatible extends BaseAllowedRelease
+class Compatible extends BaseAllowedRelease implements Operator
 {
     /**
      * is $a compatible with $b, according to the rules of the

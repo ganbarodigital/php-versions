@@ -48,7 +48,7 @@ use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class LessThanOrEqualTo extends BaseOperator
+class LessThanOrEqualTo extends BaseOperator implements Operator
 {
     /**
      * a list of which comparison results we do and do not like

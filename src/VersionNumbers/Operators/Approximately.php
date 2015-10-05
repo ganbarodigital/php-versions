@@ -48,7 +48,7 @@ use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class Approximately extends BaseAllowedRelease
+class Approximately extends BaseAllowedRelease implements Operator
 {
     /**
      * is $a approximately equal to $b, according to the rules of the
