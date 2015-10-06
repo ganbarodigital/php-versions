@@ -48,9 +48,9 @@ use RuntimeException;
 use stdClass;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\Exceptions\E5xx_UnknownOperator
+ * @coversDefaultClass GanbaroDigital\Versions\Exceptions\E5xx_UnmappedOperator
  */
-class E5xx_UnknownOperatorTest extends PHPUnit_Framework_TestCase
+class E5xx_UnmappedOperatorTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::__construct
