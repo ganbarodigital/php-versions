@@ -47,7 +47,7 @@ use GanbaroDigital\Versions\VersionNumbers\Operators;
 use PHPUnit_Framework_TestCase;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Maps\MapOperators
+ * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Maps\MapOperator
  */
 class MapOperatorTest extends PHPUnit_Framework_TestCase
 {
