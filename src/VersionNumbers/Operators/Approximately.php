@@ -67,6 +67,28 @@ class Approximately extends BaseAllowedRelease implements Operator
      *         TRUE if $a ~= $b
      *         FALSE otherwise
      */
+    public function __invoke(VersionNumber $a, $b)
+    {
+        return self::calculate($a, $b);
+    }
+
+    /**
+     * is $a approximately equal to $b, according to the rules of the
+     * ~ operator?
+     *
+     * NOTES:
+     *
+     * - you can only use the ~ operator to pin down which major / minor
+     *   version to limit to, not the preRelease level
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calcuation
+     * @return boolean
+     *         TRUE if $a ~= $b
+     *         FALSE otherwise
+     */
     public static function calculate(VersionNumber $a, $b)
     {
         $bObj = self::getComparibleObject($a, $b);

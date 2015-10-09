@@ -71,6 +71,22 @@ class LessThan extends BaseOperator implements Operator
      *         TRUE if $a < $b
      *         FALSE otherwise
      */
+    public function __invoke(VersionNumber $a, $b)
+    {
+        return self::calculate($a, $b);
+    }
+
+    /**
+     * is $a < $b?
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @return boolean
+     *         TRUE if $a < $b
+     *         FALSE otherwise
+     */
     public static function calculate(VersionNumber $a, $b)
     {
         return self::calculateWithMap($a, $b, self::$resultsMap);

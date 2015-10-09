@@ -62,6 +62,23 @@ class Compatible extends BaseAllowedRelease implements Operator
      *         TRUE if $a is compatible with $b
      *         FALSE otherwise
      */
+    public function __invoke(VersionNumber $a, $b)
+    {
+        return self::calculate($a, $b);
+    }
+
+    /**
+     * is $a compatible with $b, according to the rules of the
+     * ^ operator?
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calcuation
+     * @return boolean
+     *         TRUE if $a is compatible with $b
+     *         FALSE otherwise
+     */
     public static function calculate(VersionNumber $a, $b)
     {
         // make sure $b is something we can work with

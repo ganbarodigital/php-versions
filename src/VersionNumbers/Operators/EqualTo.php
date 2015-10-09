@@ -51,6 +51,22 @@ use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 class EqualTo extends BaseOperator implements Operator
 {
     /**
+     * does $a equal $b?
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @return boolean
+     *         TRUE if $a == $b
+     *         FALSE otherwise
+     */
+    public function __invoke(VersionNumber $a, $b)
+    {
+        return self::calculate($a, $b);
+    }
+
+    /**
      * a list of which comparison results we do and do not like
      * @var array
      */

@@ -61,6 +61,22 @@ class PreReleaseOf extends BaseOperator implements Operator
      *         TRUE if $a < $b
      *         FALSE otherwise
      */
+    public function __invoke(VersionNumber $a, $b)
+    {
+        return self::calculate($a, $b);
+    }
+
+    /**
+     * is $a a pre-release of $b?
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @return boolean
+     *         TRUE if $a < $b
+     *         FALSE otherwise
+     */
     public static function calculate(VersionNumber $a, $b)
     {
         // make sure we have something we can use
