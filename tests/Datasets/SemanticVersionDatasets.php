@@ -322,4 +322,17 @@ class SemanticVersionDatasets
             [ "hello world!" ],
         ];
     }
+
+    static public function getVersionVariations($versionString)
+    {
+        return [
+            $versionString,
+            $versionString . ' ',
+            ' ' . $versionString,
+            ' ' . $versionString . ' ',
+            "\t" . $versionString,
+            "\t" . $versionString . "\t",
+            'v' . $versionString,
+        ];
+    }
 }
