@@ -48,7 +48,7 @@ require_once(__DIR__ . '/../../Datasets/SemanticVersionDatasets.php');
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
 use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
-use GanbaroDigital\Versions\VersionNumbers;
+use GanbaroDigital\Versions\VersionNumbers\Operators\LessThan;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\LessThan
@@ -56,10 +56,72 @@ use GanbaroDigital\Versions\VersionNumbers;
 class LessThanTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @coversNothing
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new LessThan;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof LessThan);
+    }
+
+    /**
+     * @coversNothing
+     */
+    public function testIsAnOperator()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new LessThan;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Operator);
+    }
+
+    /**
+     * @dataProvider provideIsLessThanDataset
+     * @covers ::__invoke
+     */
+    public function testCanUseAsObject($a, $b, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj  = new LessThan;
+        $aVer = BuildSemanticVersion::from($a);
+        $bVer = BuildSemanticVersion::from($b);
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = $obj($aVer, $bVer);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
      * @dataProvider provideIsLessThanDataset
      * @covers ::calculate
      */
-    public function testCanCheckForIsLessThan($a, $b, $expectedResult)
+    public function testCanCallStatically($a, $b, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test
@@ -70,7 +132,7 @@ class LessThanTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = VersionNumbers\Operators\LessThan::calculate($aVer, $bVer);
+        $actualResult = LessThan::calculate($aVer, $bVer);
 
         // ----------------------------------------------------------------
         // test the results

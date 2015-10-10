@@ -50,9 +50,9 @@ use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
 use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\EqualTo
+ * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\PreReleaseOf
  */
-class EqualToTest extends PHPUnit_Framework_TestCase
+class PreReleaseOfTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @coversNothing
@@ -65,12 +65,12 @@ class EqualToTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new EqualTo;
+        $obj = new PreReleaseOf;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof EqualTo);
+        $this->assertTrue($obj instanceof PreReleaseOf);
     }
 
     /**
@@ -84,7 +84,7 @@ class EqualToTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new EqualTo;
+        $obj = new PreReleaseOf;
 
         // ----------------------------------------------------------------
         // test the results
@@ -93,16 +93,17 @@ class EqualToTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideEqualityDataset
+     * @dataProvider provideIsPreReleaseOfDataset
      *
      * @covers ::__invoke
+     * @covers ::checkAreSameVersion
      */
     public function testCanUseAsObject($a, $b, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        $obj  = new EqualTo;
+        $obj  = new PreReleaseOf;
         $aVer = BuildSemanticVersion::from($a);
         $bVer = BuildSemanticVersion::from($b);
 
@@ -118,9 +119,10 @@ class EqualToTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideEqualityDataset
+     * @dataProvider provideIsPreReleaseOfDataset
      *
      * @covers ::calculate
+     * @covers ::checkAreSameVersion
      */
     public function testCanCallStatically($a, $b, $expectedResult)
     {
@@ -133,7 +135,7 @@ class EqualToTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = EqualTo::calculate($aVer, $bVer);
+        $actualResult = PreReleaseOf::calculate($aVer, $bVer);
 
         // ----------------------------------------------------------------
         // test the results
@@ -141,18 +143,19 @@ class EqualToTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    public function provideEqualityDataset()
+    public function provideIsPreReleaseOfDataset()
     {
         $retval = [];
-        foreach (SemanticVersionDatasets::getAlwaysEqualDataset() as $dataset) {
+        foreach (SemanticVersionDatasets::getAlwaysPreReleaseDataset() as $dataset) {
             $dataset[] = true;
             $retval[] = $dataset;
         }
-        foreach (SemanticVersionDatasets::getNeverEqualDataset() as $dataset) {
+        foreach (SemanticVersionDatasets::getNeverPreReleaseDataset() as $dataset) {
             $dataset[] = false;
             $retval[] = $dataset;
         }
 
         return $retval;
     }
+
 }

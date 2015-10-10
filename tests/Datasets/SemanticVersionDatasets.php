@@ -187,6 +187,43 @@ class SemanticVersionDatasets
         ];
     }
 
+    /**
+     * $a is always a pre-release of $b
+     *
+     * @return array
+     */
+    static public function getAlwaysPreReleaseDataset()
+    {
+        return [
+            [ "1.0-alpha-1", "1.0" ],
+            [ "1.0-alpha-1+R4", "1.0" ],
+            [ "1.0.0-alpha.1", "1.0.0" ],
+            [ "1.0.0-0.3.7", "1.0.0" ],
+            [ "1.0.0-beta+exp.sha.5114f85", "1.0.0" ],
+        ];
+    }
+
+    /**
+     * $a is never a pre-release of $b
+     *
+     * @return array
+     */
+    static public function getNeverPreReleaseDataset()
+    {
+        return [
+            [ "1.0", "1.0-alpha-1" ],
+            [ "1.0+R4", "1.0.1+R4" ],
+            [ "1.0+R5", "1.0.1+R4" ],
+            [ "0.1", "1.0" ],
+            [ "1.0", "1.1.0" ],
+            [ "1.0.0-beta+exp.sha.5114f85", "1.0.1" ],
+            [ "1.0", "2.0" ],
+            [ "1.99", "2.0" ],
+            [ "1.0-alpha-1", "1.1" ],
+            [ "1.0-alpha-1", "2.0" ],
+        ];
+    }
+
     static public function getVersionNumberDataset()
     {
         return [

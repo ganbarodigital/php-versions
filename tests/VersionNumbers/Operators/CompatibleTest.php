@@ -55,11 +55,74 @@ use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 class CompatibleTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @coversNothing
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new Compatible;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Compatible);
+    }
+
+    /**
+     * @coversNothing
+     */
+    public function testIsAnOperator()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new Compatible;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Operator);
+    }
+
+    /**
+     * @dataProvider provideIsCompatibleDataset
+     *
+     * @covers ::__invoke
+     */
+    public function testCanUseAsObject($a, $b, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj  = new Compatible;
+        $aVer = BuildSemanticVersion::from($a);
+        $bVer = BuildSemanticVersion::from($b);
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = $obj($aVer, $bVer);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
      * @dataProvider provideIsCompatibleDataset
      *
      * @covers ::calculate
      */
-    public function testCanCheckForIsCompatible($a, $b, $expectedResult)
+    public function testCanCallStatically($a, $b, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test

@@ -55,11 +55,74 @@ use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 class ApproximatelyTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @coversNothing
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new Approximately;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Approximately);
+    }
+
+    /**
+     * @coversNothing
+     */
+    public function testIsAnOperator()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new Approximately;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Operator);
+    }
+
+    /**
+     * @dataProvider provideIsApproximatelyEqualDataset
+     *
+     * @covers ::__invoke
+     */
+    public function testCanUseAsObject($a, $b, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj  = new Approximately;
+        $aVer = BuildSemanticVersion::from($a);
+        $bVer = BuildSemanticVersion::from($b);
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = $obj($aVer, $bVer);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
      * @dataProvider provideIsApproximatelyEqualDataset
      *
      * @covers ::calculate
      */
-    public function testCanCheckForIsApproximate($a, $b, $expectedResult)
+    public function testCanCallStatically($a, $b, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test

@@ -55,11 +55,74 @@ use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 class GreaterThanOrEqualToTest extends PHPUnit_Framework_TestCase
 {
     /**
+     * @coversNothing
+     */
+    public function testCanInstantiate()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new GreaterThanOrEqualTo;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof GreaterThanOrEqualTo);
+    }
+
+    /**
+     * @coversNothing
+     */
+    public function testIsAnOperator()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $obj = new GreaterThanOrEqualTo;
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Operator);
+    }
+
+    /**
+     * @dataProvider provideIsGreaterThanOrEqualToDataset
+     *
+     * @covers ::__invoke
+     */
+    public function testCanUseAsObject($a, $b, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj  = new GreaterThanOrEqualTo;
+        $aVer = BuildSemanticVersion::from($a);
+        $bVer = BuildSemanticVersion::from($b);
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = $obj($aVer, $bVer);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
+    }
+
+    /**
      * @dataProvider provideIsGreaterThanOrEqualToDataset
      *
      * @covers ::calculate
      */
-    public function testCanCheckForIsGreaterThanOrEqualTo($a, $b, $expectedResult)
+    public function testCanCallStatically($a, $b, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test
