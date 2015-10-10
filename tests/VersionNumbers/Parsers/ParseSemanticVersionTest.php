@@ -105,7 +105,17 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
 
     public function provideVersionStrings()
     {
-        return SemanticVersionDatasets::getVersionNumberDataset();
+        $rawData = SemanticVersionDatasets::getVersionNumberDataset();
+
+        $retval = [];
+        foreach ($rawData as $dataset) {
+            $versions = SemanticVersionDatasets::getVersionVariations($dataset[0]);
+            foreach ($versions as $version) {
+                $retval[] = [ $version, $dataset[1] ];
+            }
+        }
+
+        return $retval;
     }
 
     /**

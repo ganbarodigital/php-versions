@@ -52,6 +52,8 @@ require_once(__DIR__ . "/../../Datasets/ComparisonOperatorsDatasets.php");
 require_once(__DIR__ . "/../../Datasets/SemanticVersionDatasets.php");
 require_once(__DIR__ . "/../../Datasets/ComparisonExpressionDatasets.php");
 
+use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
+
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionRanges\Operators\CompareVersionRange
  */
@@ -135,7 +137,7 @@ class ComparisonVersionRangeTest extends PHPUnit_Framework_TestCase
 
     public function provideVersionRangesThatAlwaysMatch()
     {
-        return [
+        $rawData = [
             [
                 ">1.0,<2.0",
                 "1.0.1",
@@ -167,11 +169,21 @@ class ComparisonVersionRangeTest extends PHPUnit_Framework_TestCase
                 true
             ],
         ];
+
+        $retval = [];
+        foreach ($rawData as $dataset) {
+            $versions = SemanticVersionDatasets::getVersionVariations($dataset[1]);
+            foreach ($versions as $version) {
+                $retval[] = [ $dataset[0], $version, $dataset[2] ];
+            }
+        }
+
+        return $retval;
     }
 
     public function provideVersionRangesThatNeverMatch()
     {
-        return [
+        $rawData = [
             [
                 ">1.0,<2.0,!1.5.6",
                 "1.5.6",
@@ -208,5 +220,15 @@ class ComparisonVersionRangeTest extends PHPUnit_Framework_TestCase
                 false
             ],
         ];
+
+        $retval = [];
+        foreach ($rawData as $dataset) {
+            $versions = SemanticVersionDatasets::getVersionVariations($dataset[1]);
+            foreach ($versions as $version) {
+                $retval[] = [ $dataset[0], $version, $dataset[2] ];
+            }
+        }
+
+        return $retval;
     }
 }
