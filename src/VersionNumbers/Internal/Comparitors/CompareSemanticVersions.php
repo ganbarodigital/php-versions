@@ -43,10 +43,9 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\Comparitors;
 
-use GanbaroDigital\Versions\VersionNumbers\Operators\BaseOperator;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 use GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators\CompareTwoPreReleases;
+use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
 
 /**
  * Compares two versions
@@ -69,7 +68,7 @@ class CompareSemanticVersions
 
         // compare major.minor.patchLevel first
         $retval = self::compareXyz($aVer, $bVer);
-        if ($retval !== BaseOperator::BOTH_ARE_EQUAL) {
+        if ($retval !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
             return $retval;
         }
 
@@ -98,13 +97,13 @@ class CompareSemanticVersions
             $res = CompareTwoNumbers::calculate($aN, $bN);
 
             // are they different?
-            if ($res !== BaseOperator::BOTH_ARE_EQUAL) {
+            if ($res !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
                 return $res;
             }
         }
 
         // if we get here, then both $a and $b have the same X.Y.Z
-        return BaseOperator::BOTH_ARE_EQUAL;
+        return CompareTwoNumbers::BOTH_ARE_EQUAL;
     }
 
     /**

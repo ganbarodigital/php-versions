@@ -43,100 +43,58 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
-use GanbaroDigital\Reflection\Filters\FilterNamespace;
-use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
- * Base class for our operators
+ * is $a the same version as $b, discounting the pre-release string?
  */
-class BaseOperator
+class SameVersion implements Operator
 {
     /**
-     * returned from self::compare() when $a is the smaller version
-     */
-    const A_IS_LESS = -1;
-
-    /**
-     * returned from self::compare() when $a and $b are the same version
-     */
-    const BOTH_ARE_EQUAL = 0;
-
-    /**
-     * returned from self::compare() when $a is the larger version
-     */
-    const A_IS_GREATER = 1;
-
-    /**
-     * which class should we use to compare $a against another version number?
-     *
-     * @param  VersionNumber $a
-     *         the type of version number we want to compare something
-     *         against
-     * @return string
-     */
-    private static function getComparitorFor(VersionNumber $a)
-    {
-        // make sure $a is supported
-        $type = FilterNamespace::fromString(get_class($a));
-
-        $className = 'GanbaroDigital\\Versions\\VersionNumbers\\Internal\\Comparitors\\Compare' . $type . 's';
-        if (!class_exists($className)) {
-            throw new E4xx_UnsupportedType(get_class($a));
-        }
-
-        return $className;
-    }
-
-    /**
-     * (possibly) convert $b into something that can be used in operators
-     * with $a
-     *
-     * @param  VersionNumber $a
-     *         the LHS from our operator
-     * @param  VersionNumber|string $b
-     *         the RHS from our operator
-     * @return VersionNumber
-     *         something with the same value as $b, and a type compatible
-     *         with $a
-     */
-    protected static function getComparibleObject(VersionNumber $a, $b)
-    {
-        // make sure $b is supported
-        return EnsureCompatibleVersionNumber::from($a, $b);
-    }
-
-    /**
-     * compare two version numbers
-     *
-     * @param  mixed $a
-     * @param  mixed $b
-     * @return boolean
-     */
-    private static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
-    {
-        $className = self::getComparitorFor($a);
-        $result = call_user_func_array([$className, 'compare'], [$a, $b]);
-        return $resultsMap[$result];
-    }
-
-    /**
-     * compare $a to $b
+     * is $a the same version as $b, discounting the pre-release string?
      *
      * @param  VersionNumber $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
      * @return boolean
+     *         TRUE if $a == $b (discounting pre-release string)
+     *         FALSE otherwise
      */
-    protected static function calculateWithMap(VersionNumber $a, $b, array $resultsMap)
+    public function __invoke(VersionNumber $a, $b)
     {
-        // turn $b into something we can use
-        $bVer = self::getComparibleObject($a, $b);
+        return self::calculate($a, $b);
+    }
 
-        // our results map
-        // are the two versions equal?
-        return self::compare($a, $bVer, $resultsMap);
+    /**
+     * is $a the same version as $b, discounting the pre-release string?
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @return boolean
+     *         TRUE if $a == $b (discounting pre-release string)
+     *         FALSE otherwise
+     */
+    public static function calculate(VersionNumber $a, $b)
+    {
+        // make sure we have something we can use
+        $bObj = EnsureCompatibleVersionNumber::from($a, $b);
+
+        if ($a->getMajor() != $bObj->getMajor()) {
+            return false;
+        }
+
+        if ($a->getMinor() != $bObj->getMinor()) {
+            return false;
+        }
+
+        if ($a->getPatchLevel() != $bObj->getPatchLevel()) {
+            return false;
+        }
+
+        return true;
     }
 }

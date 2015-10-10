@@ -43,12 +43,13 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoVersionNumbers;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
  * Represents a version number
  */
-class EqualTo extends BaseOperator implements Operator
+class EqualTo implements Operator
 {
     /**
      * does $a equal $b?
@@ -71,9 +72,9 @@ class EqualTo extends BaseOperator implements Operator
      * @var array
      */
     private static $resultsMap = [
-        self::A_IS_LESS      => false,
-        self::BOTH_ARE_EQUAL => true,
-        self::A_IS_GREATER   => false,
+        CompareTwoVersionNumbers::A_IS_LESS      => false,
+        CompareTwoVersionNumbers::BOTH_ARE_EQUAL => true,
+        CompareTwoVersionNumbers::A_IS_GREATER   => false,
     ];
 
     /**
@@ -89,6 +90,6 @@ class EqualTo extends BaseOperator implements Operator
      */
     public static function calculate(VersionNumber $a, $b)
     {
-        return self::calculateWithMap($a, $b, self::$resultsMap);
+        return CompareTwoVersionNumbers::calculateWithMap($a, $b, self::$resultsMap);
     }
 }

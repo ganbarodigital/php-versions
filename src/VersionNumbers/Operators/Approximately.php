@@ -43,12 +43,13 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
  * Represents a version number
  */
-class Approximately extends BaseAllowedRelease implements Operator
+class Approximately implements Operator
 {
     /**
      * is $a approximately equal to $b, according to the rules of the
@@ -91,10 +92,10 @@ class Approximately extends BaseAllowedRelease implements Operator
      */
     public static function calculate(VersionNumber $a, $b)
     {
-        $bObj = self::getComparibleObject($a, $b);
+        $bObj = EnsureCompatibleVersionNumber::from($a, $b);
 
         $c = $bObj->getApproximateUpperBoundary();
 
-        return self::calculateAllowedRelease($a, $bObj, $c);
+        return InBetween::calculate($a, $bObj, $c);
     }
 }

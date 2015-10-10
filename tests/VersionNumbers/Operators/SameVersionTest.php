@@ -50,9 +50,9 @@ use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
 use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\PreReleaseOf
+ * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\SameVersion
  */
-class PreReleaseOfTest extends PHPUnit_Framework_TestCase
+class SameVersionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @coversNothing
@@ -65,12 +65,12 @@ class PreReleaseOfTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new PreReleaseOf;
+        $obj = new SameVersion;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($obj instanceof PreReleaseOf);
+        $this->assertTrue($obj instanceof SameVersion);
     }
 
     /**
@@ -84,7 +84,7 @@ class PreReleaseOfTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = new PreReleaseOf;
+        $obj = new SameVersion;
 
         // ----------------------------------------------------------------
         // test the results
@@ -93,7 +93,7 @@ class PreReleaseOfTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideIsPreReleaseOfDataset
+     * @dataProvider provideIsSameVersionDataset
      *
      * @covers ::__invoke
      */
@@ -102,7 +102,7 @@ class PreReleaseOfTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $obj  = new PreReleaseOf;
+        $obj  = new SameVersion;
         $aVer = BuildSemanticVersion::from($a);
         $bVer = BuildSemanticVersion::from($b);
 
@@ -118,7 +118,7 @@ class PreReleaseOfTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider provideIsPreReleaseOfDataset
+     * @dataProvider provideIsSameVersionDataset
      *
      * @covers ::calculate
      */
@@ -133,7 +133,7 @@ class PreReleaseOfTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = PreReleaseOf::calculate($aVer, $bVer);
+        $actualResult = SameVersion::calculate($aVer, $bVer);
 
         // ----------------------------------------------------------------
         // test the results
@@ -141,14 +141,14 @@ class PreReleaseOfTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    public function provideIsPreReleaseOfDataset()
+    public function provideIsSameVersionDataset()
     {
         $retval = [];
-        foreach (SemanticVersionDatasets::getAlwaysPreReleaseDataset() as $dataset) {
+        foreach (SemanticVersionDatasets::getAlwaysSameVersionDataset() as $dataset) {
             $dataset[] = true;
             $retval[] = $dataset;
         }
-        foreach (SemanticVersionDatasets::getNeverPreReleaseDataset() as $dataset) {
+        foreach (SemanticVersionDatasets::getNeverSameVersionDataset() as $dataset) {
             $dataset[] = false;
             $retval[] = $dataset;
         }

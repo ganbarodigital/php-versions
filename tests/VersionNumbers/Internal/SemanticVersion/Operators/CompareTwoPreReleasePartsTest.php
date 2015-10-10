@@ -44,7 +44,8 @@
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators;
 
 use PHPUnit_Framework_TestCase;
-use GanbaroDigital\Versions\VersionNumbers\Operators\BaseOperator;
+
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators\CompareTwoPreReleaseParts
@@ -77,13 +78,13 @@ class CompareTwoPreReleasePartsTest extends PHPUnit_Framework_TestCase
     public function providePreReleaseParts()
     {
         return [
-            [ 'alpha', 'bravo', BaseOperator::A_IS_LESS ],
-            [ 'bravo', 'alpha', BaseOperator::A_IS_GREATER ],
-            [ 'alpha', '123', BaseOperator::A_IS_GREATER ],
-            [ '123', 'alpha', BaseOperator::A_IS_LESS ],
-            [ '123', '123', BaseOperator::BOTH_ARE_EQUAL ],
-            [ '123', '1234', BaseOperator::A_IS_LESS ],
-            [ '1234', '123', BaseOperator::A_IS_GREATER ],
+            [ 'alpha', 'bravo', CompareTwoNumbers::A_IS_LESS ],
+            [ 'bravo', 'alpha', CompareTwoNumbers::A_IS_GREATER ],
+            [ 'alpha', '123', CompareTwoNumbers::A_IS_GREATER ],
+            [ '123', 'alpha', CompareTwoNumbers::A_IS_LESS ],
+            [ '123', '123', CompareTwoNumbers::BOTH_ARE_EQUAL ],
+            [ '123', '1234', CompareTwoNumbers::A_IS_LESS ],
+            [ '1234', '123', CompareTwoNumbers::A_IS_GREATER ],
         ];
     }
 

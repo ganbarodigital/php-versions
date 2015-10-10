@@ -43,12 +43,13 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
  * Represents a version number
  */
-class PreReleaseOf extends BaseOperator implements Operator
+class PreReleaseOf implements Operator
 {
     /**
      * is $a a pre-release of $b?
@@ -80,40 +81,13 @@ class PreReleaseOf extends BaseOperator implements Operator
     public static function calculate(VersionNumber $a, $b)
     {
         // make sure we have something we can use
-        $bObj = self::getComparibleObject($a, $b);
+        $bObj = EnsureCompatibleVersionNumber::from($a, $b);
 
         // quickest test of all ... is $a a pre-release?
         if (!$a->hasPreRelease()) {
             return false;
         }
-        if (!self::checkAreSameVersion($a, $bObj)) {
-            return false;
-        }
 
-        return true;
-    }
-
-    /**
-     * are $a and $b roughly the same version (discounting pre-release data)?
-     *
-     * @param  VersionNumber $a
-     * @param  VersionNumber $b
-     * @return boolean
-     */
-    private static function checkAreSameVersion(VersionNumber $a, VersionNumber $b)
-    {
-        if ($a->getMajor() != $b->getMajor()) {
-            return false;
-        }
-
-        if ($a->getMinor() != $b->getMinor()) {
-            return false;
-        }
-
-        if ($a->getPatchLevel() != $b->getPatchLevel()) {
-            return false;
-        }
-
-        return true;
+        return SameVersion::calculate($a, $b);
     }
 }

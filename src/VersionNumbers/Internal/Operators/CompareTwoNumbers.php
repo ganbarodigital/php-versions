@@ -43,13 +43,26 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Operators\BaseOperator;
-
 /**
  * Compares two versions
  */
-class CompareTwoNumbers extends BaseOperator
+class CompareTwoNumbers
 {
+    /**
+     * returned from self::calculate() when $a is the smaller version
+     */
+    const A_IS_LESS = -1;
+
+    /**
+     * returned from self::calculate() when $a and $b are the same version
+     */
+    const BOTH_ARE_EQUAL = 0;
+
+    /**
+     * returned from self::calculate() when $a is the larger version
+     */
+    const A_IS_GREATER = 1;
+
     /**
      * compare two numbers
      *

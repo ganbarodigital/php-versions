@@ -43,7 +43,6 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Operators\BaseOperator;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 
 /**
@@ -74,7 +73,7 @@ class CompareTwoPreReleaseParts
             return self::compareTwoStrings($aPart, $bPart);
         }
 
-        if (($retval = self::calculatePartDifference($aPartIsNumeric, $bPartIsNumeric)) !== BaseOperator::BOTH_ARE_EQUAL) {
+        if (($retval = self::calculatePartDifference($aPartIsNumeric, $bPartIsNumeric)) !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
             return $retval;
         }
 
@@ -115,13 +114,13 @@ class CompareTwoPreReleaseParts
         $bInt = strval($bPart);
 
         if ($aInt < $bInt) {
-            return BaseOperator::A_IS_LESS;
+            return CompareTwoNumbers::A_IS_LESS;
         }
         else if ($aInt > $bInt) {
-            return BaseOperator::A_IS_GREATER;
+            return CompareTwoNumbers::A_IS_GREATER;
         }
 
-        return BaseOperator::BOTH_ARE_EQUAL;
+        return CompareTwoNumbers::BOTH_ARE_EQUAL;
     }
 
     /**
@@ -136,12 +135,12 @@ class CompareTwoPreReleaseParts
         // unfortunately, strcmp() doesn't return -1 / 0 / 1
         $res = strcmp($aPart, $bPart);
         if ($res < 0) {
-            return BaseOperator::A_IS_LESS;
+            return CompareTwoNumbers::A_IS_LESS;
         }
         else if ($res > 0) {
-            return BaseOperator::A_IS_GREATER;
+            return CompareTwoNumbers::A_IS_GREATER;
         }
 
-        return BaseOperator::BOTH_ARE_EQUAL;
+        return CompareTwoNumbers::BOTH_ARE_EQUAL;
     }
 }

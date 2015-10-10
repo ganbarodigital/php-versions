@@ -43,21 +43,22 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoVersionNumbers;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
  * Represents a version number
  */
-class LessThanOrEqualTo extends BaseOperator implements Operator
+class LessThanOrEqualTo implements Operator
 {
     /**
      * a list of which comparison results we do and do not like
      * @var array
      */
     private static $resultsMap = [
-        self::A_IS_LESS      => true,
-        self::BOTH_ARE_EQUAL => true,
-        self::A_IS_GREATER   => false,
+        CompareTwoVersionNumbers::A_IS_LESS      => true,
+        CompareTwoVersionNumbers::BOTH_ARE_EQUAL => true,
+        CompareTwoVersionNumbers::A_IS_GREATER   => false,
     ];
 
     /**
@@ -89,7 +90,7 @@ class LessThanOrEqualTo extends BaseOperator implements Operator
      */
     public static function calculate(VersionNumber $a, $b)
     {
-        return self::calculateWithMap($a, $b, self::$resultsMap);
+        return CompareTwoVersionNumbers::calculateWithMap($a, $b, self::$resultsMap);
     }
 
 }

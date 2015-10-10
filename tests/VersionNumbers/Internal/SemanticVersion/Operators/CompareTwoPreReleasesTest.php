@@ -44,7 +44,7 @@
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators;
 
 use PHPUnit_Framework_TestCase;
-use GanbaroDigital\Versions\VersionNumbers\Operators\BaseOperator;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators\CompareTwoPreReleases
@@ -78,19 +78,19 @@ class CompareTwoPreReleasesTest extends PHPUnit_Framework_TestCase
     public function providePreReleases()
     {
         return [
-            [ null, null,    BaseOperator::BOTH_ARE_EQUAL ],
-            [ null, 'alpha', BaseOperator::A_IS_GREATER ],
-            [ 'alpha', null, BaseOperator::A_IS_LESS ],
-            [ 'alpha', 'bravo', BaseOperator::A_IS_LESS ],
-            [ 'bravo', 'alpha', BaseOperator::A_IS_GREATER ],
-            [ 'alpha.1', 'alpha.1.1', BaseOperator::A_IS_LESS ],
-            [ 'alpha.1.1', 'alpha.1', BaseOperator::A_IS_GREATER ],
-            [ 'alpha.1.1', 'alpha.1.1', BaseOperator::BOTH_ARE_EQUAL ],
-            [ 'alpha', '123', BaseOperator::A_IS_GREATER ],
-            [ '123', 'alpha', BaseOperator::A_IS_LESS ],
-            [ '123', '123', BaseOperator::BOTH_ARE_EQUAL ],
-            [ '123', '1234', BaseOperator::A_IS_LESS ],
-            [ '1234', '123', BaseOperator::A_IS_GREATER ],
+            [ null, null,    CompareTwoNumbers::BOTH_ARE_EQUAL ],
+            [ null, 'alpha', CompareTwoNumbers::A_IS_GREATER ],
+            [ 'alpha', null, CompareTwoNumbers::A_IS_LESS ],
+            [ 'alpha', 'bravo', CompareTwoNumbers::A_IS_LESS ],
+            [ 'bravo', 'alpha', CompareTwoNumbers::A_IS_GREATER ],
+            [ 'alpha.1', 'alpha.1.1', CompareTwoNumbers::A_IS_LESS ],
+            [ 'alpha.1.1', 'alpha.1', CompareTwoNumbers::A_IS_GREATER ],
+            [ 'alpha.1.1', 'alpha.1.1', CompareTwoNumbers::BOTH_ARE_EQUAL ],
+            [ 'alpha', '123', CompareTwoNumbers::A_IS_GREATER ],
+            [ '123', 'alpha', CompareTwoNumbers::A_IS_LESS ],
+            [ '123', '123', CompareTwoNumbers::BOTH_ARE_EQUAL ],
+            [ '123', '1234', CompareTwoNumbers::A_IS_LESS ],
+            [ '1234', '123', CompareTwoNumbers::A_IS_GREATER ],
         ];
     }
 

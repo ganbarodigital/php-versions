@@ -48,26 +48,14 @@ use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 /**
  * Represents a version number
  */
-class BaseAllowedRelease extends BaseOperator
+class InBetween
 {
-    /**
-     * is $a approximately equal to $b, according to the rules of the
-     * ~ operator?
-     *
-     * NOTES:
-     *
-     * - you can only use the ~ operator to pin down which major / minor
-     *   version to limit to, not the preRelease level
-     *
-     * @param  VersionNumber $a
-     *         the LHS of this calculation
-     * @param  VersionNumber|string $b
-     *         the RHS of this calcuation
-     * @return boolean
-     *         TRUE if $a ~= $b
-     *         FALSE otherwise
-     */
-    protected static function calculateAllowedRelease(VersionNumber $a, VersionNumber $b, VersionNumber $c)
+    public function __invoke(VersionNumber $a, VersionNumber $b, VersionNumber $c)
+    {
+        return self::calculate($a, $b, $c);
+    }
+
+    public static function calculate(VersionNumber $a, VersionNumber $b, VersionNumber $c)
     {
         // we turn this into two tests:
         //

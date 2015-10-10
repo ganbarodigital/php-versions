@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Operators\BaseOperator;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 
 /**
  * Compares two versions
@@ -64,11 +64,11 @@ class CompareTwoPreReleases
     {
         // make sure we have two pre-releases
         if (!self::hasPreReleasesToCompare($a, $b)) {
-            return BaseOperator::BOTH_ARE_EQUAL;
+            return CompareTwoNumbers::BOTH_ARE_EQUAL;
         }
 
         // we might only have one pre-release part
-        if (($res = self::calculatePreReleaseDifference($a, $b)) !== BaseOperator::BOTH_ARE_EQUAL) {
+        if (($res = self::calculatePreReleaseDifference($a, $b)) !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
             return $res;
         }
 
@@ -94,7 +94,7 @@ class CompareTwoPreReleases
         $bParts = explode(".", $b);
 
         // compare the parts we have
-        if (($res = self::comparePreReleaseParts($aParts, $bParts)) !== BaseOperator::BOTH_ARE_EQUAL) {
+        if (($res = self::comparePreReleaseParts($aParts, $bParts)) !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
             return $res;
         }
 
@@ -102,11 +102,11 @@ class CompareTwoPreReleases
         //
         // does $b have any more parts?
         if (count($aParts) < count($bParts)) {
-            return BaseOperator::A_IS_LESS;
+            return CompareTwoNumbers::A_IS_LESS;
         }
 
         // at this point, we've exhausted all of the possibilities
-        return BaseOperator::BOTH_ARE_EQUAL;
+        return CompareTwoNumbers::BOTH_ARE_EQUAL;
     }
 
     /**
@@ -161,7 +161,7 @@ class CompareTwoPreReleases
         foreach ($aParts as $i => $aPart) {
             // if we've run out of parts, $a wins
             if (!isset($bParts[$i])) {
-                return BaseOperator::A_IS_GREATER;
+                return CompareTwoNumbers::A_IS_GREATER;
             }
 
             // shorthand
@@ -169,11 +169,11 @@ class CompareTwoPreReleases
 
             // what can we learn about them?
             $res = CompareTwoPreReleaseParts::calculate($aPart, $bPart);
-            if ($res !== BaseOperator::BOTH_ARE_EQUAL) {
+            if ($res !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
                 return $res;
             }
         }
 
-        return BaseOperator::BOTH_ARE_EQUAL;
+        return CompareTwoNumbers::BOTH_ARE_EQUAL;
     }
 }

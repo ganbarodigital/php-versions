@@ -34,62 +34,108 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Operators
+ * @package   Versions/VersionNumbers
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\Operators;
+namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoVersionNumbers;
+use GanbaroDigital\Reflection\Filters\FilterNamespace;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
- * Represents a version number
+ * Helper for operators that compare two numbers against each other
  */
-class GreaterThanOrEqualTo implements Operator
+class CompareTwoVersionNumbers
 {
     /**
-     * a list of which comparison results we do and do not like
-     * @var array
+     * returned from self::compare() when $a is the smaller version
      */
-    private static $resultsMap = [
-        CompareTwoVersionNumbers::A_IS_LESS      => false,
-        CompareTwoVersionNumbers::BOTH_ARE_EQUAL => true,
-        CompareTwoVersionNumbers::A_IS_GREATER   => true,
-    ];
+    const A_IS_LESS = -1;
 
     /**
-     * is $a >= $b?
+     * returned from self::compare() when $a and $b are the same version
+     */
+    const BOTH_ARE_EQUAL = 0;
+
+    /**
+     * returned from self::compare() when $a is the larger version
+     */
+    const A_IS_GREATER = 1;
+
+    /**
+     * compare $a to $b
      *
      * @param  VersionNumber $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  array $resultsMap
+     *         maps the constants above onto true/false values
      * @return boolean
-     *         TRUE if $a >= $b
-     *         FALSE otherwise
      */
-    public function __invoke(VersionNumber $a, $b)
+    public function __invoke(VersionNumber $a, $b, array $resultsMap)
     {
-        return self::calculate($a, $b);
+        return self::calculateWithMap($a, $b, $resultsMap);
     }
 
     /**
-     * is $a >= $b?
+     * compare $a to $b
      *
      * @param  VersionNumber $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
      * @return boolean
-     *         TRUE if $a >= $b
-     *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    public static function calculateWithMap(VersionNumber $a, $b, array $resultsMap)
     {
-        return CompareTwoVersionNumbers::calculateWithMap($a, $b, self::$resultsMap);
+        // turn $b into something we can use
+        $bVer = EnsureCompatibleVersionNumber::from($a, $b);
+
+        // our results map
+        // are the two versions equal?
+        return self::compare($a, $bVer, $resultsMap);
+    }
+
+    /**
+     * which class should we use to compare $a against another version number?
+     *
+     * @param  VersionNumber $a
+     *         the type of version number we want to compare something
+     *         against
+     * @return string
+     */
+    private static function getComparitorFor(VersionNumber $a)
+    {
+        // make sure $a is supported
+        $type = FilterNamespace::fromString(get_class($a));
+
+        $className = 'GanbaroDigital\\Versions\\VersionNumbers\\Internal\\Comparitors\\Compare' . $type . 's';
+        if (!class_exists($className)) {
+            throw new E4xx_UnsupportedType(get_class($a));
+        }
+
+        return $className;
+    }
+
+    /**
+     * compare two version numbers
+     *
+     * @param  VersionNumber $a
+     * @param  VersionNumber $b
+     * @param  array $resultsMap
+     * @return boolean
+     */
+    private static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
+    {
+        $className = self::getComparitorFor($a);
+        $result = call_user_func_array([$className, 'compare'], [$a, $b]);
+        return $resultsMap[$result];
     }
 }
