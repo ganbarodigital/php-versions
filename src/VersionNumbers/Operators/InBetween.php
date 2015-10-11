@@ -46,15 +46,35 @@ namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
- * Represents a version number
+ * Operation on a version number
  */
 class InBetween
 {
+    /**
+     * is $a in between $b and $c, such that $b < $a < $c is true?
+     *
+     * @param  VersionNumber $a the version number to test
+     * @param  VersionNumber $b the minimum boundary
+     * @param  VersionNumber $c the maximum boundary
+     * @return boolean
+     *         TRUE if $b < $a < $c
+     *         FALSE otherwise
+     */
     public function __invoke(VersionNumber $a, VersionNumber $b, VersionNumber $c)
     {
         return self::calculate($a, $b, $c);
     }
 
+    /**
+     * is $a in between $b and $c, such that $b < $a < $c is true?
+     *
+     * @param  VersionNumber $a the version number to test
+     * @param  VersionNumber $b the minimum boundary
+     * @param  VersionNumber $c the maximum boundary
+     * @return boolean
+     *         TRUE if $b < $a < $c
+     *         FALSE otherwise
+     */
     public static function calculate(VersionNumber $a, VersionNumber $b, VersionNumber $c)
     {
         // we turn this into two tests:
