@@ -46,8 +46,8 @@ namespace GanbaroDigital\Versions\VersionNumbers\Internal\Coercers;
 require_once(__DIR__ . '/../../../Datasets/SemanticVersionDatasets.php');
 
 use PHPUnit_Framework_TestCase;
-
 use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber
@@ -74,8 +74,52 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @covers ::__invoke
+     * @dataProvider provideVersionNumbers
+     */
+    public function testCanUseAsObject($data, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $obj = new EnsureCompatibleVersionNumber;
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = $obj($expectedResult, $data);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertNotSame($expectedResult, $actualResult);
+    }
+
+    /**
      * @covers ::from
      * @dataProvider provideVersionNumbers
+     */
+    public function testCanCallStatically($data, $expectedResult)
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = EnsureCompatibleVersionNumber::from($expectedResult, $data);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
+        $this->assertNotSame($expectedResult, $actualResult);
+    }
+
+    /**
+     * @covers ::from
+     * @dataProvider provideStrings
      */
     public function testConvertsStringToCompatibleVersion($data, $expectedResult)
     {
@@ -94,10 +138,112 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
         $this->assertNotSame($expectedResult, $actualResult);
     }
 
+    /**
+     * @covers ::from
+     * @expectedException GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType
+     */
+    public function testThrowsExceptionWhenNoCoercerFound()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $version = new FakeVersionNumber;
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        EnsureCompatibleVersionNumber::from($version, '1.0.0');
+    }
+
     public function provideVersionNumbers()
+    {
+        return $this->provideStrings();
+    }
+
+    public function provideStrings()
     {
         return [
             [ "1.0", ParseSemanticVersion::from("1.0") ]
         ];
+    }
+}
+
+class FakeVersionNumber implements VersionNumber
+{
+    public function getVersion()
+    {
+        return null;
+    }
+
+    public function getMajor()
+    {
+        return null;
+    }
+
+    public function getMinor()
+    {
+        return null;
+    }
+
+    public function hasPatchLevel()
+    {
+        return false;
+    }
+
+    public function getPatchLevel()
+    {
+        return null;
+    }
+
+    public function hasPreRelease()
+    {
+        return false;
+    }
+
+    public function getPreRelease()
+    {
+        return null;
+    }
+
+    public function hasBuildNumber()
+    {
+        return false;
+    }
+
+    public function getBuildNumber()
+    {
+        return null;
+    }
+
+    // ==================================================================
+    //
+    // Calculated properties go here
+    //
+    // ------------------------------------------------------------------
+
+    public function getApproximateUpperBoundary()
+    {
+        return null;
+    }
+
+    public function getCompatibleUpperBoundary()
+    {
+        return null;
+    }
+
+    // ==================================================================
+    //
+    // Type convertors go here
+    //
+    // ------------------------------------------------------------------
+
+    public function __toString()
+    {
+        return '';
+    }
+
+    public function toArray()
+    {
+        return [];
     }
 }

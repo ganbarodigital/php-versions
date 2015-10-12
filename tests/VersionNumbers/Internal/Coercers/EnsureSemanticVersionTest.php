@@ -114,7 +114,7 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::fromString
+     * @covers ::nothingMatchesTheInputType
      * @expectedException GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType
      * @dataProvider provideNonStringData
      */
@@ -127,7 +127,6 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
         // perform the change
 
         EnsureSemanticVersion::from($data);
-
     }
 
     public function provideNonStringData()
@@ -147,7 +146,7 @@ class EnsureSemanticVersionTest extends PHPUnit_Framework_TestCase
      * @covers ::from
      * @dataProvider provideValidVersionsForDispatch
      */
-    public function testSupportsStaticDispatch($data, $expectedResult)
+    public function testCanBeCalledStatically($data, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test

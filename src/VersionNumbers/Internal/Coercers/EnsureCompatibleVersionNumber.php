@@ -50,7 +50,6 @@ use GanbaroDigital\Versions\VersionNumbersVersionBuilders\BuildSemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
-use GanbaroDigital\DataContainers\Caches\StaticDataCache;
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 
 /**
@@ -58,9 +57,6 @@ use GanbaroDigital\Reflection\Filters\FilterNamespace;
  */
 class EnsureCompatibleVersionNumber
 {
-    // let's try and speed things up a bit
-    use StaticDataCache;
-
     /**
      * make sure that $a and $b are types that can be used together in
      * any of our operators
@@ -79,36 +75,13 @@ class EnsureCompatibleVersionNumber
     {
         // what is the name of the coercer that we need to use?
         $className = __NAMESPACE__ . '\Ensure' . FilterNamespace::fromString(get_class($a));
-
-        // optimisation - have we seen this version number combination before?
-        $cacheKey = self::getCacheKey($className, $b);
-        if ($retval = self::getFromCache($cacheKey)) {
-            return $retval;
-        }
-
-        // if we get here, we're looking at a new pairing
         if (!class_exists($className)) {
             throw new E4xx_UnsupportedType(get_class($a));
         }
 
         $coercer = new $className();
         $retval = $coercer($b);
-        self::setInCache($cacheKey, $retval);
         return $retval;
-    }
-
-    /**
-     * create a cache key from our two version numbers
-     *
-     * @param  string $className
-     *         the coercer used on $b
-     * @param  mixed $b
-     *         the version number that (might) need modifying
-     * @return string
-     */
-    private static function getCacheKey($className, $b)
-    {
-        return $className . '::' . (string)$b;
     }
 
     /**
@@ -127,6 +100,6 @@ class EnsureCompatibleVersionNumber
      */
     public function __invoke($a, $b)
     {
-        return self::fromMixed($a, $b);
+        return self::from($a, $b);
     }
 }

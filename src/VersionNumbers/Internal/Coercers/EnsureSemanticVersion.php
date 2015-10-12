@@ -112,19 +112,6 @@ class EnsureSemanticVersion
     }
 
     /**
-     * make sure we have a semantic version for the caller to use
-     *
-     * @param  VersionNumber $input
-     *         the type to coerce
-     * @return SemanticVersion
-     */
-    private static function fromVersionNumber(VersionNumber $input)
-    {
-        // we just don't accept these
-        throw new E4xx_UnsupportedVersionNumber($input, SemanticVersion::class);
-    }
-
-    /**
      * if $input is a string, convert it to a SemanticVersion object
      *
      * @param  string $input
@@ -140,6 +127,5 @@ class EnsureSemanticVersion
     private static $dispatchTable = [
         SemanticVersion::class => 'fromSemanticVersion',
         'String' => 'fromString',
-        VersionNumber::class => 'fromVersionNumber',
     ];
 }
