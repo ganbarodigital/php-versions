@@ -118,25 +118,19 @@ class ParseSemanticVersion implements VersionParser
         );
     }
 
-    public static function getRegex()
+    private static function getRegex()
     {
-        static $regex = null;
-
         // one regex to rule them all
         //
         // based on a regex proposed in the semver.org Github issues list
         //
         // I've tried using multiple regexes here to see if we can match
         // more quickly, but it doesn't make a noticable difference
-        if (!$regex) {
-            $regex = "%^\s*v{0,1}(?P<major>" . self::REGEX_MAJOR . ")"
+        return "%^\s*v{0,1}(?P<major>" . self::REGEX_MAJOR . ")"
                . "\.(?P<minor>" . self::REGEX_MINOR . ")"
                . "(\.(?P<patchLevel>" . self::REGEX_PATCHLEVEL . ")){0,1}"
                . "(-(?P<preRelease>" . self::REGEX_PRERELEASE . ")){0,1}"
                . "(\+(?P<build>" . self::REGEX_BUILDNUMBER . ")){0,1}\s*$%";
-       }
-
-        return $regex;
     }
 
     /**

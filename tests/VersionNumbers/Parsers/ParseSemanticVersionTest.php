@@ -59,7 +59,9 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
      *
      * @covers ::__invoke
      * @covers ::from
+     * @covers ::getRegex
      * @covers ::cleanupMatches
+     * @covers ::cleanupMatch
      */
     public function testCanUseAsAnObject($versionString, $expectedBreakdown)
     {
@@ -84,7 +86,9 @@ class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
      * @dataProvider provideVersionStrings
      *
      * @covers ::from
+     * @covers ::getRegex
      * @covers ::cleanupMatches
+     * @covers ::cleanupMatch
      */
     public function testCanParseVersionStrings($versionString, $expectedBreakdown)
     {
