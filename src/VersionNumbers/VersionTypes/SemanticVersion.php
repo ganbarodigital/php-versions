@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\VersionTypes;
 
-use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
 
 /**
  * Represents a semantic version number, as defined by semver.org.
@@ -252,7 +252,7 @@ class SemanticVersion implements VersionNumber
         }
 
         // our return value
-        $retval = BuildSemanticVersion::from($upperBound);
+        $retval = ParseSemanticVersion::from($upperBound);
 
         // all done
         return $retval;
@@ -275,7 +275,7 @@ class SemanticVersion implements VersionNumber
         $upperBound = ($this->getMajor() + 1) . '.0';
 
         // our return value
-        $retval = BuildSemanticVersion::from($upperBound);
+        $retval = ParseSemanticVersion::from($upperBound);
 
         // all done
         return $retval;

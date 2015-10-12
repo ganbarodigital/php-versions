@@ -47,7 +47,7 @@ require_once(__DIR__ . '/../../Datasets/SemanticVersionDatasets.php');
 
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
-use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers;
 
 /**
@@ -104,8 +104,8 @@ class GreaterThanTest extends PHPUnit_Framework_TestCase
         // setup your test
 
         $obj  = new GreaterThan;
-        $aVer = BuildSemanticVersion::from($a);
-        $bVer = BuildSemanticVersion::from($b);
+        $aVer = ParseSemanticVersion::from($a);
+        $bVer = ParseSemanticVersion::from($b);
 
         // ----------------------------------------------------------------
         // perform the change
@@ -128,8 +128,8 @@ class GreaterThanTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $aVer = BuildSemanticVersion::from($a);
-        $bVer = BuildSemanticVersion::from($b);
+        $aVer = ParseSemanticVersion::from($a);
+        $bVer = ParseSemanticVersion::from($b);
 
         // ----------------------------------------------------------------
         // perform the change

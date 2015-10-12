@@ -51,7 +51,6 @@ use GanbaroDigital\Versions\Datasets\ComparisonExpressionDatasets;
 use GanbaroDigital\Versions\VersionNumbers\Operators\EqualTo;
 use GanbaroDigital\Versions\VersionNumbers\Operators\LessThan;
 use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
-use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 use GanbaroDigital\Versions\VersionRanges\Types\ComparisonExpression;
 
 use PHPUnit_Framework_TestCase;

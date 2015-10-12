@@ -46,7 +46,6 @@ namespace GanbaroDigital\Versions\VersionRanges\Types;
 use GanbaroDigital\Versions\VersionNumbers\Operators\EqualTo;
 use GanbaroDigital\Versions\VersionNumbers\Operators\LessThan;
 use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
-use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
 use GanbaroDigital\Versions\VersionRanges\Parsers\ParseVersionRange;
 
 use PHPUnit_Framework_TestCase;
@@ -67,7 +66,7 @@ class VersionRangeTest extends PHPUnit_Framework_TestCase
         // setup your test
 
         $operator = new EqualTo;
-        $version  = BuildSemanticVersion::from("1.0.0");
+        $version  = ParseSemanticVersion::from("1.0.0");
         $expression = new ComparisonExpression($operator, $version);
 
         // ----------------------------------------------------------------

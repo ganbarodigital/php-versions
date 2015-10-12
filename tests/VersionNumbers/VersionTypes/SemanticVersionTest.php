@@ -47,7 +47,7 @@ require_once(__DIR__ . '/../../Datasets/SemanticVersionDatasets.php');
 
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
-use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers;
 
 /**
@@ -74,7 +74,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -124,7 +124,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($versionString);
+        $obj = ParseSemanticVersion::from($versionString);
 
         // ----------------------------------------------------------------
         // test the results
@@ -160,7 +160,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -197,7 +197,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -237,7 +237,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -277,7 +277,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -317,7 +317,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -357,7 +357,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -397,7 +397,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // test the results
@@ -431,7 +431,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // perform the change
@@ -472,7 +472,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $obj = BuildSemanticVersion::from($version);
+        $obj = ParseSemanticVersion::from($version);
 
         // ----------------------------------------------------------------
         // perform the change
@@ -513,7 +513,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
-        $obj = BuildSemanticVersion::from($expectedVersion);
+        $obj = ParseSemanticVersion::from($expectedVersion);
 
         // ----------------------------------------------------------------
         // perform the change
@@ -553,7 +553,7 @@ class SemanticVersionTest extends PHPUnit_Framework_TestCase
             "preRelease" => "alpha",
             "build"      => 4,
         ];
-        $obj = BuildSemanticVersion::from('1.2.3-alpha+4');
+        $obj = ParseSemanticVersion::from('1.2.3-alpha+4');
 
         // ----------------------------------------------------------------
         // perform the change

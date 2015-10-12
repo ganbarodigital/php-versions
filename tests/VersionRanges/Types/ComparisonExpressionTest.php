@@ -45,7 +45,7 @@ namespace GanbaroDigital\Versions\VersionRanges\Types;
 
 use GanbaroDigital\Versions\VersionNumbers\Operators\EqualTo;
 use GanbaroDigital\Versions\VersionNumbers\Operators\LessThan;
-use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
 
 use PHPUnit_Framework_TestCase;
 
@@ -63,7 +63,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
         // setup your test
 
         $operator = new EqualTo;
-        $version  = BuildSemanticVersion::from("1.0.0");
+        $version  = ParseSemanticVersion::from("1.0.0");
 
         // ----------------------------------------------------------------
         // perform the change
@@ -85,7 +85,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
         // setup your test
 
         $operator = new EqualTo;
-        $version  = BuildSemanticVersion::from("1.0.0");
+        $version  = ParseSemanticVersion::from("1.0.0");
 
         $obj = new ComparisonExpression($operator, $version);
 
@@ -109,7 +109,7 @@ class ComparisonExpressionTest extends PHPUnit_Framework_TestCase
         // setup your test
 
         $operator = new EqualTo;
-        $version  = BuildSemanticVersion::from("1.0.0");
+        $version  = ParseSemanticVersion::from("1.0.0");
 
         $obj = new ComparisonExpression($operator, $version);
 

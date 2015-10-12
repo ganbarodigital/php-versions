@@ -45,7 +45,7 @@ namespace GanbaroDigital\Versions\VersionNumbers\Internal\Coercers;
 
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedVersionNumber;
-use GanbaroDigital\Versions\VersionNumbers\VersionBuilders\BuildSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
 
@@ -134,7 +134,7 @@ class EnsureSemanticVersion
     private static function fromString($input)
     {
         // convert and return
-        return BuildSemanticVersion::from($input);
+        return ParseSemanticVersion::from($input);
     }
 
     private static $dispatchTable = [
