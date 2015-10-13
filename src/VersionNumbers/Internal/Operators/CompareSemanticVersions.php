@@ -41,9 +41,8 @@
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\Internal\Comparitors;
+namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 use GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators\CompareTwoPreReleases;
 use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
 

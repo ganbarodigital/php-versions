@@ -116,7 +116,7 @@ class CompareTwoVersionNumbers
         // make sure $a is supported
         $type = FilterNamespace::fromString(get_class($a));
 
-        $className = 'GanbaroDigital\\Versions\\VersionNumbers\\Internal\\Comparitors\\Compare' . $type . 's';
+        $className = 'GanbaroDigital\\Versions\\VersionNumbers\\Internal\\Operators\\Compare' . $type . 's';
         if (!class_exists($className)) {
             throw new E4xx_UnsupportedType(get_class($a));
         }
