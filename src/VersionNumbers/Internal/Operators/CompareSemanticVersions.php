@@ -57,9 +57,22 @@ class CompareSemanticVersions
      * @param  SemanticVersion $a
      * @param  SemanticVersion $b
      * @return int
-     *         one of the self::* consts
+     *         one of the CompareTwoNumbers::* consts
      */
-    public static function compare(SemanticVersion $a, SemanticVersion $b)
+    public function __invoke(SemanticVersion $a, SemanticVersion $b)
+    {
+        return self::calculate($a, $b);
+    }
+
+    /**
+     * compare two semantic version numbers
+     *
+     * @param  SemanticVersion $a
+     * @param  SemanticVersion $b
+     * @return int
+     *         one of the CompareTwoNumbers::* consts
+     */
+    public static function calculate(SemanticVersion $a, SemanticVersion $b)
     {
         // save us some processing time
         $aVer = $a->toArray();

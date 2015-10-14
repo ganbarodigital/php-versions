@@ -121,7 +121,7 @@ class CompareTwoVersionNumbers
             throw new E4xx_UnsupportedType(get_class($a));
         }
 
-        return $className;
+        return new $className;
     }
 
     /**
@@ -134,8 +134,8 @@ class CompareTwoVersionNumbers
      */
     private static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
-        $className = self::getComparitorFor($a);
-        $result = call_user_func_array([$className, 'compare'], [$a, $b]);
+        $operator = self::getComparitorFor($a);
+        $result = $operator($a, $b);
         return $resultsMap[$result];
     }
 }
