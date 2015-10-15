@@ -41,7 +41,7 @@
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\DataSets;
+namespace GanbaroDigital\Versions\Datasets;
 
 use PHPUnit_Framework_TestCase;
 
