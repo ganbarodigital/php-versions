@@ -46,7 +46,7 @@ namespace GanbaroDigital\Versions\VersionRanges\Types;
 use GanbaroDigital\Reflection\Requirements\RequireTraversable;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\VersionNumbers\Operators\Operator;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
  * Represents a single parsed claused of a version range

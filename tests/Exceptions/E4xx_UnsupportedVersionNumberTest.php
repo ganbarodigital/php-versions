@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\Exceptions;
 
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
+use GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion;
 use PHPUnit_Framework_TestCase;
 use RuntimeException;
 use stdClass;

@@ -43,8 +43,8 @@
 
 namespace GanbaroDigital\Versions\VersionRanges\Operators;
 
+use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionRanges\Parsers\ParseVersionRange;
-use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
 
 use PHPUnit_Framework_TestCase;
 

@@ -41,7 +41,7 @@
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\VersionTypes;
+namespace GanbaroDigital\Versions\VersionNumbers\Values;
 
 /**
  * Represents any version number supported by this library

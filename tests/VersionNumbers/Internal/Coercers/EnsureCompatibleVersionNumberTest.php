@@ -46,8 +46,8 @@ namespace GanbaroDigital\Versions\VersionNumbers\Internal\Coercers;
 require_once(__DIR__ . '/../../../Datasets/SemanticVersionDatasets.php');
 
 use PHPUnit_Framework_TestCase;
-use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber

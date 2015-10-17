@@ -34,24 +34,24 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/VersionNumbers
+ * @package   Versions/SemanticVersions/Values
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\VersionTypes;
+namespace GanbaroDigital\Versions\SemanticVersions\Values;
 
 require_once(__DIR__ . '/../../Datasets/SemanticVersionDatasets.php');
 
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
-use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
+use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\VersionTYpes\SemanticVersion
+ * @coversDefaultClass GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion
  */
 class SemanticVersionTest extends PHPUnit_Framework_TestCase
 {

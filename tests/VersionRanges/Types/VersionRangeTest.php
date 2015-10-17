@@ -43,9 +43,9 @@
 
 namespace GanbaroDigital\Versions\VersionRanges\Types;
 
+use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\Operators\EqualTo;
 use GanbaroDigital\Versions\VersionNumbers\Operators\LessThan;
-use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionRanges\Parsers\ParseVersionRange;
 
 use PHPUnit_Framework_TestCase;

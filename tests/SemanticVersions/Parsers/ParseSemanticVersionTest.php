@@ -34,14 +34,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Parsers
+ * @package   Versions/SemanticVersions/Parsers
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\Parsers;
+namespace GanbaroDigital\Versions\SemanticVersions\Parsers;
 
 // because PHPUnit hates the PSR autoloader
 require_once(__DIR__ . "/../../Datasets/SemanticVersionDatasets.php");
@@ -50,7 +50,7 @@ use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\DataSets\SemanticVersionDatasets;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion
+ * @coversDefaultClass GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion
  */
 class ParseSemanticVersionTest extends PHPUnit_Framework_TestCase
 {

@@ -34,19 +34,20 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Parsers
+ * @package   Versions/SemanticVersions/Parsers
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\Parsers;
+namespace GanbaroDigital\Versions\SemanticVersions\Parsers;
 
 use GanbaroDigital\Reflection\Requirements\RequireStringy;
 use GanbaroDigital\Versions\Exceptions\E4xx_BadVersionString;
 use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionString;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
+use GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 
 class ParseSemanticVersion implements VersionParser
 {

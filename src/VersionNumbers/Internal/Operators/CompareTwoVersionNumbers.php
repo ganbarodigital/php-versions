@@ -46,7 +46,7 @@ namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
  * Helper for operators that compare two numbers against each other

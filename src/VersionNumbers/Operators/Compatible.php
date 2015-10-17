@@ -44,7 +44,7 @@
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
 use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
  * Represents a version number

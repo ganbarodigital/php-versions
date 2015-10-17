@@ -34,30 +34,30 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Internal
+ * @package   Versions/SemanticVersions/Internal
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators;
+namespace GanbaroDigital\Versions\SemanticVersions\Internal\Operators;
 
 use PHPUnit_Framework_TestCase;
+
 use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 
 /**
- * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators\CompareTwoPreReleases
+ * @coversDefaultClass GanbaroDigital\Versions\SemanticVersions\Internal\Operators\CompareTwoPreReleaseParts
  */
-class CompareTwoPreReleasesTest extends PHPUnit_Framework_TestCase
+class CompareTwoPreReleasePartsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @covers ::calculate
-     * @covers ::hasPreReleasesToCompare
-     * @covers ::calculatePreReleaseDifference
-     * @covers ::comparePreReleases
-     * @covers ::comparePreReleaseParts
-     * @dataProvider providePreReleases
+     * @covers ::calculatePartDifference
+     * @covers ::compareTwoNumbers
+     * @covers ::compareTwoStrings
+     * @dataProvider providePreReleaseParts
      */
     public function testCanComparePreReleases($a, $b, $expectedResult)
     {
@@ -67,7 +67,7 @@ class CompareTwoPreReleasesTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = CompareTwoPreReleases::calculate($a, $b);
+        $actualResult = CompareTwoPreReleaseParts::calculate($a, $b);
 
         // ----------------------------------------------------------------
         // test the results
@@ -75,17 +75,11 @@ class CompareTwoPreReleasesTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $actualResult);
     }
 
-    public function providePreReleases()
+    public function providePreReleaseParts()
     {
         return [
-            [ null, null,    CompareTwoNumbers::BOTH_ARE_EQUAL ],
-            [ null, 'alpha', CompareTwoNumbers::A_IS_GREATER ],
-            [ 'alpha', null, CompareTwoNumbers::A_IS_LESS ],
             [ 'alpha', 'bravo', CompareTwoNumbers::A_IS_LESS ],
             [ 'bravo', 'alpha', CompareTwoNumbers::A_IS_GREATER ],
-            [ 'alpha.1', 'alpha.1.1', CompareTwoNumbers::A_IS_LESS ],
-            [ 'alpha.1.1', 'alpha.1', CompareTwoNumbers::A_IS_GREATER ],
-            [ 'alpha.1.1', 'alpha.1.1', CompareTwoNumbers::BOTH_ARE_EQUAL ],
             [ 'alpha', '123', CompareTwoNumbers::A_IS_GREATER ],
             [ '123', 'alpha', CompareTwoNumbers::A_IS_LESS ],
             [ '123', '123', CompareTwoNumbers::BOTH_ARE_EQUAL ],

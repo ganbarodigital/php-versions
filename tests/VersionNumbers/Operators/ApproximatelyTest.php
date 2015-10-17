@@ -47,7 +47,7 @@ require_once(__DIR__ . '/../../Datasets/SemanticVersionDatasets.php');
 
 use PHPUnit_Framework_TestCase;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
-use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
+use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\VersionNumbers\Operators\Approximately

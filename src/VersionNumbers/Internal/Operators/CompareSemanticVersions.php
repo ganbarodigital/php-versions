@@ -43,8 +43,8 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Internal\SemanticVersion\Operators\CompareTwoPreReleases;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\SemanticVersion;
+use GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion;
+use GanbaroDigital\Versions\SemanticVersions\Internal\Operators\CompareTwoPreReleases;
 
 /**
  * Compares two versions

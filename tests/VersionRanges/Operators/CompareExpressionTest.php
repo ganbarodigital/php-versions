@@ -43,8 +43,8 @@
 
 namespace GanbaroDigital\Versions\VersionRanges\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Parsers\ParseSemanticVersion;
-use GanbaroDigital\Versions\VersionNumbers\VersionTypes\VersionNumber;
+use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 use GanbaroDigital\Versions\VersionRanges\Parsers\ParseComparisonExpression;
 use GanbaroDigital\Versions\VersionRanges\Types\ComparisonExpression;
 
