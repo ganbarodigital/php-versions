@@ -53,13 +53,15 @@ interface Operator
     /**
      * compare two version numbers
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if the comparison passes
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b);
+    public static function calculate($a, $b, VersionParser $parser = null);
 }
