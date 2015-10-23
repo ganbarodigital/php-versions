@@ -83,11 +83,12 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
         // setup your test
 
         $obj = new EnsureCompatibleVersionNumber;
+        $parser = new ParseSemanticVersion;
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = $obj($expectedResult, $data);
+        $actualResult = $obj($expectedResult, $data, $parser);
 
         // ----------------------------------------------------------------
         // test the results
@@ -105,10 +106,12 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
+        $parser = new ParseSemanticVersion;
+
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = EnsureCompatibleVersionNumber::from($expectedResult, $data);
+        $actualResult = EnsureCompatibleVersionNumber::from($expectedResult, $data, $parser);
 
         // ----------------------------------------------------------------
         // test the results
@@ -126,10 +129,12 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
         // ----------------------------------------------------------------
         // setup your test
 
+        $parser = new ParseSemanticVersion;
+
         // ----------------------------------------------------------------
         // perform the change
 
-        $actualResult = EnsureCompatibleVersionNumber::from($expectedResult, $data);
+        $actualResult = EnsureCompatibleVersionNumber::from($expectedResult, $data, $parser);
 
         // ----------------------------------------------------------------
         // test the results
@@ -140,19 +145,21 @@ class EnsureCompatibleVersionNumberTest extends PHPUnit_Framework_TestCase
 
     /**
      * @covers ::from
-     * @expectedException GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType
+     * @expectedException GanbaroDigital\Versions\Exceptions\E4xx_IncompatibleVersionNumbers
+     * @expectedExceptionMessage RHS (of type 'GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion') is not compatible with LHS (of type 'GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\FakeVersionNumber')
      */
-    public function testThrowsExceptionWhenNoCoercerFound()
+    public function testThrowsExceptionWhenTypesAreNotCompatible()
     {
         // ----------------------------------------------------------------
         // setup your test
 
         $version = new FakeVersionNumber;
+        $parser = new ParseSemanticVersion;
 
         // ----------------------------------------------------------------
         // perform the change
 
-        EnsureCompatibleVersionNumber::from($version, '1.0.0');
+        EnsureCompatibleVersionNumber::from($version, '1.0.0', $parser);
     }
 
     public function provideVersionNumbers()

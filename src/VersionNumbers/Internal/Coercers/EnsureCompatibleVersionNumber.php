@@ -43,10 +43,13 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Internal\Coercers;
 
+use GanbaroDigital\Versions\Exceptions\E4xx_IncompatibleVersionNumbers;
 use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionNumber;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedVersionNumber;
 use GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion;
+use GanbaroDigital\Versions\VersionNumbers\Checks\VersionNumbersAreCompatible;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
@@ -67,20 +70,23 @@ class EnsureCompatibleVersionNumber
      *         a version number
      * @param  VersionNumber|string $b
      *         a second version number
+     * @param  VersionParser|null $parser
+     *         the parser to use if $b is a string
      * @return VersionNumber
      *         a version number with the value of $b, compatible with $a
      */
-    public static function from(VersionNumber $a, $b)
+    public static function from(VersionNumber $a, $b, VersionParser $parser = null)
     {
-        // what is the name of the coercer that we need to use?
-        $className = __NAMESPACE__ . '\Ensure' . FilterNamespace::fromString(get_class($a));
-        if (!class_exists($className)) {
-            throw new E4xx_UnsupportedType(get_class($a));
+        // convert $b to a string if needed
+        $bObj = EnsureVersionNumber::from($b, $parser);
+
+        // do we have a match?
+        if (VersionNumbersAreCompatible::check($a, $bObj)) {
+            return $bObj;
         }
 
-        $coercer = new $className();
-        $retval = $coercer($b);
-        return $retval;
+        // if we get here, then no we do not
+        throw new E4xx_IncompatibleVersionNumbers($a, $bObj);
     }
 
     /**
@@ -94,11 +100,14 @@ class EnsureCompatibleVersionNumber
      *         a version number
      * @param  VersionNumber|string $b
      *         a second version number
+     * @param  VersionParser|null $parser
+     *         the parser to use if $b is a string
      * @return VersionNumber
      *         a version number with the value of $b, compatible with $a
      */
-    public function __invoke($a, $b)
+
+    public function __invoke(VersionNumber $a, $b, VersionParser $parser = null)
     {
-        return self::from($a, $b);
+        return self::from($a, $b, $parser);
     }
 }
