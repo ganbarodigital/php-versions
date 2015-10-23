@@ -63,7 +63,7 @@ class E4xx_IncompatibleVersionNumbers extends E4xx_VersionsException
             'typeA' => SimpleType::from($a),
             'typeB' => SimpleType::from($b),
         ];
-        $msg = "RHS (of type '" . $msgData['typeB'] . "') is not compatible with LHS (of type'" . $msgData['typeB'] . "')";
+        $msg = "RHS (of type '" . $msgData['typeB'] . "') is not compatible with LHS (of type '" . $msgData['typeA'] . "')";
         parent::__construct(400, $msg, $msgData);
     }
 }
