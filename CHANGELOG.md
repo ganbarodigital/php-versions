@@ -6,6 +6,7 @@
 
 * Reusable dataset for testing hashed versions
 * Exceptions\E4xx_UnsupportedOperation - added
+* HashedVersions\Operations\CompareHashedVersions - added
 * HashedVersions\Parsers\ParseHashedVersion - added
 * HashedVersions\Values\HashedVersion - added
 
