@@ -45,6 +45,7 @@ namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use GanbaroDigital\Versions\VersionNumbers\Maps\GetVersionComparitor;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
@@ -94,42 +95,9 @@ class CompareTwoVersionNumbers
      */
     public static function calculate(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
-        $operator = self::getComparitorFor($a);
+        $operator = GetVersionComparitor::matching($a);
         $result = $operator($a, $b);
 
         return $resultsMap[$result];
-    }
-
-    /**
-     * which class should we use to compare $a against another version number?
-     *
-     * @param  VersionNumber $a
-     *         the type of version number we want to compare something
-     *         against
-     * @return object
-     */
-    private static function getComparitorFor(VersionNumber $a)
-    {
-        // make sure $a is supported
-        $type = FilterNamespace::fromString(get_class($a));
-
-        $className = 'GanbaroDigital\\Versions\\'. $type . 's\\Operators\\Compare' . $type . 's';
-        if (!class_exists($className)) {
-            throw new E4xx_UnsupportedType(get_class($a));
-        }
-
-        return new $className;
-    }
-
-    /**
-     * compare two version numbers
-     *
-     * @param  VersionNumber $a
-     * @param  VersionNumber $b
-     * @param  array $resultsMap
-     * @return boolean
-     */
-    private static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
-    {
     }
 }
