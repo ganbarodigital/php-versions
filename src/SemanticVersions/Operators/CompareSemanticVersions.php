@@ -43,9 +43,9 @@
 
 namespace GanbaroDigital\Versions\SemanticVersions\Operators;
 
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
 use GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion;
 use GanbaroDigital\Versions\SemanticVersions\Internal\Operators\CompareTwoPreReleases;
-use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 
 /**
  * Compares two versions

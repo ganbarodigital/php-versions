@@ -43,7 +43,7 @@
 
 namespace GanbaroDigital\Versions\SemanticVersions\Internal\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
 
 /**
  * Compares two versions

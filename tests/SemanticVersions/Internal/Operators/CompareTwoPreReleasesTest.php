@@ -44,7 +44,7 @@
 namespace GanbaroDigital\Versions\SemanticVersions\Internal\Operators;
 
 use PHPUnit_Framework_TestCase;
-use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
 
 /**
  * @coversDefaultClass GanbaroDigital\Versions\SemanticVersions\Internal\Operators\CompareTwoPreReleases

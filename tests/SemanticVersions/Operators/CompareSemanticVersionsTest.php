@@ -43,9 +43,9 @@
 
 namespace GanbaroDigital\Versions\SemanticVersions\Operators;
 
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
 use GanbaroDigital\Versions\Datasets\SemanticVersionDatasets;
 use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
-use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 use PHPUnit_Framework_TestCase;
 
 require_once(__DIR__ . "/../../Datasets/SemanticVersionDatasets.php");
