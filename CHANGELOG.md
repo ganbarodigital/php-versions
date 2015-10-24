@@ -2,7 +2,11 @@
 
 ## develop branch
 
-Nothing yet.
+### New
+
+* Initial support for generic version numbers
+* Initial support for Semantic Version numbers
+* Initial support for version range expressions
 
 ## 0.1.0 - Sun Jun 28 2015
 
