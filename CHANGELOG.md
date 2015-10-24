@@ -2,7 +2,9 @@
 
 ## develop branch
 
-Nothing yet.
+### New
+
+* Reusable dataset for testing hashed versions
 
 ## 1.0.0 - Sat Oct 24 2015
 
