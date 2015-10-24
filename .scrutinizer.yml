@@ -16,6 +16,7 @@ filter:
 
 checks:
     php:
+        duplication: false
         verify_access_scope_valid: true
         variable_existence: true
         useless_calls: true
