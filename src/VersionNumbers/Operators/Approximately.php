@@ -43,7 +43,9 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
@@ -60,17 +62,19 @@ class Approximately implements Operator
      * - you can only use the ~ operator to pin down which major / minor
      *   version to limit to, not the preRelease level
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calcuation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a ~= $b
      *         FALSE otherwise
      */
-    public function __invoke(VersionNumber $a, $b)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
-        return self::calculate($a, $b);
+        return self::calculate($a, $b, $parser);
     }
 
     /**
@@ -82,20 +86,23 @@ class Approximately implements Operator
      * - you can only use the ~ operator to pin down which major / minor
      *   version to limit to, not the preRelease level
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calcuation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a ~= $b
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    public static function calculate($a, $b, VersionParser $parser = null)
     {
+        $aObj = EnsureVersionNumber::from($a, $parser);
         $bObj = EnsureCompatibleVersionNumber::from($a, $b);
 
         $c = $bObj->getApproximateUpperBoundary();
 
-        return InBetween::calculate($a, $bObj, $c);
+        return InBetween::calculate($aObj, $bObj, $c);
     }
 }
