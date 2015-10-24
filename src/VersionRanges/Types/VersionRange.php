@@ -34,32 +34,69 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionRanges
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionRanges\Types;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use ArrayIterator;
+use GanbaroDigital\Reflection\Requirements\RequireObjectOfType;
+use GanbaroDigital\Reflection\Requirements\RequireTraversable;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use IteratorAggregate;
+use Traversable;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Represents a parsed range of versions
+ */
+class VersionRange implements IteratorAggregate
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * a list of one or more range expressions
+     *
+     * @var array
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    private $rangeExpressions = [];
+
+    /**
+     * our constructor
+     *
+     * @param array<ComparisonExpression> $rangeExpressions
+     *        the list of comparison expressions that make up this version range
+     */
+    public function __construct($rangeExpressions)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        // robustness
+        RequireTraversable::check($rangeExpressions, E4xx_UnsupportedType::class);
+
+        $this->rangeExpressions = [];
+        foreach ($rangeExpressions as $rangeExpression) {
+            RequireObjectOfType::check($rangeExpression, ComparisonExpression::class, E4xx_UnsupportedType::class);
+            $this->rangeExpressions[] = $rangeExpression;
+        }
+    }
+
+    /**
+     * support foreach() loops over our data
+     *
+     * @return Traversable
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->rangeExpressions);
+    }
+
+    /**
+     * return our data as an array
+     *
+     * @return array<ComparisonExpression>
+     */
+    public function toArray()
+    {
+        return $this->rangeExpressions;
     }
 }

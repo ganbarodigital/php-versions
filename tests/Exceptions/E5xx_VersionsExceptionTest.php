@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2015-present Ganbaro Digital Ltd.
+ * Copyright (c) 2015-present Ganbaro Digital Ltd
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -16,7 +16,7 @@
  *     the documentation and/or other materials provided with the
  *     distribution.
  *
- *   * Neither the name of the copyright holders nor the names of the
+ *   * Neither the names of the copyright holders nor the names of his
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
  *
@@ -43,23 +43,49 @@
 
 namespace GanbaroDigital\Versions\Exceptions;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use PHPUnit_Framework_TestCase;
+use RuntimeException;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * @coversDefaultClass GanbaroDigital\Versions\Exceptions\E5xx_VersionsException
+ */
+class E5xx_VersionsExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * @covers ::__construct
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function testCanInstantiate()
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $expectedCode = 100;
+        $expectedMessage = "hello cruel world";
+
+        $obj = new E5xx_VersionsException($expectedCode, $expectedMessage);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof E5xx_VersionsException);
+    }
+
+    /**
+     * @covers ::__construct
+     */
+    public function testExtendsExxx_VersionsException()
+    {
+        // ----------------------------------------------------------------
+        // setup your test
+
+        $expectedCode = 100;
+        $expectedMessage = "hello cruel world";
+
+        $obj = new E5xx_VersionsException($expectedCode, $expectedMessage);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertTrue($obj instanceof Exxx_VersionsException);
     }
 }

@@ -34,32 +34,73 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionRanges
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionRanges\Parsers;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use GanbaroDigital\Reflection\Requirements\RequireStringy;
+use GanbaroDigital\TextTools\Filters\FilterOutEmptyValues;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
+use GanbaroDigital\Versions\VersionRanges\Types\VersionRange;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Parse a version range expression
+ */
+class ParseVersionRange
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * turn one or more comparison strings into a VersionRangeList object
+     *
+     * e.g.
+     *
+     *     >= 1.0.0, <2.0, !1.5.9
+     *     ~1.1
+     *
+     * @param  string $expression
+     *         the string to parse
+     * @param  VersionParser $parser
+     *         the parser to use on the version numbers
+     * @return VersionRange
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __invoke($expression, VersionParser $parser)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::from($expression, $parser);
+    }
+
+    /**
+     * turn one or more comparison strings into a VersionRangeList object
+     *
+     * e.g.
+     *
+     *     >= 1.0.0, <2.0, !1.5.9
+     *     ~1.1
+     *
+     * @param  string $expression
+     *         the string to parse
+     * @param  VersionParser $parser
+     *         the parser to use on the version numbers
+     * @return VersionRange
+     */
+    public static function from($expression, VersionParser $parser)
+    {
+        // robustness!
+        RequireStringy::check($expression, E4xx_UnsupportedType::class);
+
+        // our final list
+        $list = [];
+
+        $parts = explode(",", (string)$expression);
+        $parts = FilterOutEmptyValues::from($parts);
+        foreach ($parts as $part) {
+            $list[] = ParseComparisonExpression::from(trim($part), $parser);
+        }
+
+        return new VersionRange($list);
     }
 }

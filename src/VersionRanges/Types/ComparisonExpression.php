@@ -34,32 +34,68 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionRanges
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionRanges\Types;
 
+use GanbaroDigital\Reflection\Requirements\RequireTraversable;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use GanbaroDigital\Versions\VersionNumbers\Operators\Operator;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Represents a single parsed claused of a version range
+ */
+class ComparisonExpression
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * the operator part of the expression
+     * @var Operator
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    private $operator;
+
+    /**
+     * the version number part of the expression
+     * @var VersionNumber
+     */
+    private $version;
+
+    /**
+     * create an expression
+     *
+     * @param Operator      $operator
+     *        the operator component
+     * @param VersionNumber $version
+     *        the version number component
+     */
+    public function __construct(Operator $operator, VersionNumber $version)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        $this->operator = $operator;
+        $this->version  = $version;
+    }
+
+    /**
+     * what is the operator from this expression?
+     *
+     * @return Operator
+     */
+    public function getOperator()
+    {
+        return $this->operator;
+    }
+
+    /**
+     * what is the version number from this expression?
+     *
+     * @return VersionNumber
+     */
+    public function getVersionNumber()
+    {
+        return $this->version;
     }
 }

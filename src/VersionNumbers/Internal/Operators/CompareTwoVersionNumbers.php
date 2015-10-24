@@ -34,32 +34,70 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionNumbers
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 
+use GanbaroDigital\Reflection\Filters\FilterNamespace;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use GanbaroDigital\Versions\VersionNumbers\Maps\GetVersionComparitor;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Helper for operators that compare two version numbers against each other
+ */
+class CompareTwoVersionNumbers
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * returned from self::compare() when $a is the smaller version
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    const A_IS_LESS = -1;
+
+    /**
+     * returned from self::compare() when $a and $b are the same version
+     */
+    const BOTH_ARE_EQUAL = 0;
+
+    /**
+     * returned from self::compare() when $a is the larger version
+     */
+    const A_IS_GREATER = 1;
+
+    /**
+     * compare $a to $b
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber $b
+     *         the RHS of this calculation
+     * @param  array $resultsMap
+     *         maps the constants above onto true/false values
+     * @return boolean
+     */
+    public function __invoke(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::calculate($a, $b, $resultsMap);
+    }
+
+    /**
+     * compare $a to $b
+     *
+     * @param  VersionNumber $a
+     *         the LHS of this calculation
+     * @param  VersionNumber $b
+     *         the RHS of this calculation
+     * @return boolean
+     */
+    public static function calculate(VersionNumber $a, VersionNumber $b, array $resultsMap)
+    {
+        $operator = GetVersionComparitor::matching($a);
+        $result = $operator($a, $b);
+
+        return $resultsMap[$result];
     }
 }

@@ -34,32 +34,66 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/Operators
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Operation on a version number
+ */
+class InBetween
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * is $a in between $b and $c, such that $b < $a < $c is true?
+     *
+     * @param  VersionNumber $a the version number to test
+     * @param  VersionNumber $b the minimum boundary
+     * @param  VersionNumber $c the maximum boundary
+     * @return boolean
+     *         TRUE if $b < $a < $c
+     *         FALSE otherwise
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __invoke(VersionNumber $a, VersionNumber $b, VersionNumber $c)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::calculate($a, $b, $c);
+    }
+
+    /**
+     * is $a in between $b and $c, such that $b < $a < $c is true?
+     *
+     * @param  VersionNumber $a the version number to test
+     * @param  VersionNumber $b the minimum boundary
+     * @param  VersionNumber $c the maximum boundary
+     * @return boolean
+     *         TRUE if $b < $a < $c
+     *         FALSE otherwise
+     */
+    public static function calculate(VersionNumber $a, VersionNumber $b, VersionNumber $c)
+    {
+        // we turn this into two tests:
+        //
+        // $a has to be >= $b, and
+        // $a has to be < $c
+        $res = GreaterThanOrEqualTo::calculate($a, $b);
+        if (!$res) {
+            return false;
+        }
+
+        // is $c within our upper boundary?
+        $res = LessThan::calculate($a, $c);
+        if (!$res) {
+            return false;
+        }
+
+        // finally, a special case
+        // avoid installing an unstable version of the upper boundary
+        return !PreReleaseOf::calculate($a, $c);
     }
 }

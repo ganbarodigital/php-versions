@@ -34,32 +34,56 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/SemanticVersions/Internal
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\SemanticVersions\Internal\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use PHPUnit_Framework_TestCase;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
+
+/**
+ * @coversDefaultClass GanbaroDigital\Versions\SemanticVersions\Internal\Operators\CompareTwoPreReleaseParts
+ */
+class CompareTwoPreReleasePartsTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * @covers ::calculate
+     * @covers ::calculatePartDifference
+     * @dataProvider providePreReleaseParts
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function testCanComparePreReleases($a, $b, $expectedResult)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        // ----------------------------------------------------------------
+        // setup your test
+
+        // ----------------------------------------------------------------
+        // perform the change
+
+        $actualResult = CompareTwoPreReleaseParts::calculate($a, $b);
+
+        // ----------------------------------------------------------------
+        // test the results
+
+        $this->assertEquals($expectedResult, $actualResult);
     }
+
+    public function providePreReleaseParts()
+    {
+        return [
+            [ 'alpha', 'bravo', CompareTwoNumbers::A_IS_LESS ],
+            [ 'bravo', 'alpha', CompareTwoNumbers::A_IS_GREATER ],
+            [ 'alpha', '123', CompareTwoNumbers::A_IS_GREATER ],
+            [ '123', 'alpha', CompareTwoNumbers::A_IS_LESS ],
+            [ '123', '123', CompareTwoNumbers::BOTH_ARE_EQUAL ],
+            [ '123', '1234', CompareTwoNumbers::A_IS_LESS ],
+            [ '1234', '123', CompareTwoNumbers::A_IS_GREATER ],
+        ];
+    }
+
 }

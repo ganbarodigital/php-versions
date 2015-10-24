@@ -34,32 +34,67 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/Operators
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureVersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoVersionNumbers;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Represents a version number
+ */
+class PreReleaseOf implements Operator
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * is $a a pre-release of $b?
+     *
+     * @param  VersionNumber|string $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
+     * @return boolean
+     *         TRUE if $a < $b
+     *         FALSE otherwise
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::calculate($a, $b, $parser);
+    }
+
+    /**
+     * is $a a pre-release of $b?
+     *
+     * @param  VersionNumber|string $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
+     * @return boolean
+     *         TRUE if $a < $b
+     *         FALSE otherwise
+     */
+    public static function calculate($a, $b, VersionParser $parser = null)
+    {
+        $aObj = EnsureVersionNumber::from($a, $parser);
+        $bObj = EnsureCompatibleVersionNumber::from($aObj, $b, $parser);
+
+        // quickest test of all ... is $a a pre-release?
+        if (!$aObj->hasPreRelease()) {
+            return false;
+        }
+
+        return SameVersion::calculate($aObj, $bObj);
     }
 }

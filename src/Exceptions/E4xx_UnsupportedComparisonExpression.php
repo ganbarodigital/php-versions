@@ -43,23 +43,16 @@
 
 namespace GanbaroDigital\Versions\Exceptions;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+class E4xx_UnsupportedComparisonExpression extends E4xx_VersionsException
 {
-    /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
-     */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __construct($expression)
     {
         $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
+            'expression' => $expression,
         ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
+        $msg = "Unsupported range expression '{$expression}'";
         parent::__construct(400, $msg, $msgData);
     }
 }

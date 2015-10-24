@@ -34,32 +34,68 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionRanges
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionRanges\Operators;
 
+use GanbaroDigital\Reflection\Requirements\RequireTraversable;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use GanbaroDigital\Versions\VersionNumbers\Operators\Operator;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use GanbaroDigital\Versions\VersionRanges\Types\ComparisonExpression;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Compare an expression against a version number
+ */
+class CompareExpression
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * test a version number against a comparison expression
+     *
+     * a comparison expression is normally of the form
+     *
+     *   = 1.0.0
+     *   > 1.0.1
+     *   < 1.9.99
+     *
+     * @param  ComparisonExpression $expression
+     *         the expression to check $version against
+     * @param  VersionNumber $version
+     *         the version to test against $expression
+     * @return boolean
+     *         TRUE if $version passes the expression
+     *         FALSE otherwise
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __invoke(ComparisonExpression $expression, VersionNumber $version)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::calculate($expression, $version);
+    }
+
+    /**
+     * test a version number against a comparison expression
+     *
+     * a comparison expression is normally of the form
+     *
+     *   = 1.0.0
+     *   > 1.0.1
+     *   < 1.9.99
+     *
+     * @param  ComparisonExpression $expression
+     *         the expression to check $version against
+     * @param  VersionNumber $version
+     *         the version to test against $expression
+     * @return boolean
+     *         TRUE if $version passes the expression
+     *         FALSE otherwise
+     */
+    public static function calculate(ComparisonExpression $expression, VersionNumber $version)
+    {
+        $operator = $expression->getOperator();
+        return $operator($version, $expression->getVersionNumber());
     }
 }

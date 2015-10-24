@@ -34,32 +34,44 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionRanges
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\Datasets;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use PHPUnit_Framework_TestCase;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+class ComparisonOperatorsDatasets
 {
-    /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
-     */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    static public function getValidOperators()
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
+        return [
+            [ "=",  "equals" ],
+            [ ">",  "isGreaterThan" ],
+            [ ">=", "isGreaterThanOrEqualTo" ],
+            [ "<",  "isLessThan" ],
+            [ "<=", "isLessThanOrEqualTo" ],
+            [ "~",  "isApproximately" ],
+            [ "^",  "isCompatible" ],
+            [ "!",  "isNotBlacklisted" ]
         ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+    }
+
+    static public function getInvalidOperators()
+    {
+        return [
+            [ "£" ],
+            [ "#" ],
+            [ "$" ],
+            [ "%" ],
+            [ "&" ],
+            [ "*" ],
+            [ "(" ],
+            [ ")" ],
+        ];
     }
 }

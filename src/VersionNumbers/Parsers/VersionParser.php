@@ -34,32 +34,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/Parsers
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionNumbers\Parsers;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use GanbaroDigital\Reflection\Requirements\RequireStringy;
+use GanbaroDigital\Versions\Exceptions\E4xx_BadVersionString;
+use GanbaroDigital\Versions\Exceptions\E4xx_NotAVersionString;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+interface VersionParser
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * convert a string into a version number
+     *
+     * @param  string $versionString
+     *         the string to parse
+     *
+     * @return VersionNumber
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @throws E4xx_NotAVersionString
+     *         if we're asked to parse something that isn't a string
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
-    {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
-    }
+    public function __invoke($versionString);
+
+    /**
+     * convert a string into a version number
+     *
+     * @param  string $versionString
+     *         the string to parse
+     *
+     * @return VersionNumber
+     *
+     * @throws E4xx_BadVersionString
+     *         if we cannot parse $versionString
+     *
+     * @throws E4xx_NotAVersionString
+     *         if we're asked to parse something that isn't a string
+     */
+    public static function from($versionString);
 }

@@ -41,7 +41,7 @@
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\DataSets;
+namespace GanbaroDigital\Versions\Datasets;
 
 use PHPUnit_Framework_TestCase;
 
@@ -187,6 +187,81 @@ class SemanticVersionDatasets
         ];
     }
 
+    /**
+     * $a is always a pre-release of $b
+     *
+     * @return array
+     */
+    static public function getAlwaysPreReleaseDataset()
+    {
+        return [
+            [ "1.0-alpha-1", "1.0" ],
+            [ "1.0-alpha-1+R4", "1.0" ],
+            [ "1.0.0-alpha.1", "1.0.0" ],
+            [ "1.0.0-0.3.7", "1.0.0" ],
+            [ "1.0.0-beta+exp.sha.5114f85", "1.0.0" ],
+        ];
+    }
+
+    /**
+     * $a is never a pre-release of $b
+     *
+     * @return array
+     */
+    static public function getNeverPreReleaseDataset()
+    {
+        return [
+            [ "1.0", "1.0-alpha-1" ],
+            [ "1.0+R4", "1.0.1+R4" ],
+            [ "1.0+R5", "1.0.1+R4" ],
+            [ "0.1", "1.0" ],
+            [ "1.0", "1.1.0" ],
+            [ "1.0.0-beta+exp.sha.5114f85", "1.0.1" ],
+            [ "1.0", "2.0" ],
+            [ "1.99", "2.0" ],
+            [ "1.0-alpha-1", "1.1" ],
+            [ "1.0-alpha-1", "2.0" ],
+        ];
+    }
+
+    /**
+     * $a is always a pre-release of $b
+     *
+     * @return array
+     */
+    static public function getAlwaysSameVersionDataset()
+    {
+        return [
+            [ "1.0-alpha-1", "1.0" ],
+            [ "1.0", "1.0-alpha-1" ],
+            [ "1.0-alpha-1+R4", "1.0" ],
+            [ "1.0.0-alpha.1", "1.0.0" ],
+            [ "1.0.0-0.3.7", "1.0.0" ],
+            [ "1.0.0-beta+exp.sha.5114f85", "1.0.0" ],
+        ];
+    }
+
+    /**
+     * $a is never a pre-release of $b
+     *
+     * @return array
+     */
+    static public function getNeverSameVersionDataset()
+    {
+        return [
+            [ "1.0", "1.1-alpha-1" ],
+            [ "1.0+R4", "1.0.1+R4" ],
+            [ "1.0+R5", "1.0.1+R4" ],
+            [ "0.1", "1.0" ],
+            [ "1.0", "1.1.0" ],
+            [ "1.0.0-beta+exp.sha.5114f85", "1.0.1" ],
+            [ "1.0", "2.0" ],
+            [ "1.99", "2.0" ],
+            [ "1.0-alpha-1", "1.1" ],
+            [ "1.0-alpha-1", "2.0" ],
+        ];
+    }
+
     static public function getVersionNumberDataset()
     {
         return [
@@ -320,6 +395,19 @@ class SemanticVersionDatasets
         return [
             [ "00.0.1 "],
             [ "hello world!" ],
+        ];
+    }
+
+    static public function getVersionVariations($versionString)
+    {
+        return [
+            $versionString,
+            $versionString . ' ',
+            ' ' . $versionString,
+            ' ' . $versionString . ' ',
+            "\t" . $versionString,
+            "\t" . $versionString . "\t",
+            'v' . $versionString,
         ];
     }
 }

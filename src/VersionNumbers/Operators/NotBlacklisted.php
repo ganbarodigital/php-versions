@@ -34,32 +34,56 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/Operators
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Calculate if $a is blacklisted against $b
+ */
+class NotBlacklisted implements Operator
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * does $a not equal $b?
+     *
+     * @param  VersionNumber|string $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
+     * @return boolean
+     *         TRUE if $a == $b
+     *         FALSE otherwise
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::calculate($a, $b, $parser);
+    }
+
+    /**
+     * does $a not equal $b?
+     *
+     * @param  VersionNumber|string $a
+     *         the LHS of this calculation
+     * @param  VersionNumber|string $b
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
+     * @return boolean
+     *         TRUE if $a == $b
+     *         FALSE otherwise
+     */
+    public static function calculate($a, $b, VersionParser $parser = null)
+    {
+        return !EqualTo::calculate($a, $b, $parser);
     }
 }

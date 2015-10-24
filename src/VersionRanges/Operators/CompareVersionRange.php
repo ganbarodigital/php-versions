@@ -34,32 +34,61 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionRanges
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionRanges\Operators;
 
+use GanbaroDigital\Reflection\Requirements\RequireTraversable;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
+use GanbaroDigital\Versions\VersionNumbers\Operators\Operator;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use GanbaroDigital\Versions\VersionRanges\Types\VersionRange;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Compare a version number against a version range
+ */
+class CompareVersionRange
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * test a version number against a version range
+     *
+     * @param  VersionRange $range
+     *         the range to check $version against
+     * @param  VersionNumber $version
+     *         the version to test against $range
+     * @return boolean
+     *         TRUE if $version is inside the $range
+     *         FALSE otherwise
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __invoke(VersionRange $range, VersionNumber $version)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::calculate($range, $version);
+    }
+
+    /**
+     * test a version number against a version range
+     *
+     * @param  VersionRange $range
+     *         the range to check $version against
+     * @param  VersionNumber $version
+     *         the version to test against $range
+     * @return boolean
+     *         TRUE if $version is inside the $range
+     *         FALSE otherwise
+     */
+    public static function calculate(VersionRange $range, VersionNumber $version)
+    {
+        foreach ($range as $expression) {
+            if (!CompareExpression::calculate($expression, $version)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

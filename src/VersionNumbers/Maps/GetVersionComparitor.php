@@ -34,32 +34,50 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/VersionNumbers
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\VersionNumbers\Maps;
 
+use GanbaroDigital\Reflection\Filters\FilterNamespace;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+class GetVersionComparitor
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * get a version type-specific comparitor
+     *
+     * @param  VersionNumber $version
+     *         the version number we want a comparitor for
+     * @return object
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __invoke(VersionNumber $version)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        return self::matching($version);
+    }
+
+    /**
+     * get a version type-specific comparitor
+     *
+     * @param  VersionNumber $version
+     *         the version number we want a comparitor for
+     * @return object
+     */
+    public static function matching(VersionNumber $version)
+    {
+        // make sure $a is supported
+        $type = FilterNamespace::fromString(get_class($version));
+
+        $className = 'GanbaroDigital\\Versions\\'. $type . 's\\Operators\\Compare' . $type . 's';
+        if (!class_exists($className)) {
+            throw new E4xx_UnsupportedType(get_class($version));
+        }
+
+        return new $className;
     }
 }

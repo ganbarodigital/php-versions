@@ -34,32 +34,71 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Exceptions
+ * @package   Versions/SemanticVersions/Internal
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\Exceptions;
+namespace GanbaroDigital\Versions\SemanticVersions\Internal\Operators;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
+use GanbaroDigital\TextTools\Operators\CompareTwoStrings;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+/**
+ * Compares two versions
+ */
+class CompareTwoPreReleaseParts
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * compare a single part of a pre-release string
+     *
+     * each one of these can be:
+     *
+     * - a number (a string that's a number)
+     * - a string (a string that isn't a number)
+     *
+     * @param  string $aPart
+     * @param  string $bPart
+     * @return int
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public static function calculate($aPart, $bPart)
     {
-        $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
-        ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
-        parent::__construct(400, $msg, $msgData);
+        // what are we looking at?
+        $aPartIsNumeric = ctype_digit($aPart);
+        $bPartIsNumeric = ctype_digit($bPart);
+
+        if (!$aPartIsNumeric && !$bPartIsNumeric) {
+            // two strings to compare
+            return CompareTwoStrings::calculate($aPart, $bPart);
+        }
+
+        if (($retval = self::calculatePartDifference($aPartIsNumeric, $bPartIsNumeric)) !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
+            return $retval;
+        }
+
+        // at this point, we have two numbers
+        return CompareTwoNumbers::calculate($aPart, $bPart);
+    }
+
+    /**
+     * calculate score of mix of strings and numbers
+     *
+     * @param  boolean $aPartIsNumeric
+     * @param  boolean $bPartIsNumeric
+     * @return int
+     */
+    private static function calculatePartDifference($aPartIsNumeric, $bPartIsNumeric)
+    {
+        $retval = 0;
+        if ($aPartIsNumeric) {
+            $retval -= 1;
+        }
+        if ($bPartIsNumeric) {
+            $retval += 1;
+        }
+
+        return $retval;
     }
 }

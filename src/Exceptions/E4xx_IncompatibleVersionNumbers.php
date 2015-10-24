@@ -43,23 +43,27 @@
 
 namespace GanbaroDigital\Versions\Exceptions;
 
-use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
+use GanbaroDigital\Reflection\ValueBuilders\SimpleType;
+use GanbaroDigital\Versions\VersionNumbers\VersionNumber;
 
-class E4xx_UnsupportedVersionNumber extends E4xx_VersionsException
+class E4xx_IncompatibleVersionNumbers extends E4xx_VersionsException
 {
     /**
-     * @param VersionNumber $versionNumber
-     *        the unsupported type of version number
-     * @param array $supportedTypes
-     *        a list of version number types that are supported
+     * exception thrown when we have been given two version numbers that are
+     * not compatible with each other
+     *
+     * @param mixed $a
+     *        the LHS of the operation that was attempted
+     * @param mixed $b
+     *        the RHS of the operation that was attempted
      */
-    public function __construct(VersionNumber $versionNumber, $supportedTypes)
+    public function __construct($a, $b)
     {
         $msgData = [
-            'versionNumber' => $versionNumber,
-            'supportedTypes' => $supportedTypes,
+            'typeA' => SimpleType::from($a),
+            'typeB' => SimpleType::from($b),
         ];
-        $msg = "Unsupported type '" . get_class($versionNumber) . "'; supported types are: {$supportedTypes}";
+        $msg = "RHS (of type '" . $msgData['typeB'] . "') is not compatible with LHS (of type '" . $msgData['typeA'] . "')";
         parent::__construct(400, $msg, $msgData);
     }
 }
