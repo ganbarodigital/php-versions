@@ -43,7 +43,10 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureVersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoVersionNumbers;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
@@ -64,33 +67,39 @@ class LessThanOrEqualTo implements Operator
     /**
      * is $a <= $b?
      *
-     * @param  VersionNumber $a
-     *         the LHS of this operation
+     * @param  VersionNumber|string $a
+     *         the LHS of this calculation
      * @param  VersionNumber|string $b
-     *         the RHS of this operation
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a <= $b
      *         FALSE otherwise
      */
-    public function __invoke(VersionNumber $a, $b)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
-        return self::calculate($a, $b);
+        return self::calculate($a, $b, $parser);
     }
 
     /**
      * is $a <= $b?
      *
-     * @param  VersionNumber $a
-     *         the LHS of this operation
+     * @param  VersionNumber|string $a
+     *         the LHS of this calculation
      * @param  VersionNumber|string $b
-     *         the RHS of this operation
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a <= $b
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    public static function calculate($a, $b, VersionParser $parser = null)
     {
-        return CompareTwoVersionNumbers::calculateWithMap($a, $b, self::$resultsMap);
-    }
+        $aObj = EnsureVersionNumber::from($a, $parser);
+        $bObj = EnsureCompatibleVersionNumber::from($aObj, $b, $parser);
 
+        return CompareTwoVersionNumbers::calculateWithMap($aObj, $bObj, self::$resultsMap);
+    }
 }
