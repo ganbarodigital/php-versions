@@ -43,6 +43,8 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Maps;
 
+use GanbaroDigital\Versions\HashedVersions\Operators\CompareHashedVersions;
+use GanbaroDigital\Versions\HashedVersions\Values\HashedVersion;
 use GanbaroDigital\Versions\SemanticVersions\Operators\CompareSemanticVersions;
 use GanbaroDigital\Versions\SemanticVersions\Parsers\ParseSemanticVersion;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
@@ -136,6 +138,7 @@ class GetVersionComparitorTest extends PHPUnit_Framework_TestCase
     {
         return [
             [ ParseSemanticVersion::from("1.0"), CompareSemanticVersions::class ],
+            [ new HashedVersion("abcdef"), CompareHashedVersions::class ],
         ];
     }
 }
