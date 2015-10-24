@@ -43,6 +43,7 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
@@ -53,32 +54,36 @@ class NotBlacklisted implements Operator
     /**
      * does $a not equal $b?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a == $b
      *         FALSE otherwise
      */
-    public function __invoke(VersionNumber $a, $b)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
-        return self::calculate($a, $b);
+        return self::calculate($a, $b, $parser);
     }
 
     /**
      * does $a not equal $b?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a == $b
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    public static function calculate($a, $b, VersionParser $parser = null)
     {
-        return !EqualTo::calculate($a, $b);
+        return !EqualTo::calculate($a, $b, $parser);
     }
 }
