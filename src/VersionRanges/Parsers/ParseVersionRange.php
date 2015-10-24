@@ -66,7 +66,7 @@ class ParseVersionRange
      *         the string to parse
      * @param  VersionParser $parser
      *         the parser to use on the version numbers
-     * @return array<VersionRangeExpressionPart>
+     * @return VersionRange
      */
     public function __invoke($expression, VersionParser $parser)
     {
@@ -85,7 +85,7 @@ class ParseVersionRange
      *         the string to parse
      * @param  VersionParser $parser
      *         the parser to use on the version numbers
-     * @return array<VersionRangeExpressionPart>
+     * @return VersionRange
      */
     public static function from($expression, VersionParser $parser)
     {

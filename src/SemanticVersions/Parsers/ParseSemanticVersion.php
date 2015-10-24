@@ -67,7 +67,7 @@ class ParseSemanticVersion implements VersionParser
      * @param  string $versionString
      *         the string to parse
      *
-     * @return VersionNumber
+     * @return SemanticVersion
      *
      * @throws E4xx_BadVersionString
      *         if we cannot parse $versionString
@@ -87,7 +87,7 @@ class ParseSemanticVersion implements VersionParser
      * @param  string $versionString
      *         the string to parse
      *
-     * @return VersionNumber
+     * @return SemanticVersion
      *
      * @throws E4xx_BadVersionString
      *         if we cannot parse $versionString

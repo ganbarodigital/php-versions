@@ -67,7 +67,7 @@ class Compatible implements Operator
      *         TRUE if $a is compatible with $b
      *         FALSE otherwise
      */
-    public function __invoke($a, $b, VersionNumber $parser = null)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
         return self::calculate($a, $b, $parser);
     }

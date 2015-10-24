@@ -106,7 +106,7 @@ class CompareTwoVersionNumbers
      * @param  VersionNumber $a
      *         the type of version number we want to compare something
      *         against
-     * @return string
+     * @return object
      */
     private static function getComparitorFor(VersionNumber $a)
     {

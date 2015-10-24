@@ -79,7 +79,7 @@ class GreaterThan implements Operator
      */
     public function __invoke($a, $b, VersionParser $parser = null)
     {
-        return self::calculate($a, $b);
+        return self::calculate($a, $b, $parser);
     }
 
    /**

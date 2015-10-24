@@ -99,7 +99,7 @@ class Approximately implements Operator
     public static function calculate($a, $b, VersionParser $parser = null)
     {
         $aObj = EnsureVersionNumber::from($a, $parser);
-        $bObj = EnsureCompatibleVersionNumber::from($a, $b);
+        $bObj = EnsureCompatibleVersionNumber::from($aObj, $b);
 
         $c = $bObj->getApproximateUpperBoundary();
 
