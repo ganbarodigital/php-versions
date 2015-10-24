@@ -94,7 +94,8 @@ class VersionNumbersAreCompatibleTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::from
+     * @covers ::check
+     * @covers ::getCompatibleVersionSubclasses
      * @dataProvider provideVersionNumbers
      */
     public function testCanCallStatically($lhs, $rhs, $expectedResult)

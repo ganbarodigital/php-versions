@@ -71,7 +71,7 @@ class EnsureVersionNumberTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers ::fromSemanticVersion
+     * @covers ::fromVersionNumber
      */
     public function testReturnsSemanticVersionWithoutModification()
     {
