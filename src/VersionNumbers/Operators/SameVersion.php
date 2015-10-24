@@ -43,7 +43,10 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoVersionNumbers;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
@@ -54,44 +57,49 @@ class SameVersion implements Operator
     /**
      * is $a the same version as $b, discounting the pre-release string?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a == $b (discounting pre-release string)
      *         FALSE otherwise
      */
-    public function __invoke(VersionNumber $a, $b)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
-        return self::calculate($a, $b);
+        return self::calculate($a, $b, $parser);
     }
 
     /**
      * is $a the same version as $b, discounting the pre-release string?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a == $b (discounting pre-release string)
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    public static function calculate($a, $b, VersionParser $parser = null)
     {
         // make sure we have something we can use
-        $bObj = EnsureCompatibleVersionNumber::from($a, $b);
+        $aObj = EnsureVersionNumber::from($a, $parser);
+        $bObj = EnsureCompatibleVersionNumber::from($aObj, $b, $parser);
 
-        if ($a->getMajor() != $bObj->getMajor()) {
+        if ($aObj->getMajor() != $bObj->getMajor()) {
             return false;
         }
 
-        if ($a->getMinor() != $bObj->getMinor()) {
+        if ($aObj->getMinor() != $bObj->getMinor()) {
             return false;
         }
 
-        if ($a->getPatchLevel() != $bObj->getPatchLevel()) {
+        if ($aObj->getPatchLevel() != $bObj->getPatchLevel()) {
             return false;
         }
 
