@@ -100,6 +100,6 @@ class LessThan implements Operator
         $aObj = EnsureVersionNumber::from($a, $parser);
         $bObj = EnsureCompatibleVersionNumber::from($aObj, $b, $parser);
 
-        return CompareTwoVersionNumbers::calculateWithMap($aObj, $bObj, self::$resultsMap);
+        return CompareTwoVersionNumbers::calculate($aObj, $bObj, self::$resultsMap);
     }
 }

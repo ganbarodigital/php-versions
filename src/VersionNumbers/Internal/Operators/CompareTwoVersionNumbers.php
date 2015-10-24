@@ -45,11 +45,10 @@ namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
 
 use GanbaroDigital\Reflection\Filters\FilterNamespace;
 use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedType;
-use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
- * Helper for operators that compare two numbers against each other
+ * Helper for operators that compare two version numbers against each other
  */
 class CompareTwoVersionNumbers
 {
@@ -73,15 +72,15 @@ class CompareTwoVersionNumbers
      *
      * @param  VersionNumber $a
      *         the LHS of this calculation
-     * @param  VersionNumber|string $b
+     * @param  VersionNumber $b
      *         the RHS of this calculation
      * @param  array $resultsMap
      *         maps the constants above onto true/false values
      * @return boolean
      */
-    public function __invoke(VersionNumber $a, $b, array $resultsMap)
+    public function __invoke(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
-        return self::calculateWithMap($a, $b, $resultsMap);
+        return self::calculate($a, $b, $resultsMap);
     }
 
     /**
@@ -89,18 +88,16 @@ class CompareTwoVersionNumbers
      *
      * @param  VersionNumber $a
      *         the LHS of this calculation
-     * @param  VersionNumber|string $b
+     * @param  VersionNumber $b
      *         the RHS of this calculation
      * @return boolean
      */
-    public static function calculateWithMap(VersionNumber $a, $b, array $resultsMap)
+    public static function calculate(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
-        // turn $b into something we can use
-        $bVer = EnsureCompatibleVersionNumber::from($a, $b);
+        $operator = self::getComparitorFor($a);
+        $result = $operator($a, $b);
 
-        // our results map
-        // are the two versions equal?
-        return self::compare($a, $bVer, $resultsMap);
+        return $resultsMap[$result];
     }
 
     /**
@@ -116,7 +113,7 @@ class CompareTwoVersionNumbers
         // make sure $a is supported
         $type = FilterNamespace::fromString(get_class($a));
 
-        $className = 'GanbaroDigital\\Versions\\VersionNumbers\\Internal\\Operators\\Compare' . $type . 's';
+        $className = 'GanbaroDigital\\Versions\\'. $type . 's\\Operators\\Compare' . $type . 's';
         if (!class_exists($className)) {
             throw new E4xx_UnsupportedType(get_class($a));
         }
@@ -134,8 +131,5 @@ class CompareTwoVersionNumbers
      */
     private static function compare(VersionNumber $a, VersionNumber $b, array $resultsMap)
     {
-        $operator = self::getComparitorFor($a);
-        $result = $operator($a, $b);
-        return $resultsMap[$result];
     }
 }

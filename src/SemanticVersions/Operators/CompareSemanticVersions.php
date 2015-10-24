@@ -34,17 +34,18 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @category  Libraries
- * @package   Versions/Internal
+ * @package   Versions/SemanticVersions/Operators
  * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
  * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace GanbaroDigital\Versions\VersionNumbers\Internal\Operators;
+namespace GanbaroDigital\Versions\SemanticVersions\Operators;
 
 use GanbaroDigital\Versions\SemanticVersions\Values\SemanticVersion;
 use GanbaroDigital\Versions\SemanticVersions\Internal\Operators\CompareTwoPreReleases;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoNumbers;
 
 /**
  * Compares two versions
