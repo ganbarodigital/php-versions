@@ -43,6 +43,7 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Checks;
 
+use GanbaroDigital\Defensive\Contracts\UnreachableCode;
 use GanbaroDigital\Reflection\ValueBuilders\AllMatchingTypesList;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
@@ -130,6 +131,7 @@ class VersionNumbersAreCompatible
             $retval[$type] = $type;
         }
 
-        return $retval;
+        // @codeCoverageIgnoreStart
+        UnreachableCode::alert();
     }
 }
