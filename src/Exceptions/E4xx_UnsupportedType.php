@@ -55,15 +55,12 @@ class E4xx_UnsupportedType extends E4xx_VersionsException
      *
      * @param string  $type
      *        the data type that is not supported
-     * @param integer $level
-     *        how far up the call stack do we look for the name of the
-     *        method that does not support this data type?
      */
-    public function __construct($type, $level = 1)
+    public function __construct($type)
     {
         // our list of args, in case someone wants to dig deeper into
         // what went wrong
-        $data = $this->buildErrorData($type, $level);
+        $data = $this->buildErrorData($type);
 
         // what do we want to tell our error handler?
         $msg = $this->buildErrorMessage($data['type'], $data['caller']);
