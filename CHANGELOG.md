@@ -2,6 +2,10 @@
 
 ## develop branch
 
+Nothing yet.
+
+## 1.0.0 - Sat Oct 24 2015
+
 ### New
 
 * Initial support for generic version numbers
