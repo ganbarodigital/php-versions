@@ -54,15 +54,14 @@ class HashedVersion implements VersionNumber
     /**
      * our version number
      *
-     * @var string|null
+     * @var string
      */
-    protected $versionHash = null;
-
+    protected $versionHash;
 
     /**
      * Constructor.
      *
-     * @param string $version
+     * @param string $versionHash
      *        the version string to parse and initialise me from
      */
     public function __construct($versionHash)
@@ -83,7 +82,7 @@ class HashedVersion implements VersionNumber
     /**
      * Get the 'X' in my X.Y.Z[-<preRelease>[+R]] version number
      *
-     * @return int|null
+     * @return string
      */
     public function getMajor()
     {

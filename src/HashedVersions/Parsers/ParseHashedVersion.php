@@ -78,7 +78,7 @@ class ParseHashedVersion implements VersionParser
      * @param  string $versionString
      *         the string to parse
      *
-     * @return SemanticVersion
+     * @return HashedVersion
      *
      * @throws E4xx_BadVersionString
      *         if we cannot parse $versionString
