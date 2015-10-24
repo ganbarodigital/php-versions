@@ -8,6 +8,10 @@
 * HashedVersions\Parsers\ParseHashedVersion - added
 * HashedVersions\Values\HashedVersion - added
 
+### Fixes
+
+* E4xx_UnsupportedType - uses the latest UnsupportedType trait from the Exceptions package
+
 ## 1.0.0 - Sat Oct 24 2015
 
 ### New
