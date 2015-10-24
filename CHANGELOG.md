@@ -5,6 +5,7 @@
 ### New
 
 * Reusable dataset for testing hashed versions
+* HashedVersions\Parsers\ParseHashedVersion - added
 * HashedVersions\Values\HashedVersion - added
 
 ## 1.0.0 - Sat Oct 24 2015
