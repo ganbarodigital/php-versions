@@ -44,6 +44,7 @@
 namespace GanbaroDigital\Versions\SemanticVersions\Internal\Operators;
 
 use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
+use GanbaroDigital\TextTools\Operators\CompareTwoStrings;
 
 /**
  * Compares two versions
@@ -70,7 +71,7 @@ class CompareTwoPreReleaseParts
 
         if (!$aPartIsNumeric && !$bPartIsNumeric) {
             // two strings to compare
-            return self::compareTwoStrings($aPart, $bPart);
+            return CompareTwoStrings::calculate($aPart, $bPart);
         }
 
         if (($retval = self::calculatePartDifference($aPartIsNumeric, $bPartIsNumeric)) !== CompareTwoNumbers::BOTH_ARE_EQUAL) {
@@ -78,7 +79,7 @@ class CompareTwoPreReleaseParts
         }
 
         // at this point, we have two numbers
-        return self::compareTwoNumbers($aPart, $bPart);
+        return CompareTwoNumbers::calculate($aPart, $bPart);
     }
 
     /**
@@ -99,48 +100,5 @@ class CompareTwoPreReleaseParts
         }
 
         return $retval;
-    }
-
-    /**
-     * compare two numbers
-     *
-     * @param  string $aPart
-     * @param  string $bPart
-     * @return int
-     */
-    private static function compareTwoNumbers($aPart, $bPart)
-    {
-        $aInt = strval($aPart);
-        $bInt = strval($bPart);
-
-        if ($aInt < $bInt) {
-            return CompareTwoNumbers::A_IS_LESS;
-        }
-        else if ($aInt > $bInt) {
-            return CompareTwoNumbers::A_IS_GREATER;
-        }
-
-        return CompareTwoNumbers::BOTH_ARE_EQUAL;
-    }
-
-    /**
-     * compare two strings
-     *
-     * @param  string $aPart
-     * @param  string $bPart
-     * @return int
-     */
-    private static function compareTwoStrings($aPart, $bPart)
-    {
-        // unfortunately, strcmp() doesn't return -1 / 0 / 1
-        $res = strcmp($aPart, $bPart);
-        if ($res < 0) {
-            return CompareTwoNumbers::A_IS_LESS;
-        }
-        else if ($res > 0) {
-            return CompareTwoNumbers::A_IS_GREATER;
-        }
-
-        return CompareTwoNumbers::BOTH_ARE_EQUAL;
     }
 }
