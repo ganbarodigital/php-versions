@@ -43,7 +43,9 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
@@ -55,40 +57,45 @@ class Compatible implements Operator
      * is $a compatible with $b, according to the rules of the
      * ^ operator?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
-     *         the RHS of this calcuation
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a is compatible with $b
      *         FALSE otherwise
      */
-    public function __invoke(VersionNumber $a, $b)
+    public function __invoke($a, $b, VersionNumber $parser = null)
     {
-        return self::calculate($a, $b);
+        return self::calculate($a, $b, $parser);
     }
 
     /**
      * is $a compatible with $b, according to the rules of the
      * ^ operator?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
-     *         the RHS of this calcuation
+     *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a is compatible with $b
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    public static function calculate($a, $b, VersionParser $parser = null)
     {
         // make sure $b is something we can work with
-        $bObj = EnsureCompatibleVersionNumber::from($a, $b);
+        $aObj = EnsureVersionNumber::from($a, $parser);
+        $bObj = EnsureCompatibleVersionNumber::from($aObj, $b, $parser);
 
         // calculate the upper boundary
         $c = $bObj->getCompatibleUpperBoundary();
 
         // is $a compatible with $b?
-        return InBetween::calculate($a, $bObj, $c);
+        return InBetween::calculate($aObj, $bObj, $c);
     }
 }
