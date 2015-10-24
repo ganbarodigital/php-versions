@@ -43,7 +43,10 @@
 
 namespace GanbaroDigital\Versions\VersionNumbers\Operators;
 
+use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureVersionNumber;
 use GanbaroDigital\Versions\VersionNumbers\Internal\Coercers\EnsureCompatibleVersionNumber;
+use GanbaroDigital\Versions\VersionNumbers\Internal\Operators\CompareTwoVersionNumbers;
+use GanbaroDigital\Versions\VersionNumbers\Parsers\VersionParser;
 use GanbaroDigital\Versions\VersionNumbers\Values\VersionNumber;
 
 /**
@@ -54,40 +57,44 @@ class PreReleaseOf implements Operator
     /**
      * is $a a pre-release of $b?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a < $b
      *         FALSE otherwise
      */
-    public function __invoke(VersionNumber $a, $b)
+    public function __invoke($a, $b, VersionParser $parser = null)
     {
-        return self::calculate($a, $b);
+        return self::calculate($a, $b, $parser);
     }
 
     /**
      * is $a a pre-release of $b?
      *
-     * @param  VersionNumber $a
+     * @param  VersionNumber|string $a
      *         the LHS of this calculation
      * @param  VersionNumber|string $b
      *         the RHS of this calculation
+     * @param  VersionParser|null $parser
+     *         the parser to use if $a or $b are strings
      * @return boolean
      *         TRUE if $a < $b
      *         FALSE otherwise
      */
-    public static function calculate(VersionNumber $a, $b)
+    public static function calculate($a, $b, VersionParser $parser = null)
     {
-        // make sure we have something we can use
-        $bObj = EnsureCompatibleVersionNumber::from($a, $b);
+        $aObj = EnsureVersionNumber::from($a, $parser);
+        $bObj = EnsureCompatibleVersionNumber::from($aObj, $b, $parser);
 
         // quickest test of all ... is $a a pre-release?
-        if (!$a->hasPreRelease()) {
+        if (!$aObj->hasPreRelease()) {
             return false;
         }
 
-        return SameVersion::calculate($a, $b);
+        return SameVersion::calculate($aObj, $bObj);
     }
 }
