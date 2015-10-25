@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2015-present Stuart Herbert.
+ * Copyright (c) 2015-present Ganbaro Digital Ltd.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,129 +33,126 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package     Stuart
- * @subpackage  SemverLib
- * @author      Stuart Herbert <stuart@stuartherbert.com>
- * @copyright   2015-present Stuart Herbert
- * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link        http://stuartherbert.github.io/php-semver
+ * @category  Libraries
+ * @package   Versions/HashedVersions
+ * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
+ * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace Stuart\SemverLib;
+namespace GanbaroDigital\Versions\HashedVersions\Operators;
 
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
+use GanbaroDigital\Versions\Datasets\HashedVersionDatasets;
+use GanbaroDigital\Versions\HashedVersions\Parsers\ParseHashedVersion;
 use PHPUnit_Framework_TestCase;
 
-class EnsureVersionNumberTest extends PHPUnit_Framework_TestCase
+require_once(__DIR__ . "/../../Datasets/HashedVersionDatasets.php");
+
+/**
+ * @coversDefaultClass GanbaroDigital\Versions\HashedVersions\Operators\CompareHashedVersions
+ */
+class CompareHashedVersionsTest extends PHPUnit_Framework_TestCase
 {
-    public function getMethodToTest()
-    {
-        $obj = $this->getObjectForTrait('Stuart\SemverLib\EnsureVersionNumber');
-
-        $reflection = new \ReflectionClass(get_class($obj));
-        $method = $reflection->getMethod("ensureVersionNumber");
-        $method->setAccessible(true);
-
-        return [$obj, $method];
-    }
-
     /**
-     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+     * @coversNothing
      */
-    public function testAcceptStringsAsInput()
+    public function testCanInstantiate()
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        // this is necessary to let us call a protected method
-        list($obj, $method) = $this->getMethodToTest();
-
         // ----------------------------------------------------------------
         // perform the change
 
-        $version = $method->invokeArgs($obj, ["1.0.0"]);
+        $obj = new CompareHashedVersions;
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($version instanceof VersionNumber);
+        $this->assertTrue($obj instanceof CompareHashedVersions);
     }
 
     /**
-     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+     * @covers ::__invoke
+     * @dataProvider provideVersionsToCompare
      */
-    public function testAcceptSemanticVersionAsInput()
+    public function testCanUseAsObject($versionA, $versionB, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        // this is necessary to let us call a protected method
-        list($obj, $method) = $this->getMethodToTest();
+        $obj = new CompareHashedVersions;
+        $verA = ParseHashedVersion::from($versionA);
+        $verB = ParseHashedVersion::from($versionB);
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $version = $method->invokeArgs($obj, [new SemanticVersion("1.0.0")]);
+        $actualResult = $obj($verA, $verB);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($version instanceof SemanticVersion);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     /**
-     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
+     * @covers ::calculate
+     * @dataProvider provideVersionsToCompare
      */
-    public function testAcceptsHashedVersionAsInput()
+    public function testCanCallStatically($versionA, $versionB, $expectedResult)
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        // this is necessary to let us call a protected method
-        list($obj, $method) = $this->getMethodToTest();
+        $verA = ParseHashedVersion::from($versionA);
+        $verB = ParseHashedVersion::from($versionB);
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $version = $method->invokeArgs($obj, [new HashedVersion("081ff6f2ac347e8f9cae518f28150c1b6c26386e")]);
+        $actualResult = CompareHashedVersions::calculate($verA, $verB);
 
         // ----------------------------------------------------------------
         // test the results
 
-        $this->assertTrue($version instanceof HashedVersion);
+        $this->assertEquals($expectedResult, $actualResult);
     }
 
     /**
-     * @dataProvider provideInvalidInputs
-     *
-     * @covers Stuart\SemverLib\EnsureVersionNumber::ensureVersionNumber
-     * @covers Stuart\SemverLib\E4xx_NotAVersionNumber
-     *
-     * @expectedException Stuart\SemverLib\E4xx_NotAVersionNumber
+     * @covers ::calculate
+     * @dataProvider provideVersionsThatCannotBeCompared
+     * @expectedException GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedOperation
      */
-    public function testRejectsDoublesEtAlAsInput($input)
+    public function testThrowsExceptionWhenVersionsCannotBeCompared($versionA, $versionB)
     {
         // ----------------------------------------------------------------
         // setup your test
 
-        // this is necessary to let us call a protected method
-        list($obj, $method) = $this->getMethodToTest();
+        $verA = ParseHashedVersion::from($versionA);
+        $verB = ParseHashedVersion::from($versionB);
 
         // ----------------------------------------------------------------
         // perform the change
 
-        $version = $method->invokeArgs($obj, [$input]);
+        $actualResult = CompareHashedVersions::calculate($verA, $verB);
     }
 
-    public function provideInvalidInputs()
+
+    public function provideVersionsToCompare()
     {
-        return [
-            [ null ],
-            [ true ],
-            [ false ],
-            [ [ "hello" ] ],
-            [ 3.1415927 ],
-            [ 1 ],
-            [ (object)[ "attribute1" => "hello world!"] ]
-        ];
+        $retval=[];
+        foreach (HashedVersionDatasets::getVersionNumberDataset() as $data) {
+            $retval[] = [ $data[0], $data[0], CompareTwoNumbers::BOTH_ARE_EQUAL ];
+        }
+
+        return $retval;
+    }
+
+    public function provideVersionsThatCannotBeCompared()
+    {
+        return HashedVersionDatasets::getNeverEqualDataset();
     }
 }

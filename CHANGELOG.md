@@ -4,6 +4,20 @@
 
 Nothing yet.
 
+## 1.1.0 - Sun Oct 25 2015
+
+### New
+
+* Reusable dataset for testing hashed versions
+* Exceptions\E4xx_UnsupportedOperation - added
+* HashedVersions\Operations\CompareHashedVersions - added
+* HashedVersions\Parsers\ParseHashedVersion - added
+* HashedVersions\Values\HashedVersion - added
+
+### Fixes
+
+* E4xx_UnsupportedType - uses the latest UnsupportedType trait from the Exceptions package
+
 ## 1.0.0 - Sat Oct 24 2015
 
 ### New

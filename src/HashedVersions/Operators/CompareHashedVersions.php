@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2015-present Stuart Herbert.
+ * Copyright (c) 2015-present Ganbaro Digital Ltd.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,55 +33,54 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package     Stuart
- * @subpackage  SemverLib
- * @author      Stuart Herbert <stuart@stuartherbert.com>
- * @copyright   2015-present Stuart Herbert
- * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link        http://stuartherbert.github.io/php-semver
+ * @category  Libraries
+ * @package   Versions/HashedVersions/Operators
+ * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
+ * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace Stuart\SemverLib;
+namespace GanbaroDigital\Versions\HashedVersions\Operators;
+
+use GanbaroDigital\NumberTools\Operators\CompareTwoNumbers;
+use GanbaroDigital\Versions\Exceptions\E4xx_UnsupportedOperation;
+use GanbaroDigital\Versions\HashedVersions\Values\HashedVersion;
 
 /**
- * Helper to deal with when we accept both strings and VersionNumber objs
+ * Compares two versions
  */
-trait EnsureVersionNumber
+class CompareHashedVersions
 {
     /**
-     * if $input is a string, convert it to a VersionNumber object
+     * compare two hashed version numbers
      *
-     * @param  VersionNumber|string $input
-     *         the version number that we may need to convert
-     * @return VersionNumber
+     * @param  HashedVersion $a
+     * @param  HashedVersion $b
+     * @return int
+     *         one of the CompareTwoNumbers::* consts
      */
-    protected function ensureVersionNumber($input)
+    public function __invoke(HashedVersion $a, HashedVersion $b)
     {
-        /**
-         * the version number parser
-         *
-         * we'll keep this around as we may have to parse more than one
-         * string before we're done
-         *
-         * @var VersionNumberParser
-         */
-        static $parser = null;
+        return self::calculate($a, $b);
+    }
 
-        // do we need to do anything at all?
-        if ($input instanceof VersionNumber) {
-            // no, we do not
-            return $input;
+    /**
+     * compare two hashed version numbers
+     *
+     * @param  HashedVersion $a
+     * @param  HashedVersion $b
+     * @return int
+     *         one of the CompareTwoNumbers::* consts
+     */
+    public static function calculate(HashedVersion $a, HashedVersion $b)
+    {
+        // this is the only comparison that makes sense
+        if ((string)$a == (string)$b) {
+            return CompareTwoNumbers::BOTH_ARE_EQUAL;
         }
 
-        // deal with any other surprises
-        if (!is_string($input)) {
-            throw new E4xx_NotAVersionNumber($input);
-        }
-
-        // convert and return
-        if ($parser === null) {
-            $parser = new VersionNumberParser;
-        }
-        return $parser->parse($input);
+        // if we get here, then there's nothing else we can do
+        throw new E4xx_UnsupportedOperation('HashedVersion');
     }
 }

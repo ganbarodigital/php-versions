@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2015-present Stuart Herbert.
+ * Copyright (c) 2015-present Ganbaro Digital Ltd
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -16,7 +16,7 @@
  *     the documentation and/or other materials provided with the
  *     distribution.
  *
- *   * Neither the name of the copyright holders nor the names of the
+ *   * Neither the names of the copyright holders nor the names of his
  *     contributors may be used to endorse or promote products derived
  *     from this software without specific prior written permission.
  *
@@ -33,20 +33,34 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package     Stuart
- * @subpackage  SemverLib
- * @author      Stuart Herbert <stuart@stuartherbert.com>
- * @copyright   2015-present Stuart Herbert
- * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link        http://stuartherbert.github.io/php-semver
+ * @category  Libraries
+ * @package   Versions/Exceptions
+ * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
+ * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace Stuart\SemverLib;
+namespace GanbaroDigital\Versions\Exceptions;
 
-class E4xx_VersionDoesNotMatchRange extends E4xx_SemverException
+class E4xx_UnsupportedOperation extends E4xx_VersionsException
 {
-    public function __construct(VersionNumber $versionObj, $expression)
+    /**
+     * exception thrown when you try to perform an operation on a version
+     * number type where it makes no sense
+     *
+     * @param string  $type
+     *        the data type that is not supported
+     */
+    public function __construct($type)
     {
-        parent::__construct("Version '{$versionObj}' does not match expression '{$expression}'", 400);
+        $data = [
+            'type' => $type,
+        ];
+
+        $msg = "operation not supported for version numbers of type '{$type}'";
+
+        // all done
+        parent::__construct(400, $msg, $data);
     }
 }

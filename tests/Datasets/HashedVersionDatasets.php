@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (c) 2015-present Stuart Herbert.
+ * Copyright (c) 2015-present Ganbaro Digital Ltd.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,15 +33,15 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package     Stuart
- * @subpackage  SemverLib
- * @author      Stuart Herbert <stuart@stuartherbert.com>
- * @copyright   2015-present Stuart Herbert
- * @license     http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @link        http://stuartherbert.github.io/php-semver
+ * @category  Libraries
+ * @package   Versions/Datasets
+ * @author    Stuart Herbert <stuherbert@ganbarodigital.com>
+ * @copyright 2015-present Ganbaro Digital Ltd www.ganbarodigital.com
+ * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
+ * @link      http://code.ganbarodigital.com/php-versions
  */
 
-namespace Stuart\SemverLib;
+namespace GanbaroDigital\Versions\Datasets;
 
 use PHPUnit_Framework_TestCase;
 
@@ -332,6 +332,9 @@ class HashedVersionDatasets
         return [
             [ "00.0.1 "],
             [ "hello world!" ],
+            [ "abc" ],
+            [ "ABC" ],
+            [ "abcdhj" ],
         ];
     }
 }

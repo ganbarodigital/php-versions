@@ -43,100 +43,29 @@
 
 namespace GanbaroDigital\Versions\Exceptions;
 
-use GanbaroDigital\Reflection\ValueBuilders\CodeCaller;
+use GanbaroDigital\Exceptions\Traits\UnsupportedType;
 
 class E4xx_UnsupportedType extends E4xx_VersionsException
 {
-    /**
-     * a list of the args used to build the message
-     *
-     * @var array
-     */
-    protected $args = [];
+    use UnsupportedType;
 
     /**
-     * @param string $type
-     *        result of calling gettype() on the unsupported item
-     * @param integer $level
-     *        how far up the call stack to go
+     * exception thrown when a method's input parameter has a type that cannot
+     * be processed
+     *
+     * @param string  $type
+     *        the data type that is not supported
      */
-    public function __construct($type, $level = 1)
+    public function __construct($type)
     {
         // our list of args, in case someone wants to dig deeper into
         // what went wrong
-        $data = [];
-
-        // special case - someone passed us the original item, rather than
-        // the type of the item
-        //
-        // we do this conversion to avoid a fatal PHP error
-        $data['type'] = $this->ensureString($type);
-
-        // let's find out who is trying to throw this exception
-        $data['caller'] = $this->getCaller($level);
+        $data = $this->buildErrorData($type);
 
         // what do we want to tell our error handler?
         $msg = $this->buildErrorMessage($data['type'], $data['caller']);
 
         // all done
         parent::__construct(400, $msg, $data);
-    }
-
-    /**
-     * make sure that we have a string for our message
-     *
-     * @param  mixed $type
-     *         the item to check
-     * @return string
-     *         the original string, or the type of $type
-     */
-    private function ensureString($type)
-    {
-        if (!is_string($type)) {
-            $type = gettype($type);
-        }
-
-        return $type;
-    }
-
-    /**
-     * work out who is throwing the exception
-     *
-     * @param  int $level
-     *         how deep into the backtrace we need to go
-     * @return array
-     *         the calling class, and the calling method
-     */
-    private function getCaller($level)
-    {
-        // let's find out who is trying to throw this exception
-        $backtrace = debug_backtrace();
-        for (; $level > 0 && count($backtrace) > 1; $level--) {
-            array_shift($backtrace);
-        }
-
-        return CodeCaller::fromBacktrace($backtrace);
-    }
-
-    /**
-     * create the error message to add to the exception
-     *
-     * @param  string $type
-     *         the data type that the thrower does not support
-     * @param  array $caller
-     *         details about who is throwing the exception
-     * @return string
-     */
-    private function buildErrorMessage($type, $caller)
-    {
-        $msg = "type '{$type}' is not supported by ";
-        if ($caller[0]) {
-            $msg .= $caller[0];
-        }
-        if ($caller[1]) {
-            $msg .= "::{$caller[1]}";
-        }
-
-        return $msg;
     }
 }
